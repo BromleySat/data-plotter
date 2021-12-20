@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPlotterSimulator", "DataPlotterSimulator.csproj", "{F6C14F76-54A0-4D59-9D87-2F08688D4B92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6C14F76-54A0-4D59-9D87-2F08688D4B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C14F76-54A0-4D59-9D87-2F08688D4B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C14F76-54A0-4D59-9D87-2F08688D4B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C14F76-54A0-4D59-9D87-2F08688D4B92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC365114-1A05-4394-B997-A5752AB335E4}
+	EndGlobalSection
+EndGlobal
