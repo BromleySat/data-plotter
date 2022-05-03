@@ -1,7 +1,7 @@
 import "./App.css";
+import React, { Component } from "react";
 import logo from "./Logo.jpg";
-import {useState, useEffect} from 'react';
-import axios from 'axios';
+import axios from "axios";
 import {
   LineChart,
   Line,
@@ -9,54 +9,66 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
-} from 'recharts';
+  Legend,
+} from "recharts";
 
+class App extends Component {
+  state = { data: [] };
 
-function App() {
-
-  const [data, setData] = useState([]);
-
-  const getData = () => {
-    axios.get('/data')
-    .then(res => {
-        
-        setData([...data, res.data]);
-        
-    })
+  componentDidMount() {
+    const dataInterval = setInterval(this.getData, 5000);
   }
 
-  const [temp, setTemp] = useState(0)
+  componentDidUpdate() {
+    console.log(this.state.data);
+  }
+  // FIX THE DATA - MAKE IT DYNAMIC
+  getData = async () => {
+    const response = await axios.get("/random-data");
+    this.setState({
+      data: [
+        ...this.state.data,
+        {
+          name1: response.data.DY5I2K,
+          name2: response.data.WGDK5H,
+          deviceId: response.data.deviceId,
+        },
+      ],
+    });
+  };
 
-  useEffect(()=>{
-    setInterval(()=>{
-    setTemp((prevTemp)=>prevTemp+1)
-  }, 2000)
-}, [])
-
-  useEffect(()=>{
-  getData()
-}, [temp])
-
-
-console.log(data);
-
- return(
-    <div className="App" style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
-      <img src={logo} alt="BromleySat" />
-      <h1 style={{ color: "green"}}>BromleySat's Serial Plotter</h1>
-      <LineChart width={1000} height={300} data={data}>
-        <CartesianGrid></CartesianGrid>
-        <XAxis dataKey="date"></XAxis>
-        <YAxis></YAxis>
-        <Tooltip></Tooltip>
-        <Legend></Legend>
-        <Line type="monotone" dataKey="temperatureC" stroke="red"></Line>
-        <Line type="monotone" dataKey="temperatureF" stroke="blue"></Line>
-      </LineChart>
-      <button onClick={getData}>Fetch API</button>
-    </div>
-  )
+  render() {
+    return (
+      <div
+        className="App"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <img src={logo} alt="BromleySat" />
+        <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
+        <LineChart width={1000} height={300} data={this.state.data}>
+          <CartesianGrid></CartesianGrid>
+          <XAxis dataKey="deviceId"></XAxis>
+          <YAxis></YAxis>
+          <Tooltip></Tooltip>
+          <Legend></Legend>
+          <Line type="monotone" dataKey="name2" stroke="red"></Line>
+          <Line
+            type="monotone"
+            dataKey="name1" //{this.state.data.name2}
+            stroke="blue"
+          ></Line>
+        </LineChart>
+      </div>
+    );
+  }
 }
+
+// useEffect(() => {
+//   getData();
+// }, []);
 
 export default App;
