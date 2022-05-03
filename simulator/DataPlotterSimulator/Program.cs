@@ -22,16 +22,27 @@ app.MapGet("/data", () =>
     );
 });
 
+
+var columnCount = Random.Shared.Next(2, 5);
+var columnNames = new List<string>();
+for (int i = 0; i < columnCount; i++)
+{
+    columnNames.Add(RandomString(6));
+}
+
 app.MapGet("/random-data", () =>
 {
-    return new Dictionary<string, object>()
+    var response = new Dictionary<string, object>()
     {
         { "deviceId", deviceId },
-        { RandomString(6) , Random.Shared.Next(-290, 585) },
-        { RandomString(6), Random.Shared.Next(-290, 585) },
-        { RandomString(6) , Random.Shared.Next(-290, 585) }
-
     };
+
+    foreach (var column in columnNames)
+    {
+        response.Add(column, Random.Shared.Next(-290, 585));
+    }
+
+    return response;
 });
 
 app.Run();
