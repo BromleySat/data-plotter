@@ -16,29 +16,76 @@ class App extends Component {
   state = { data: [] };
 
   componentDidMount() {
-    const dataInterval = setInterval(this.getData, 5000);
+    const dataInterval = setInterval(this.getData, 1000);
   }
 
   componentDidUpdate() {
     console.log(this.state.data);
   }
+
   // FIX THE DATA - MAKE IT DYNAMIC
   getData = async () => {
-    const response = await axios.get("/random-data");
-    this.setState({
-      data: [
-        ...this.state.data,
-        {
-          name1: response.data.DY5I2K,
-          name2: response.data.WGDK5H,
-          deviceId: response.data.deviceId,
-        },
-      ],
+    await axios.get("/random-data").then((res) => {
+      this.setState({
+        data: [
+          ...this.state.data,
+          res.data,
+          // { currentDateTime: Date().toLocaleString() },
+        ],
+      });
     });
   };
 
+
+
+  
+
+  renderLine = () => {
+    
+
+    const colors = ["red", "blue", "green", "yellow", "orange"];
+    const columns = [];
+    var temp = 1;
+
+     Object.entries(this.state.data[0]).forEach(([key, value]) => {
+      if(key === 'deviceId'){
+        return;
+      }
+      columns.push(key);
+
+      
+      
+    })
+    
+
+    return columns.map((column) => {
+      return(
+        <Line type="monotone" dataKey={column} stroke="red" />
+      ) 
+    });
+
+    // Object.entries(this.state.data).forEach(([key, value]) => {
+    //   Object.entries(value).forEach(([key, value]) => {
+    //     if (key === "deviceId" || key === "currentDateTime") {
+    //       return;
+    //     }
+    //     console.log(temp);
+    //     temp++;
+    //     return <Line type="monotone" dataKey={key} stroke="red" />;
+    //   });
+    //   //
+    // });
+  };
+
+  // { currentDateTime: Date().toLocaleString() }
+
   render() {
+    if(!this.state.data || this.state.data.length === 0){
+      return (<div>Loading..</div>
+      )
+    }
     return (
+      
       <div
         className="App"
         style={{
@@ -51,16 +98,11 @@ class App extends Component {
         <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
         <LineChart width={1000} height={300} data={this.state.data}>
           <CartesianGrid></CartesianGrid>
-          <XAxis dataKey="deviceId"></XAxis>
+          {/* <XAxis dataKey="currentDateTime"></XAxis> */}
           <YAxis></YAxis>
           <Tooltip></Tooltip>
           <Legend></Legend>
-          <Line type="monotone" dataKey="name2" stroke="red"></Line>
-          <Line
-            type="monotone"
-            dataKey="name1" //{this.state.data.name2}
-            stroke="blue"
-          ></Line>
+          {this.renderLine()}
         </LineChart>
       </div>
     );
