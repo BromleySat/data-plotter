@@ -36,17 +36,18 @@ class App extends Component {
   };
 
   renderLine = () => {
-    const colors = ["red", "blue", "green", "yellow", "orange"];
+    const colors = ["red", "blue", "green", "yellow", "orange"]; 
     const columns = Object.entries(this.state.data[0]).map(([key, value]) => {
-      if(key !== 'deviceId'){
-        return key
-      }
-    })
+      return key;
+    }).filter(column => column !== "deviceId")
+    let temp = 0;
     
-
     return columns.map((column) => {
+      
+      let color = colors[temp]
+      temp++
       return(
-        <Line type="monotone" dataKey={column} stroke="red" />
+        <Line type="monotone" dataKey={column} stroke={color} />
       ) 
     });
   };
