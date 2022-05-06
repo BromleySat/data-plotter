@@ -40,14 +40,14 @@ class App extends Component {
     const columns = Object.entries(this.state.data[0]).map(([key, value]) => {
       return key;
     }).filter(column => column !== "deviceId")
-    let temp = 0;
+    let i = 0;
     
     return columns.map((column) => {
       
-      let color = colors[temp]
-      temp++
+      
+      
       return(
-        <Line type="monotone" dataKey={column} stroke={color} />
+        <Line type="monotone" dataKey={column} stroke={colors[i++]} />
       ) 
     });
   };
