@@ -23,7 +23,6 @@ class App extends Component {
     console.log(this.state.data);
   }
 
-  // FIX THE DATA - MAKE IT DYNAMIC
   getData = async () => {
     await axios.get("/random-data").then((res) => {
       this.setState({
@@ -36,25 +35,12 @@ class App extends Component {
     });
   };
 
-
-
-  
-
   renderLine = () => {
-    
-
     const colors = ["red", "blue", "green", "yellow", "orange"];
-    const columns = [];
-    var temp = 1;
-
-     Object.entries(this.state.data[0]).forEach(([key, value]) => {
-      if(key === 'deviceId'){
-        return;
+    const columns = Object.entries(this.state.data[0]).map(([key, value]) => {
+      if(key !== 'deviceId'){
+        return key
       }
-      columns.push(key);
-
-      
-      
     })
     
 
@@ -63,18 +49,6 @@ class App extends Component {
         <Line type="monotone" dataKey={column} stroke="red" />
       ) 
     });
-
-    // Object.entries(this.state.data).forEach(([key, value]) => {
-    //   Object.entries(value).forEach(([key, value]) => {
-    //     if (key === "deviceId" || key === "currentDateTime") {
-    //       return;
-    //     }
-    //     console.log(temp);
-    //     temp++;
-    //     return <Line type="monotone" dataKey={key} stroke="red" />;
-    //   });
-    //   //
-    // });
   };
 
   // { currentDateTime: Date().toLocaleString() }
@@ -85,7 +59,6 @@ class App extends Component {
       )
     }
     return (
-      
       <div
         className="App"
         style={{
@@ -108,9 +81,5 @@ class App extends Component {
     );
   }
 }
-
-// useEffect(() => {
-//   getData();
-// }, []);
 
 export default App;
