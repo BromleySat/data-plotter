@@ -1,5 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*");
+        });
+});
+
 var app = builder.Build();
 var deviceId = Guid.NewGuid().ToString("N");
 
