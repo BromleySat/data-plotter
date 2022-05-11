@@ -23,7 +23,7 @@ app.MapGet("/data", () =>
 });
 
 
-var columnCount = Random.Shared.Next(2, 5);
+var columnCount = Random.Shared.Next(3, 5);
 var columnNames = new List<string>();
 for (int i = 0; i < columnCount; i++)
 {

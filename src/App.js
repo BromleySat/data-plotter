@@ -16,7 +16,7 @@ class App extends Component {
   state = { data: [] };
 
   componentDidMount() {
-    const dataInterval = setInterval(this.getData, 1000);
+    const dataInterval = setInterval(this.getData, 5000);
   }
 
   componentDidUpdate() {
@@ -25,39 +25,33 @@ class App extends Component {
 
   getData = async () => {
     await axios.get("/random-data").then((res) => {
+      var today = new Date();
+      var time =
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      console.log(time);
+      console.log(res.data);
+      res.data.time = time;
+      console.log(res.data);
       this.setState({
-        data: [
-          ...this.state.data,
-          res.data,
-          // { currentDateTime: Date().toLocaleString() },
-        ],
+        data: [...this.state.data, res.data],
       });
     });
   };
 
   renderLine = () => {
-    const colors = ["red", "blue", "green", "yellow", "orange"]; 
-    const columns = Object.entries(this.state.data[0]).map(([key, value]) => {
-      return key;
-    }).filter(column => column !== "deviceId")
+    const colors = ["red", "blue", "green", "yellow", "orange"];
+    const columns = Object.entries(this.state.data[0])
+      .map(([key, value]) => key)
+      .filter((column) => column !== "deviceId" && column !== "time");
     let i = 0;
-    
     return columns.map((column) => {
-      
-      
-      
-      return(
-        <Line type="monotone" dataKey={column} stroke={colors[i++]} />
-      ) 
+      return <Line type="monotone" dataKey={column} stroke={colors[i++]} />;
     });
   };
 
-  // { currentDateTime: Date().toLocaleString() }
-
   render() {
-    if(!this.state.data || this.state.data.length === 0){
-      return (<div>Loading..</div>
-      )
+    if (!this.state.data || this.state.data.length === 0) {
+      return <div>Loading..</div>;
     }
     return (
       <div
@@ -72,7 +66,7 @@ class App extends Component {
         <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
         <LineChart width={1000} height={300} data={this.state.data}>
           <CartesianGrid></CartesianGrid>
-          {/* <XAxis dataKey="currentDateTime"></XAxis> */}
+          <XAxis dataKey="time"></XAxis>
           <YAxis></YAxis>
           <Tooltip></Tooltip>
           <Legend></Legend>
