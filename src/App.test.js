@@ -5,7 +5,7 @@ import App from "./App";
 describe("Testing Displaying Of The Chart", () => {
   test("renderLines", () => {
     const { getByTestId } = render(<App />);
-    const childElement = screen.getByTestId("custom-element");
+    const childElement = screen.getByTestId("chart-line");
     const data = [
       {
         deviceId: "6221d401f8224dc29e85a7693c68a277",
@@ -15,8 +15,6 @@ describe("Testing Displaying Of The Chart", () => {
       },
     ];
     const colors = ["red", "blue", "green", "yellow", "orange"];
-    expect(getByTestId("custom-element").textContent).toBe(
-      "BromleySat's Serial Plotter"
-    );
+    expect(getByTestId("chart-line").length).toEqual(1);
   });
 });

@@ -58,7 +58,7 @@ class App extends Component {
     return columns.map((column) => {
       return (
         <Line
-          data-testid="1"
+          data-testid="chart-line"
           type="monotone"
           dataKey={column}
           stroke={colors[i++]}
@@ -91,11 +91,8 @@ class App extends Component {
             <input type="submit" value="Update" />
           </label>
         </form>
-
         <img src={logo} alt="BromleySat" />
-        <h1 data-testid="custom-element" style={{ color: "green" }}>
-          BromleySat's Serial Plotter
-        </h1>
+        <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
         <LineChart width={1000} height={300} data={this.state.data}>
           <CartesianGrid></CartesianGrid>
           <XAxis dataKey="time"></XAxis>
