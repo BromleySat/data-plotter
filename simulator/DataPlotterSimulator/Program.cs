@@ -5,6 +5,8 @@ var deviceId = Guid.NewGuid().ToString("N");
 
 var random = new Random();
 
+app.UseCors();
+
 string RandomString(int length)
 {
     const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
