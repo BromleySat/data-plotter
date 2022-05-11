@@ -13,7 +13,11 @@ import {
 } from "recharts";
 
 class App extends Component {
-  state = { data: [] };
+  state = {
+    data: [],
+    term: "http://localhost:5229/random-data",
+    textboxValue: "",
+  };
 
   componentDidMount() {
     const dataInterval = setInterval(this.getData, 5000);
@@ -23,15 +27,19 @@ class App extends Component {
     console.log(this.state.data);
   }
 
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+    this.setState({ term: this.state.textboxValue, data: [] });
+    console.log(this.state);
+  };
+
   getData = async () => {
-    await axios.get("/random-data").then((res) => {
+    await axios.get(this.state.term).then((res) => {
       var today = new Date();
       var time =
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      console.log(time);
-      console.log(res.data);
       res.data.time = time;
-      console.log(res.data);
       this.setState({
         data: [...this.state.data, res.data],
       });
@@ -40,9 +48,12 @@ class App extends Component {
 
   renderLine = () => {
     const colors = ["red", "blue", "green", "yellow", "orange"];
-    const columns = Object.entries(this.state.data[0])
+    const columns = Object.entries(this.state.data[this.state.data.length - 1])
       .map(([key, value]) => key)
-      .filter((column) => column !== "deviceId" && column !== "time");
+      .filter(
+        (column) =>
+          column !== "deviceId" && column !== "time" && column !== "date"
+      );
     let i = 0;
     return columns.map((column) => {
       return <Line type="monotone" dataKey={column} stroke={colors[i++]} />;
@@ -62,6 +73,18 @@ class App extends Component {
           alignItems: "center",
         }}
       >
+        <form onSubmit={this.onFormSubmit}>
+          <label style={{ marginTop: "30px" }}>
+            <input
+              onChange={(e) => this.setState({ textboxValue: e.target.value })}
+              type="text"
+              name="Dynamic Configurable API URL"
+              defaultValue={this.state.term}
+            />
+            <input type="submit" value="Update" />
+          </label>
+        </form>
+
         <img src={logo} alt="BromleySat" />
         <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
         <LineChart width={1000} height={300} data={this.state.data}>
