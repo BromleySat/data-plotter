@@ -1,15 +1,22 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  const { getByText } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
-
-  expect(getByText(/learn/i)).toBeInTheDocument();
+describe("Testing Displaying Of The Chart", () => {
+  test("renderLines", () => {
+    const { getByTestId } = render(<App />);
+    const childElement = screen.getByTestId("custom-element");
+    const data = [
+      {
+        deviceId: "6221d401f8224dc29e85a7693c68a277",
+        date: "2022-05-11T15:16:52.9852977Z",
+        temperatureC: 16,
+        temperatureF: 60,
+      },
+    ];
+    const colors = ["red", "blue", "green", "yellow", "orange"];
+    expect(getByTestId("custom-element").textContent).toBe(
+      "BromleySat's Serial Plotter"
+    );
+  });
 });

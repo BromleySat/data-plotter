@@ -56,7 +56,14 @@ class App extends Component {
       );
     let i = 0;
     return columns.map((column) => {
-      return <Line type="monotone" dataKey={column} stroke={colors[i++]} />;
+      return (
+        <Line
+          data-testid="1"
+          type="monotone"
+          dataKey={column}
+          stroke={colors[i++]}
+        />
+      );
     });
   };
 
@@ -86,7 +93,9 @@ class App extends Component {
         </form>
 
         <img src={logo} alt="BromleySat" />
-        <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
+        <h1 data-testid="custom-element" style={{ color: "green" }}>
+          BromleySat's Serial Plotter
+        </h1>
         <LineChart width={1000} height={300} data={this.state.data}>
           <CartesianGrid></CartesianGrid>
           <XAxis dataKey="time"></XAxis>
