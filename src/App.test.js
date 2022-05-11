@@ -4,7 +4,7 @@ import App from "./App";
 
 describe("Testing Displaying Of The Chart", () => {
   test("renderLines", () => {
-    const { getByTestId } = render(<App />);
+    render(<App />);
     const childElement = screen.getByTestId("chart-line");
     const data = [
       {
@@ -15,6 +15,6 @@ describe("Testing Displaying Of The Chart", () => {
       },
     ];
     const colors = ["red", "blue", "green", "yellow", "orange"];
-    expect(getByTestId("chart-line").length).toEqual(1);
+    expect(childElement.length).toEqual(1);
   });
 });
