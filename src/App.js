@@ -38,14 +38,19 @@ let dataInterval;
 
 class App extends Component {
   state = {
-    data: [],
+    data: JSON.parse(localStorage.getItem("localStorageData") || "[]"),
     term: "http://localhost:5229/random-data",
     textboxValue: "",
+    toggle: JSON.parse(localStorage.getItem("checked") || false),
   };
 
   componentDidMount() {
     const interval = localStorage.getItem("...");
     dataInterval = setInterval(this.getData, interval ?? 5000);
+  }
+
+  componentDidUpdate() {
+    console.log(localStorage.getItem("localStorageData"));
   }
 
   onFormSubmit = (event) => {
@@ -62,6 +67,7 @@ class App extends Component {
       this.setState({
         data: [...this.state.data, res.data],
       });
+      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
     });
   };
 
@@ -69,6 +75,16 @@ class App extends Component {
     clearInterval(dataInterval);
     dataInterval = setInterval(this.getData, e.target.value);
     localStorage.setItem("...", e.target.value);
+  };
+
+  onCheckboxChange = (e) => {
+    localStorage.setItem("checked", e.target.checked);
+    this.setState({ toggle: e.target.checked });
+    if (e.target.checked) {
+      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
+    } else {
+      localStorage.removeItem("localStorageData");
+    }
   };
 
   render() {
@@ -84,6 +100,11 @@ class App extends Component {
           alignItems: "center",
         }}
       >
+        <input
+          type="checkbox"
+          checked={this.state.toggle}
+          onChange={this.onCheckboxChange}
+        />
         <select
           defaultValue={localStorage.getItem("...")}
           onChange={this.onChangeInterval}
