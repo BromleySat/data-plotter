@@ -12,6 +12,27 @@ import {
   Legend,
 } from "recharts";
 
+export const renderLine = (data) => {
+  const colors = ["red", "blue", "green", "yellow", "orange"];
+  const columns = Object.entries(data[data.length - 1])
+    .map(([key, value]) => key)
+    .filter(
+      (column) =>
+        column !== "deviceId" && column !== "time" && column !== "date"
+    );
+  let i = 0;
+  return columns.map((column) => {
+    return (
+      <Line
+        data-testid="chart-line"
+        type="monotone"
+        dataKey={column}
+        stroke={colors[i++]}
+      />
+    );
+  });
+};
+
 class App extends Component {
   state = {
     data: [],
@@ -43,27 +64,6 @@ class App extends Component {
       this.setState({
         data: [...this.state.data, res.data],
       });
-    });
-  };
-
-  renderLine = () => {
-    const colors = ["red", "blue", "green", "yellow", "orange"];
-    const columns = Object.entries(this.state.data[this.state.data.length - 1])
-      .map(([key, value]) => key)
-      .filter(
-        (column) =>
-          column !== "deviceId" && column !== "time" && column !== "date"
-      );
-    let i = 0;
-    return columns.map((column) => {
-      return (
-        <Line
-          data-testid="chart-line"
-          type="monotone"
-          dataKey={column}
-          stroke={colors[i++]}
-        />
-      );
     });
   };
 
@@ -99,7 +99,7 @@ class App extends Component {
           <YAxis></YAxis>
           <Tooltip></Tooltip>
           <Legend></Legend>
-          {this.renderLine()}
+          {renderLine(this.state.data)}
         </LineChart>
       </div>
     );

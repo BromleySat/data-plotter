@@ -1,20 +1,34 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { renderLine } from "./App";
 
 describe("Testing Displaying Of The Chart", () => {
-  test("renderLines", () => {
-    render(<App />);
-    const childElement = screen.getByTestId("chart-line");
-    const data = [
-      {
-        deviceId: "6221d401f8224dc29e85a7693c68a277",
-        date: "2022-05-11T15:16:52.9852977Z",
-        temperatureC: 16,
-        temperatureF: 60,
-      },
-    ];
-    const colors = ["red", "blue", "green", "yellow", "orange"];
-    expect(childElement.length).toEqual(1);
+  const initialData = [
+    {
+      deviceId: "5db0576beed54eb3aa4722c5bef18db5",
+      date: "2022-05-12T06:22:00.2446632Z",
+      temperatureC: 6,
+      temperatureF: 42,
+      time: "10:57:23",
+    },
+    {
+      deviceId: "5db0576beed54eb3aa4722c5bef18db5",
+      date: "2022-05-12T06:22:00.2446632Z",
+      temperatureC: 77,
+      temperatureF: 23,
+      time: "08:07:24",
+    },
+  ];
+
+  // it("should ... ", () => {
+  //   const result = renderLine(initialData);
+  //   expect(result.length).toEqual(initialData.length);
+  // });
+
+  it("should exclude time column", () => {
+    const result = renderLine(initialData);
+    const time = result.find(findTime);
+    function findTime(item) {
+      return item.props.dataKey === "time";
+    }
+    expect(time).toBeUndefined();
   });
 });
