@@ -24,7 +24,8 @@ export const renderLine = (data) => {
   return columns.map((column) => {
     return (
       <Line
-        data-testid="chart-line"
+        key={column}
+        data-testid={"chart-line-" + column}
         type="monotone"
         dataKey={column}
         stroke={colors[i++]}
@@ -33,26 +34,28 @@ export const renderLine = (data) => {
   });
 };
 
+let dataInterval;
+
 class App extends Component {
   state = {
-    data: [],
+    data: JSON.parse(localStorage.getItem("localStorageData") || "[]"),
     term: "http://localhost:5229/random-data",
     textboxValue: "",
+    toggle: JSON.parse(localStorage.getItem("checked") || false),
   };
 
   componentDidMount() {
-    const dataInterval = setInterval(this.getData, 5000);
+    const interval = localStorage.getItem("...");
+    dataInterval = setInterval(this.getData, interval ?? 5000);
   }
 
   componentDidUpdate() {
-    console.log(this.state.data);
+    console.log(localStorage.getItem("localStorageData"));
   }
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
     this.setState({ term: this.state.textboxValue, data: [] });
-    console.log(this.state);
   };
 
   getData = async () => {
@@ -64,7 +67,24 @@ class App extends Component {
       this.setState({
         data: [...this.state.data, res.data],
       });
+      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
     });
+  };
+
+  onChangeInterval = (e) => {
+    clearInterval(dataInterval);
+    dataInterval = setInterval(this.getData, e.target.value);
+    localStorage.setItem("...", e.target.value);
+  };
+
+  onCheckboxChange = (e) => {
+    localStorage.setItem("checked", e.target.checked);
+    this.setState({ toggle: e.target.checked });
+    if (e.target.checked) {
+      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
+    } else {
+      localStorage.removeItem("localStorageData");
+    }
   };
 
   render() {
@@ -80,6 +100,21 @@ class App extends Component {
           alignItems: "center",
         }}
       >
+        <input
+          type="checkbox"
+          checked={this.state.toggle}
+          onChange={this.onCheckboxChange}
+        />
+        <select
+          defaultValue={localStorage.getItem("...")}
+          onChange={this.onChangeInterval}
+        >
+          <option value="5000">5s</option>
+          <option value="10000">10s</option>
+          <option value="15000">15s</option>
+          <option value="20000">20s</option>
+          <option value="25000">25s</option>
+        </select>
         <form onSubmit={this.onFormSubmit}>
           <label style={{ marginTop: "30px" }}>
             <input
