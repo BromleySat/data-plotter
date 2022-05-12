@@ -43,7 +43,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    dataInterval = setInterval(this.getData, 5000);
+    const interval = localStorage.getItem("...");
+    dataInterval = setInterval(this.getData, !interval ? 5000 : interval);
+    console.log(localStorage.getItem("..."));
   }
 
   componentDidUpdate() {}
@@ -70,6 +72,7 @@ class App extends Component {
   onChangeInterval = (e) => {
     clearInterval(dataInterval);
     dataInterval = setInterval(this.getData, e.target.value);
+    localStorage.setItem("...", e.target.value);
   };
 
   render() {
@@ -85,7 +88,10 @@ class App extends Component {
           alignItems: "center",
         }}
       >
-        <select onChange={this.onChangeInterval}>
+        <select
+          defaultValue={localStorage.getItem("...")}
+          onChange={this.onChangeInterval}
+        >
           <option value="5000">5s</option>
           <option value="10000">10s</option>
           <option value="15000">15s</option>
