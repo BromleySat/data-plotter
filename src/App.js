@@ -24,7 +24,8 @@ export const renderLine = (data) => {
   return columns.map((column) => {
     return (
       <Line
-        data-testid="chart-line"
+        key={column}
+        data-testid={"chart-line-" + column}
         type="monotone"
         dataKey={column}
         stroke={colors[i++]}
@@ -44,7 +45,7 @@ class App extends Component {
 
   componentDidMount() {
     const interval = localStorage.getItem("...");
-    dataInterval = setInterval(this.getData, !interval ? 5000 : interval);
+    dataInterval = setInterval(this.getData, interval ?? 5000);
     console.log(localStorage.getItem("..."));
   }
 
