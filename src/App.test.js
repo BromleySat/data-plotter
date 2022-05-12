@@ -18,17 +18,14 @@ describe("Testing Displaying Of The Chart", () => {
     },
   ];
 
-  // it("should ... ", () => {
-  //   const result = renderLine(initialData);
-  //   expect(result.length).toEqual(initialData.length);
-  // });
+  it("should ... ", () => {
+    const result = renderLine(initialData);
+    expect(result.length).toEqual(initialData.length);
+  });
 
   it("should exclude time column", () => {
     const result = renderLine(initialData);
-    const time = result.find(findTime);
-    function findTime(item) {
-      return item.props.dataKey === "time";
-    }
+    const time = result.find((item) => item.props.dataKey === "time");
     expect(time).toBeUndefined();
   });
 });
