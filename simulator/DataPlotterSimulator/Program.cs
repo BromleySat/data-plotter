@@ -1,9 +1,20 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*");
+        });
+});
+
 var app = builder.Build();
 var deviceId = Guid.NewGuid().ToString("N");
 
 var random = new Random();
+
+app.UseCors();
 
 string RandomString(int length)
 {
@@ -23,7 +34,7 @@ app.MapGet("/data", () =>
 });
 
 
-var columnCount = Random.Shared.Next(2, 5);
+var columnCount = Random.Shared.Next(3, 5);
 var columnNames = new List<string>();
 for (int i = 0; i < columnCount; i++)
 {

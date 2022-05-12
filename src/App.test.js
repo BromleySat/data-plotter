@@ -1,15 +1,31 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
+import { renderLine } from "./App";
 
-test('renders learn react link', () => {
-  const { getByText } = render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+describe("Testing Displaying Of The Chart", () => {
+  const initialData = [
+    {
+      deviceId: "5db0576beed54eb3aa4722c5bef18db5",
+      date: "2022-05-12T06:22:00.2446632Z",
+      temperatureC: 6,
+      temperatureF: 42,
+      time: "10:57:23",
+    },
+    {
+      deviceId: "5db0576beed54eb3aa4722c5bef18db5",
+      date: "2022-05-12T06:22:00.2446632Z",
+      temperatureC: 77,
+      temperatureF: 23,
+      time: "08:07:24",
+    },
+  ];
 
-  expect(getByText(/learn/i)).toBeInTheDocument();
+  it("should ... ", () => {
+    const result = renderLine(initialData);
+    expect(result.length).toEqual(initialData.length);
+  });
+
+  it("should exclude time column", () => {
+    const result = renderLine(initialData);
+    const time = result.find((item) => item.props.dataKey === "time");
+    expect(time).toBeUndefined();
+  });
 });
