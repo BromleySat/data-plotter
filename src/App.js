@@ -33,6 +33,8 @@ export const renderLine = (data) => {
   });
 };
 
+let dataInterval;
+
 class App extends Component {
   state = {
     data: [],
@@ -41,12 +43,10 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const dataInterval = setInterval(this.getData, 5000);
+    dataInterval = setInterval(this.getData, 5000);
   }
 
-  componentDidUpdate() {
-    console.log(this.state.data);
-  }
+  componentDidUpdate() {}
 
   onFormSubmit = (event) => {
     event.preventDefault();
@@ -67,6 +67,11 @@ class App extends Component {
     });
   };
 
+  onChangeInterval = (e) => {
+    clearInterval(dataInterval);
+    dataInterval = setInterval(this.getData, e.target.value);
+  };
+
   render() {
     if (!this.state.data || this.state.data.length === 0) {
       return <div>Loading..</div>;
@@ -80,6 +85,13 @@ class App extends Component {
           alignItems: "center",
         }}
       >
+        <select onChange={this.onChangeInterval}>
+          <option value="5000">5s</option>
+          <option value="10000">10s</option>
+          <option value="15000">15s</option>
+          <option value="20000">20s</option>
+          <option value="25000">25s</option>
+        </select>
         <form onSubmit={this.onFormSubmit}>
           <label style={{ marginTop: "30px" }}>
             <input
