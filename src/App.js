@@ -46,16 +46,11 @@ class App extends Component {
   componentDidMount() {
     const interval = localStorage.getItem("...");
     dataInterval = setInterval(this.getData, interval ?? 5000);
-    console.log(localStorage.getItem("..."));
   }
-
-  componentDidUpdate() {}
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
     this.setState({ term: this.state.textboxValue, data: [] });
-    console.log(this.state);
   };
 
   getData = async () => {
