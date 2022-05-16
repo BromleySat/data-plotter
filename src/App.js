@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "./Logo.jpg";
 import axios from "axios";
 import {
@@ -11,68 +11,79 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { useTheme } from "@material-ui/core/styles";
+import { withTheme } from "./themes/Theme";
+import { DarkThemeToggle } from "./features/darkTheme/darkThemeToggle";
+import Grid from "@mui/material/Grid";
 
- 
+function App() {
+  const theme = useTheme();
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("localStorageData") || "[]")
+  );
+  const [term, setTerm] = useState(
+    localStorage.getItem("api-address") || "http://localhost:5229/random-data"
+  );
+  const [textboxValue, setTextboxValue] = useState("");
+  const [toggle, setToggle] = useState(
+    JSON.parse(localStorage.getItem("checked") || false)
+  );
 
-let dataInterval;
+  let dataInterval;
 
-class App extends Component {
-  state = {
-    data: JSON.parse(localStorage.getItem("localStorageData") || "[]"),
-    term: localStorage.getItem('url') || "",
-    textboxValue: "",
-    toggle: JSON.parse(localStorage.getItem("checked") || false),
+  useEffect(() => {
+    if (term === "") {
+      return;
+    }
+    // const interval = localStorage.getItem("...");
+    // dataInterval = setInterval(getData, interval ?? 5000);
+  }, [term]);
+
+  const onFormSubmit = (event) => {
+    console.log("bllskalkdlaskf");
+    if (term === "") {
+      return;
+    }
+    // event.preventDefault();
+    setTerm(textboxValue);
+    // setData([]);
+    localStorage.setItem("api-address", textboxValue);
   };
 
-  componentDidMount() {
-    const interval = localStorage.getItem("...");
-    dataInterval = setInterval(this.getData, interval ?? 5000);
-  }
-
-  componentDidUpdate() {
-    console.log(localStorage.getItem("localStorageData"));
-  }
-
-  onFormSubmit = (event) => {
-    event.preventDefault();
-    this.setState({ term: this.state.textboxValue, data: [] });
-    localStorage.setItem('url', this.state.textboxValue)
-  };
-
-  getData = async () => {
-    await axios.get(this.state.term).then((res) => {
+  const getData = async () => {
+    await axios.get(term).then((res) => {
       var today = new Date();
       var time =
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       res.data.time = time;
-      this.setState({
-        data: [...this.state.data, res.data],
-      });
-      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
+      setData((data) => [...data, res.data]);
+      localStorage.setItem("localStorageData", JSON.stringify(data));
     });
   };
 
-  onChangeInterval = (e) => {
+  const onChangeInterval = (e) => {
+    if (term === "") {
+      return;
+    }
     clearInterval(dataInterval);
-    dataInterval = setInterval(this.getData, e.target.value);
-    localStorage.setItem("...", e.target.value);
+    dataInterval = setInterval(getData, e.target.value);
   };
 
-  onCheckboxChange = (e) => {
+  const onCheckboxChange = (e) => {
     localStorage.setItem("checked", e.target.checked);
-    this.setState({ toggle: e.target.checked });
+    setToggle(e.target.checked);
     if (e.target.checked) {
-      localStorage.setItem("localStorageData", JSON.stringify(this.state.data));
+      localStorage.setItem("localStorageData", JSON.stringify(data));
     } else {
       localStorage.removeItem("localStorageData");
     }
   };
 
-   renderLine = (data) => {
-    if(!this.state.data || this.state.data.length === 0) {
-      return <div>Loading...</div>
+  const renderLine = (data) => {
+    if (!data || data.length === 0) {
+      return <div>Loading...</div>;
     }
-    
+
     const colors = ["red", "blue", "green", "yellow", "orange"];
     const columns = Object.entries(data[data.length - 1])
       .map(([key, value]) => key)
@@ -94,8 +105,21 @@ class App extends Component {
     });
   };
 
-  render() {
-    return (
+  return (
+    <Grid
+      sx={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        margin: 0,
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: theme.palette.background.default,
+        color: "text.primary",
+        borderRadius: 0,
+        p: 3,
+      }}
+    >
       <div
         className="App"
         style={{
@@ -104,14 +128,10 @@ class App extends Component {
           alignItems: "center",
         }}
       >
-        <input
-          type="checkbox"
-          checked={this.state.toggle}
-          onChange={this.onCheckboxChange}
-        />
+        <input type="checkbox" checked={toggle} onChange={onCheckboxChange} />
         <select
           defaultValue={localStorage.getItem("...")}
-          onChange={this.onChangeInterval}
+          onChange={onChangeInterval}
         >
           <option value="5000">5s</option>
           <option value="10000">10s</option>
@@ -119,30 +139,30 @@ class App extends Component {
           <option value="20000">20s</option>
           <option value="25000">25s</option>
         </select>
-        <form onSubmit={this.onFormSubmit}>
-          <label style={{ marginTop: "30px" }}>
-            <input
-              onChange={(e) => this.setState({ textboxValue: e.target.value })}
-              type="text"
-              name="Dynamic Configurable API URL"
-              defaultValue={this.state.term}
-            />
-            <input type="submit" value="Update" />
-          </label>
-        </form>
+        {/* <form action="" onSubmit={onFormSubmit}>
+          <input
+            onChange={(e) => setTextboxValue(e.target.value)}
+            type="text"
+            name="Dyna"
+            defaultValue={term}
+          />
+          <input type="submit" value="Update"></input>
+        </form> */}
+
         <img src={logo} alt="BromleySat" />
         <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
-          <LineChart width={1000} height={300} data={this.state.data}>
-            <CartesianGrid></CartesianGrid>
-            <XAxis dataKey="time"></XAxis>
-            <YAxis></YAxis>
-            <Tooltip></Tooltip>
-            <Legend></Legend>
-            {this.renderLine(this.state.data)}
-          </LineChart>
+        <LineChart width={1000} height={300} data={data}>
+          <CartesianGrid></CartesianGrid>
+          <XAxis dataKey="time"></XAxis>
+          <YAxis></YAxis>
+          <Tooltip></Tooltip>
+          <Legend></Legend>
+          {renderLine(data)}
+        </LineChart>
       </div>
-    );
-  }
+      <DarkThemeToggle />
+    </Grid>
+  );
 }
 
-export default App;
+export default withTheme(App);
