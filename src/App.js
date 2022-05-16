@@ -12,34 +12,14 @@ import {
   Legend,
 } from "recharts";
 
-export const renderLine = (data) => {
-  const colors = ["red", "blue", "green", "yellow", "orange"];
-  const columns = Object.entries(data[data.length - 1])
-    .map(([key, value]) => key)
-    .filter(
-      (column) =>
-        column !== "deviceId" && column !== "time" && column !== "date"
-    );
-  let i = 0;
-  return columns.map((column) => {
-    return (
-      <Line
-        key={column}
-        data-testid={"chart-line-" + column}
-        type="monotone"
-        dataKey={column}
-        stroke={colors[i++]}
-      />
-    );
-  });
-};
+ 
 
 let dataInterval;
 
 class App extends Component {
   state = {
     data: JSON.parse(localStorage.getItem("localStorageData") || "[]"),
-    term: "http://localhost:5229/random-data",
+    term: localStorage.getItem('url') || "",
     textboxValue: "",
     toggle: JSON.parse(localStorage.getItem("checked") || false),
   };
@@ -56,6 +36,7 @@ class App extends Component {
   onFormSubmit = (event) => {
     event.preventDefault();
     this.setState({ term: this.state.textboxValue, data: [] });
+    localStorage.setItem('url', this.state.textboxValue)
   };
 
   getData = async () => {
@@ -87,10 +68,33 @@ class App extends Component {
     }
   };
 
-  render() {
-    if (!this.state.data || this.state.data.length === 0) {
-      return <div>Loading..</div>;
+   renderLine = (data) => {
+    if(!this.state.data || this.state.data.length === 0) {
+      return <div>Loading...</div>
     }
+    
+    const colors = ["red", "blue", "green", "yellow", "orange"];
+    const columns = Object.entries(data[data.length - 1])
+      .map(([key, value]) => key)
+      .filter(
+        (column) =>
+          column !== "deviceId" && column !== "time" && column !== "date"
+      );
+    let i = 0;
+    return columns.map((column) => {
+      return (
+        <Line
+          key={column}
+          data-testid={"chart-line-" + column}
+          type="monotone"
+          dataKey={column}
+          stroke={colors[i++]}
+        />
+      );
+    });
+  };
+
+  render() {
     return (
       <div
         className="App"
@@ -128,14 +132,14 @@ class App extends Component {
         </form>
         <img src={logo} alt="BromleySat" />
         <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
-        <LineChart width={1000} height={300} data={this.state.data}>
-          <CartesianGrid></CartesianGrid>
-          <XAxis dataKey="time"></XAxis>
-          <YAxis></YAxis>
-          <Tooltip></Tooltip>
-          <Legend></Legend>
-          {renderLine(this.state.data)}
-        </LineChart>
+          <LineChart width={1000} height={300} data={this.state.data}>
+            <CartesianGrid></CartesianGrid>
+            <XAxis dataKey="time"></XAxis>
+            <YAxis></YAxis>
+            <Tooltip></Tooltip>
+            <Legend></Legend>
+            {this.renderLine(this.state.data)}
+          </LineChart>
       </div>
     );
   }
