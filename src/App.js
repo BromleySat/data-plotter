@@ -4,8 +4,8 @@ import { DataPlotter } from "./features/dataPlotter/dataPlotter";
 import { useTheme } from "@material-ui/core/styles";
 import { withTheme } from "./themes/Theme";
 import { DarkThemeToggle } from "./features/darkTheme/darkThemeToggle";
+import { Logo } from "./features/logo/Logo";
 import Grid from "@mui/material/Grid";
-import { DataStorageToggle } from "./features/dataStorage/dataStorageToggle";
 
 function App() {
   const theme = useTheme();
@@ -24,9 +24,9 @@ function App() {
         p: 3,
       }}
     >
+      <Logo />
       <DataPlotter />
       <DarkThemeToggle />
-      <DataStorageToggle />
     </Grid>
   );
 }

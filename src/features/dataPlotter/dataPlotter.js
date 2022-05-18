@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Chart from "../chart/chart";
-
+import { RefreshRate } from "../refreshRate/refreshRate";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { toggleDataStorage } from "../dataStorage/dataStorageSlice";
+
+import { BromleySatSwitch } from "../../components/switch";
 
 export const DataPlotter = ({}) => {
-  const localStorageToggled = useSelector(toggleDataStorage);
-
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
   );
@@ -18,8 +16,6 @@ export const DataPlotter = ({}) => {
   const [toggle, setToggle] = useState(
     JSON.parse(localStorage.getItem("checked") || false)
   );
-
-  let dataInterval;
 
   useEffect(() => {
     if (term === "") {
@@ -55,14 +51,6 @@ export const DataPlotter = ({}) => {
     });
   };
 
-  const onChangeInterval = (e) => {
-    if (term === "") {
-      return;
-    }
-    clearInterval(dataInterval);
-    dataInterval = setInterval(getData, e.target.value);
-  };
-
   const onCheckboxChange = (e) => {
     // localStorage.setItem("checked", e.target.checked);
     setToggle(e.target.checked);
@@ -81,16 +69,8 @@ export const DataPlotter = ({}) => {
         alignItems: "center",
       }}
     >
-      <select
-        defaultValue={localStorage.getItem("...")}
-        onChange={onChangeInterval}
-      >
-        <option value="5000">5s</option>
-        <option value="10000">10s</option>
-        <option value="15000">15s</option>
-        <option value="20000">20s</option>
-        <option value="25000">25s</option>
-      </select>
+      <RefreshRate term={term} getData={getData} />
+      <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
       {/* <form action="" onSubmit={onFormSubmit}>
           <input
             onChange={(e) => setTextboxValue(e.target.value)}
@@ -101,7 +81,6 @@ export const DataPlotter = ({}) => {
           <input type="submit" value="Update"></input>
         </form> */}
 
-      <input type="checkbox" checked={localStorageToggled} />
       <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
       <Chart>data={data}</Chart>
     </div>
