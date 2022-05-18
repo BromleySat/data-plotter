@@ -1,8 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 export const RefreshRate = ({ term, getData }) => {
+  const theme = useTheme();
+  const useStyles = makeStyles({
+    select: {
+      borderColor: theme.palette.text.primary,
+    },
+  });
+  const classes = useStyles();
   const intervalRef = useRef(null);
   useEffect(() => {
     if (term === "") {
@@ -26,6 +35,10 @@ export const RefreshRate = ({ term, getData }) => {
     <Select
       defaultValue={localStorage.getItem("...") || "5000"}
       onChange={onChangeInterval}
+      sx={{
+        color: theme.palette.text.primary,
+      }}
+      style={{ marginBottom: "20px" }}
     >
       <MenuItem value="5000">5s</MenuItem>
       <MenuItem value="10000">10s</MenuItem>
