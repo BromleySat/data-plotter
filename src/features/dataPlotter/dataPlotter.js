@@ -83,7 +83,7 @@ export const DataPlotter = ({}) => {
         </form> */}
 
       <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
-      <Chart data={data}></Chart>
+      <Chart data={data} />
     </div>
   );
 };

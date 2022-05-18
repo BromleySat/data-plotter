@@ -7,6 +7,7 @@ export const RefreshRate = ({ term, getData }) => {
       return;
     }
     const interval = localStorage.getItem("...");
+    // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 5000);
   }, [term, getData]);

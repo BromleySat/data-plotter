@@ -7,18 +7,20 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { renderLine } from "./renderLine";
+import { RenderLine } from "./renderLine";
 
 function chart({ data }) {
   return (
-    <LineChart width={1000} height={300} data={data}>
-      <CartesianGrid></CartesianGrid>
-      <XAxis dataKey="time"></XAxis>
-      <YAxis></YAxis>
-      <Tooltip></Tooltip>
-      <Legend></Legend>
-      {renderLine}
-    </LineChart>
+    <div>
+      <LineChart width={1000} height={300} data={data}>
+        <CartesianGrid></CartesianGrid>
+        <XAxis dataKey="time"></XAxis>
+        <YAxis></YAxis>
+        <Tooltip></Tooltip>
+        <Legend></Legend>
+        {RenderLine(data)}
+      </LineChart>
+    </div>
   );
 }
 

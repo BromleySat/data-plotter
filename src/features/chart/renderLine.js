@@ -1,9 +1,10 @@
 import React from "react";
 import { Line } from "recharts";
 
-export const renderLine = (data) => {
+export const RenderLine = (data) => {
+  console.log("I got here");
   if (!data || data.length === 0) {
-    return <div>Loading...</div>;
+    return "";
   }
 
   const colors = ["red", "blue", "green", "yellow", "orange"];
