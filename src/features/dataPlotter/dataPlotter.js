@@ -2,6 +2,10 @@ import React, { useState, useCallback } from "react";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import axios from "axios";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 import { BromleySatSwitch } from "../../components/switch";
 
@@ -34,13 +38,14 @@ export const DataPlotter = ({}) => {
   }, [data, term, toggle]);
 
   const onFormSubmit = (event) => {
+    event.preventDefault();
     console.log("bllskalkdlaskf");
     if (term === "") {
       return;
     }
-    // event.preventDefault();
+
     setTerm(textboxValue);
-    // setData([]);
+    setData([]);
     localStorage.setItem("api-address", textboxValue);
   };
 
@@ -66,6 +71,19 @@ export const DataPlotter = ({}) => {
     >
       <RefreshRate term={term} getData={getData} />
       <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
+      <form autoComplete="off" onSubmit={onFormSubmit}>
+        <TextField
+          id="standard-basic"
+          label="URL"
+          variant="standard"
+          onChange={(e) => setTextboxValue(e.target.value)}
+          defaultValue={term}
+        />
+        <Button type="submit" variant="contained">
+          Update
+        </Button>
+      </form>
+
       {/* <form action="" onSubmit={onFormSubmit}>
           <input
             onChange={(e) => setTextboxValue(e.target.value)}
