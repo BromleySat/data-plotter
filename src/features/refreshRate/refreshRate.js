@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 export const RefreshRate = ({ term, getData }) => {
   const intervalRef = useRef(null);
@@ -21,15 +23,15 @@ export const RefreshRate = ({ term, getData }) => {
   };
 
   return (
-    <select
-      defaultValue={localStorage.getItem("...")}
+    <Select
+      defaultValue={localStorage.getItem("...") || "5000"}
       onChange={onChangeInterval}
     >
-      <option value="5000">5s</option>
-      <option value="10000">10s</option>
-      <option value="15000">15s</option>
-      <option value="20000">20s</option>
-      <option value="25000">25s</option>
-    </select>
+      <MenuItem value="5000">5s</MenuItem>
+      <MenuItem value="10000">10s</MenuItem>
+      <MenuItem value="15000">15s</MenuItem>
+      <MenuItem value="20000">20s</MenuItem>
+      <MenuItem value="25000">25s</MenuItem>
+    </Select>
   );
 };
