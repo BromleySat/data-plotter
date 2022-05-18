@@ -17,6 +17,7 @@ export const RefreshRate = ({ term, getData }) => {
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
+    localStorage.setItem("...", e.target.value);
   };
 
   return (

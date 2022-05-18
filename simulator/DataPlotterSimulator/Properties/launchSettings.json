@@ -7,7 +7,7 @@
   "profiles": {
     "DataPlotterSimulator": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "data",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

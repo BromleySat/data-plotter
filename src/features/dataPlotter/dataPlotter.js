@@ -33,14 +33,6 @@ export const DataPlotter = ({}) => {
     });
   }, [data, term, toggle]);
 
-  // useEffect(() => {
-  //   if (term === "") {
-  //     return;
-  //   }
-  //   const interval = localStorage.getItem("...");
-  //   setInterval(getData, interval ?? 5000);
-  // }, [term, getData]);
-
   const onFormSubmit = (event) => {
     console.log("bllskalkdlaskf");
     if (term === "") {
@@ -58,7 +50,9 @@ export const DataPlotter = ({}) => {
     if (e.target.checked) {
       localStorage.setItem("localStorageData", JSON.stringify(data));
     } else {
+      // Hidden Bug, removes data
       localStorage.removeItem("localStorageData");
+      console.log("anything");
     }
   };
   return (
