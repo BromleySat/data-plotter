@@ -2,7 +2,6 @@ import React from "react";
 import { Line } from "recharts";
 
 export const RenderLine = (data) => {
-  console.log("I got here");
   if (!data || data.length === 0) {
     return "";
   }
