@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 export const RefreshRate = ({ term, getData }) => {
-  let dataInterval;
+  const intervalRef = useRef(null);
+  useEffect(() => {
+    if (term === "") {
+      return;
+    }
+    const interval = localStorage.getItem("...");
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(getData, interval ?? 5000);
+  }, [term, getData]);
   const onChangeInterval = (e) => {
     if (term === "") {
       return;
     }
-    clearInterval(dataInterval);
-    dataInterval = setInterval(getData, e.target.value);
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(getData, e.target.value);
   };
+
   return (
     <select
       defaultValue={localStorage.getItem("...")}

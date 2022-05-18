@@ -1,6 +1,6 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
-import { DataPlotter } from "./features/dataPlotter/dataPlotter";
+import React from "react";
+import { DataPlotter } from "./features/dataPlotter/DataPlotter";
 import { useTheme } from "@material-ui/core/styles";
 import { withTheme } from "./themes/Theme";
 import { DarkThemeToggle } from "./features/darkTheme/darkThemeToggle";

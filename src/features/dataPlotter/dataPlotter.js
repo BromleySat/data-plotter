@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import axios from "axios";
@@ -17,13 +17,29 @@ export const DataPlotter = ({}) => {
     JSON.parse(localStorage.getItem("checked") || false)
   );
 
-  useEffect(() => {
-    if (term === "") {
-      return;
-    }
-    // const interval = localStorage.getItem("...");
-    // dataInterval = setInterval(getData, interval ?? 5000);
-  }, [term]);
+  const getData = useCallback(async () => {
+    await axios.get(term).then((res) => {
+      var today = new Date();
+      var time =
+        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      res.data.time = time;
+      setData((data) => [...data, res.data]);
+      console.log(data);
+      if (toggle) {
+        localStorage.setItem("localStorageData", JSON.stringify(data));
+      } else {
+        localStorage.removeItem("localStorageData");
+      }
+    });
+  }, [data, term, toggle]);
+
+  // useEffect(() => {
+  //   if (term === "") {
+  //     return;
+  //   }
+  //   const interval = localStorage.getItem("...");
+  //   setInterval(getData, interval ?? 5000);
+  // }, [term, getData]);
 
   const onFormSubmit = (event) => {
     console.log("bllskalkdlaskf");
@@ -36,23 +52,8 @@ export const DataPlotter = ({}) => {
     localStorage.setItem("api-address", textboxValue);
   };
 
-  const getData = async () => {
-    await axios.get(term).then((res) => {
-      var today = new Date();
-      var time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      res.data.time = time;
-      setData((data) => [...data, res.data]);
-      //   if (dataStorage) {
-      //     localStorage.setItem("localStorageData", JSON.stringify(data));
-      //   } else {
-      //     localStorage.removeItem("localStorageData");
-      //   }
-    });
-  };
-
   const onCheckboxChange = (e) => {
-    // localStorage.setItem("checked", e.target.checked);
+    localStorage.setItem("checked", e.target.checked);
     setToggle(e.target.checked);
     if (e.target.checked) {
       localStorage.setItem("localStorageData", JSON.stringify(data));
@@ -82,7 +83,7 @@ export const DataPlotter = ({}) => {
         </form> */}
 
       <h1 style={{ color: "green" }}>BromleySat's Serial Plotter</h1>
-      <Chart>data={data}</Chart>
+      <Chart data={data}></Chart>
     </div>
   );
 };
