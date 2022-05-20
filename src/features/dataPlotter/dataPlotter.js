@@ -67,7 +67,6 @@ export const DataPlotter = ({}) => {
           style={{
             marginTop: "150px",
             textAlign: "center",
-            marginLeft: "60px",
           }}
         >
           <TextField
@@ -79,7 +78,7 @@ export const DataPlotter = ({}) => {
             sx={{
               input: {
                 color: theme.palette.text.primary,
-                minWidth: "350px",
+                minWidth: "400px",
                 fontFamily: "Quicksand",
                 fontWeight: "700",
               },
@@ -108,16 +107,17 @@ export const DataPlotter = ({}) => {
           justifyContent: "space-between",
           marginTop: "20px",
           marginBottom: "20px",
-          minWidth: "500px",
+          paddingRight: "72px",
         }}
       >
+        <div style={{ paddingLeft: "240px" }}></div>
         <Typography
           variant="h4"
           style={{
             color: "#00C119",
-            marginLeft: "500px",
             fontFamily: "Quicksand",
             fontWeight: "700",
+            textAlign: "center",
           }}
         >
           Data Plotter
@@ -131,13 +131,11 @@ export const DataPlotter = ({}) => {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           marginTop: "20px",
-          minWidth: "500px",
         }}
       >
-        <div></div>
-        <div style={{ minHeight: "100px", marginRight: "73px" }}>
+        <div style={{ minHeight: "100px" }}>
           <Typography
             sx={{
               color: theme.palette.text.primary,

@@ -27,11 +27,7 @@ export const RefreshRate = ({ term, getData }) => {
   };
 
   return (
-    <FormControl
-      sx={{ m: 1, minWidth: 120, marginRight: "80px" }}
-      size="small"
-      variant="outlined"
-    >
+    <FormControl sx={{ m: 1, minWidth: 120 }} size="small" variant="outlined">
       <InputLabel
         id="demo-select-small"
         sx={{
