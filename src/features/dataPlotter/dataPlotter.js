@@ -78,7 +78,7 @@ export const DataPlotter = ({}) => {
             sx={{
               input: {
                 color: theme.palette.text.primary,
-                minWidth: "400px",
+                minWidth: "350px",
                 fontFamily: "Quicksand",
                 fontWeight: "700",
               },
@@ -107,7 +107,7 @@ export const DataPlotter = ({}) => {
           justifyContent: "space-between",
           marginTop: "20px",
           marginBottom: "20px",
-          paddingRight: "72px",
+          paddingRight: "73px",
         }}
       >
         <div style={{ paddingLeft: "240px" }}></div>
@@ -117,11 +117,11 @@ export const DataPlotter = ({}) => {
             color: "#00C119",
             fontFamily: "Quicksand",
             fontWeight: "700",
-            textAlign: "center",
           }}
         >
           Data Plotter
         </Typography>
+
         <RefreshRate term={term} getData={getData} />
       </div>
 
