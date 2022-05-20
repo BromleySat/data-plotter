@@ -7,8 +7,14 @@ import Button from "@mui/material/Button";
 import { BromleySatSwitch } from "../../components/switch";
 import { useTheme } from "@material-ui/core/styles";
 import { Container, Typography } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 export const DataPlotter = ({}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const theme = useTheme();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
@@ -39,9 +45,6 @@ export const DataPlotter = ({}) => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    if (term === "") {
-      return;
-    }
     setTerm(textboxValue);
     setData([]);
     localStorage.setItem("api-address", textboxValue);
@@ -63,7 +66,7 @@ export const DataPlotter = ({}) => {
       <div>
         <form
           autoComplete="off"
-          onSubmit={onFormSubmit}
+          onSubmit={handleSubmit(onFormSubmit)}
           style={{
             marginTop: "150px",
             textAlign: "center",
@@ -72,7 +75,6 @@ export const DataPlotter = ({}) => {
           <TextField
             id="standard-basic"
             variant="standard"
-            required
             onChange={(e) => setTextboxValue(e.target.value)}
             defaultValue={term}
             sx={{
@@ -83,6 +85,11 @@ export const DataPlotter = ({}) => {
                 fontWeight: "700",
               },
             }}
+            {...register("url", {
+              required: true,
+              pattern:
+                /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+            })}
           />
           <Button
             type="submit"
@@ -97,6 +104,17 @@ export const DataPlotter = ({}) => {
           >
             Update
           </Button>
+          {errors.url && (
+            <p
+              style={{
+                color: "red",
+                fontFamily: "Quicksand",
+                fontWeight: "700",
+              }}
+            >
+              Please provide a valid Url.
+            </p>
+          )}
         </form>
       </div>
       <div
