@@ -1,17 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/core/styles";
 
 export const RefreshRate = ({ term, getData }) => {
   const theme = useTheme();
-  const useStyles = makeStyles({
-    select: {
-      borderColor: theme.palette.text.primary,
-    },
-  });
-  const classes = useStyles();
   const intervalRef = useRef(null);
   useEffect(() => {
     if (term === "") {
@@ -32,19 +27,50 @@ export const RefreshRate = ({ term, getData }) => {
   };
 
   return (
-    <Select
-      defaultValue={localStorage.getItem("...") || "5000"}
-      onChange={onChangeInterval}
-      sx={{
-        color: theme.palette.text.primary,
-      }}
-      style={{ marginBottom: "20px" }}
+    <FormControl
+      sx={{ m: 1, minWidth: 120, marginRight: "80px" }}
+      size="small"
+      variant="outlined"
     >
-      <MenuItem value="5000">5s</MenuItem>
-      <MenuItem value="10000">10s</MenuItem>
-      <MenuItem value="15000">15s</MenuItem>
-      <MenuItem value="20000">20s</MenuItem>
-      <MenuItem value="25000">25s</MenuItem>
-    </Select>
+      <InputLabel
+        id="demo-select-small"
+        sx={{
+          color: theme.palette.text.primary,
+          fontFamily: "Quicksand",
+          fontWeight: "700",
+        }}
+      >
+        Refresh Rate
+      </InputLabel>
+
+      <Select
+        labelId="demo-select-small"
+        id="demo-select-small"
+        defaultValue={localStorage.getItem("...") || "5000"}
+        label="Refresh Rate"
+        onChange={onChangeInterval}
+        sx={{
+          color: theme.palette.text.primary,
+          fontFamily: "Quicksand",
+          fontWeight: "700",
+        }}
+      >
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="5000">
+          5s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="10000">
+          10s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="15000">
+          15s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="20000">
+          20s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="25000">
+          25s
+        </MenuItem>
+      </Select>
+    </FormControl>
   );
 };

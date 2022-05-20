@@ -1,4 +1,4 @@
-import { renderLine } from "./App";
+import { renderLine } from "./renderLine";
 
 describe("Testing Displaying Of The Chart", () => {
   const initialData = [

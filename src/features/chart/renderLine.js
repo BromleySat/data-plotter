@@ -6,7 +6,7 @@ export const RenderLine = (data) => {
     return "";
   }
 
-  const colors = ["red", "blue", "green", "yellow", "orange"];
+  const colors = ["#ff0505", "#0285f7", "#00C119", "#ae02f7", "#d41393"];
   const columns = Object.entries(data[data.length - 1])
     .map(([key, value]) => key)
     .filter(

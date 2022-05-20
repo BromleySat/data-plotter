@@ -11,7 +11,14 @@ import { RenderLine } from "./renderLine";
 
 function chart({ data }) {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        fontFamily: "Quicksand",
+        fontWeight: "700",
+      }}
+    >
       <LineChart width={1000} height={300} data={data}>
         <CartesianGrid></CartesianGrid>
         <XAxis dataKey="time"></XAxis>

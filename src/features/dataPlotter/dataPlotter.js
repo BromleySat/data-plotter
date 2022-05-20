@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { BromleySatSwitch } from "../../components/switch";
 import { useTheme } from "@material-ui/core/styles";
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 export const DataPlotter = ({}) => {
   const theme = useTheme();
@@ -59,35 +59,72 @@ export const DataPlotter = ({}) => {
     }
   };
   return (
-    <div
-      className="App"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <form
-        autoComplete="off"
-        onSubmit={onFormSubmit}
-        style={{ marginTop: "20px" }}
-      >
-        <TextField
-          id="standard-basic"
-          variant="standard"
-          onChange={(e) => setTextboxValue(e.target.value)}
-          defaultValue={term}
-          sx={{ input: { color: theme.palette.text.primary } }}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          style={{ marginLeft: "20px" }}
+    <Container>
+      <div>
+        <form
+          autoComplete="off"
+          onSubmit={onFormSubmit}
+          style={{
+            marginTop: "150px",
+            textAlign: "center",
+            marginLeft: "60px",
+          }}
         >
-          Update
-        </Button>
-      </form>
-      <h1 style={{ color: "green" }}>Data Plotter</h1>
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            required
+            onChange={(e) => setTextboxValue(e.target.value)}
+            defaultValue={term}
+            sx={{
+              input: {
+                color: theme.palette.text.primary,
+                minWidth: "350px",
+                fontFamily: "Quicksand",
+                fontWeight: "700",
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            style={{
+              marginLeft: "20px",
+              backgroundColor: "#00C119",
+              fontFamily: "Quicksand",
+              fontWeight: "700",
+            }}
+          >
+            Update
+          </Button>
+        </form>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: "20px",
+          marginBottom: "20px",
+          minWidth: "500px",
+        }}
+      >
+        <Typography
+          variant="h4"
+          style={{
+            color: "#00C119",
+            marginLeft: "500px",
+            fontFamily: "Quicksand",
+            fontWeight: "700",
+          }}
+        >
+          Data Plotter
+        </Typography>
+        <RefreshRate term={term} getData={getData} />
+      </div>
+
       <Chart data={data} />
       <div
         style={{
@@ -99,19 +136,20 @@ export const DataPlotter = ({}) => {
           minWidth: "500px",
         }}
       >
-        <div>
-          <Typography sx={{ color: theme.palette.text.primary }}>
-            Refresh Rate
-          </Typography>
-          <RefreshRate term={term} getData={getData} />
-        </div>
-        <div style={{ minHeight: "100px", marginLeft: "10px" }}>
-          <Typography sx={{ color: theme.palette.text.primary }}>
+        <div></div>
+        <div style={{ minHeight: "100px", marginRight: "73px" }}>
+          <Typography
+            sx={{
+              color: theme.palette.text.primary,
+              fontFamily: "Quicksand",
+              fontWeight: "700",
+            }}
+          >
             Local Storage Toggle
           </Typography>
           <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
