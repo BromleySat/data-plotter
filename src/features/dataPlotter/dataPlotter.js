@@ -20,7 +20,7 @@ export const DataPlotter = ({}) => {
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
   );
   const [term, setTerm] = useState(
-    localStorage.getItem("api-address") || "http://localhost:3090/random-data"
+    localStorage.getItem("api-address") || "http://localhost:3080/random-data"
   );
   const [textboxValue, setTextboxValue] = useState("");
   const [toggle, setToggle] = useState(

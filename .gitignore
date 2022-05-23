@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+simulator-typescript/node_modules
 simulator-node/node_modules
 /.pnp
 .pnp.js
