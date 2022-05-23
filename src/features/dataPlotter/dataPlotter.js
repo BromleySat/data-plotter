@@ -43,8 +43,10 @@ export const DataPlotter = ({}) => {
     });
   }, [data, term, toggle]);
 
-  const onFormSubmit = (event) => {
-    event.preventDefault();
+  const onFormSubmit = (formData) => {
+    if (term === "") {
+      return;
+    }
     setTerm(textboxValue);
     setData([]);
     localStorage.setItem("api-address", textboxValue);
