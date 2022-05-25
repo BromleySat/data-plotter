@@ -24,10 +24,10 @@ export function isLocalIp(ip) {
   return true;
 }
 
-function isCIDR(ip) {
-  //if it has a slash at the end and the number it is cidr range otherwise false, number needs to be a valid cidr number
-  return true;
-}
+// function isCIDR(ip) {
+//   //if it has a slash at the end and the number it is cidr range otherwise false, number needs to be a valid cidr number
+//   return true;
+// }
 
 // function multipleEntries(str) {
 //   let newStr;
