@@ -1,39 +1,51 @@
 import { validateInput, getApiList, isLocalIp } from "./validation.js";
 
-// describe("Testing local IP logic", () => {
-//   it("a", () => {
-//     const input = "10.0.0.0";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-//   it("b", () => {
-//     const input = "172.16.0.0";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-//   it("...", () => {
-//     const input = "192.168.0.0";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-//   it("...", () => {
-//     const input = "172.15.255.255";
-//     expect(isLocalIp(input)).toBe(false);
-//   });
-//   it("...", () => {
-//     const input = "192.167.255.255";
-//     expect(isLocalIp(input)).toBe(false);
-//   });
-//   it("...", () => {
-//     const input = "10.255.255.255";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-//   it("...", () => {
-//     const input = "172.31.255.255";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-//   it("...", () => {
-//     const input = "192.168.255.255";
-//     expect(isLocalIp(input)).toBe(true);
-//   });
-// });
+describe("Testing local IP logic", () => {
+  it("a", () => {
+    const input = "10.0.0.0";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("b", () => {
+    const input = "172.16.0.0";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("...", () => {
+    const input = "192.168.0.0";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("should recognise a known local IP", () => {
+    const input = "192.168.1.95";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("...", () => {
+    const input = "172.15.255.255";
+    expect(isLocalIp(input)).toBe(false);
+  });
+  it("...", () => {
+    const input = "192.167.255.255";
+    expect(isLocalIp(input)).toBe(false);
+  });
+  it("...", () => {
+    const input = "10.255.255.255";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("...", () => {
+    const input = "172.31.255.255";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("...", () => {
+    const input = "192.168.255.255";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("should reconginse public IP as public 146.199.86.133", () => {
+    const input = "146.199.86.133";
+    expect(isLocalIp(input)).toBe(false);
+  });
+  it("should reconginse public IP as public 2.98.79.218", () => {
+    const input = "2.98.79.218";
+    expect(isLocalIp(input)).toBe(false);
+  });
+});
 
 describe("Testing Validation Of The Api List Input", () => {
   it("should not allow special characters", () => {
