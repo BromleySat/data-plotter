@@ -105,17 +105,44 @@ describe("Testing Validation Of The Api List Input", () => {
   });
 });
 
-// describe("Testing Api List Generation", () => {
-//   it("should ... ", () => {
-//     const input = "localhost:3080/random-data";
-//     expect(getApiList(input)).toEqual(["http://localhost:3080/random-data"]);
-//   });
-
-//   it("should generate two ips ", () => {
-//     const input = "localhost:3080/random-data, localhost:3090/random-data";
-//     expect(getApiList(input)).toEqual([
-//       "http://localhost:3080/random-data",
-//       "localhost:3090/random-data",
-//     ]);
-//   });
-// });
+describe("Testing Api List Generation", () => {
+  it("should ... ", () => {
+    const input = "localhost:3080/random-data";
+    expect(getApiList(input)).toEqual(["http://localhost:3080/random-data"]);
+  });
+  it("should generate two ips", () => {
+    const input = "localhost:3080/random-data, localhost:3090/random-data";
+    expect(getApiList(input)).toEqual([
+      "http://localhost:3080/random-data",
+      "http://localhost:3090/random-data",
+    ]);
+  });
+  it("should generate https for domain names", () => {
+    const input =
+      "127.0.0.1:3080/random-data,localhost:3081/random-data, data.bromleysat.space/random-data";
+    expect(getApiList(input)).toEqual([
+      "http://127.0.0.1:3080/random-data",
+      "http://localhost:3081/random-data",
+      "https://data.bromleysat.space/random-data",
+    ]);
+  });
+  it("should generate a mixure of local and public", () => {
+    const input =
+      "192.168.1.95/data, 192.168.1.96/data, localhost:3080/data, localhost:3090/data, 12.0.0.1/random-data";
+    expect(getApiList(input)).toEqual([
+      "http://192.168.1.95/data",
+      "http://192.168.1.96/data",
+      "http://localhost:3080/data",
+      "http://localhost:3090/data",
+      "http://12.0.0.1/random-data",
+    ]);
+  });
+  it("should generate two ips with extra spaces", () => {
+    const input =
+      "    localhost:3080/random-data,     localhost:3090/random-data";
+    expect(getApiList(input)).toEqual([
+      "http://localhost:3080/random-data",
+      "http://localhost:3090/random-data",
+    ]);
+  });
+});

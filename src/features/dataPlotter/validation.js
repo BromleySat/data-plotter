@@ -79,5 +79,17 @@ export function validateInput(input) {
 }
 
 export function getApiList(input) {
-  return ["http://localhost:3080/random-data"];
+  let str = "http://";
+  let str2 = "https://";
+  let inputArray = input.split(",");
+  for (let i = 0; i < inputArray.length; i++) {
+    inputArray[i] = inputArray[i].replace(/\s+/g, "");
+    if (inputArray[i].startsWith("localhost") || /^\d/.test(inputArray[i])) {
+      inputArray[i] = str + inputArray[i];
+    } else {
+      inputArray[i] = str2 + inputArray[i];
+    }
+  }
+
+  return inputArray;
 }
