@@ -4,18 +4,18 @@ function getRandomIntInclusive(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function makeId(length: number): string {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+// function makeId(length: number): string {
+//   var result = "";
+//   var characters =
+//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//   var charactersLength = characters.length;
+//   for (var i = 0; i < length; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+//   return result;
+// }
 
-const deviceId = makeId(23);
+// const deviceId = makeId(23);
 
 const getDate = (): string => {
   var today = new Date();
@@ -25,7 +25,6 @@ const getDate = (): string => {
 };
 
 interface Data {
-  deviceId: string;
   date: string;
   temperatureC: number;
   temperatureF: number;
@@ -33,7 +32,6 @@ interface Data {
 
 export function getData(): Data {
   return {
-    deviceId: deviceId,
     date: getDate(),
     temperatureC: getRandomIntInclusive(-20, 55),
     temperatureF: getRandomIntInclusive(-20, 55),

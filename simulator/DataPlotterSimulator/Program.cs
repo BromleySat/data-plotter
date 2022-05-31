@@ -23,11 +23,19 @@ string RandomString(int length)
         .Select(s => s[random.Next(s.Length)]).ToArray());
 }
 
-app.MapGet("/data", () =>
+app.MapGet("/api/config", () =>
+{
+    return new DeviceIdAndVersion
+    (
+        deviceId: "Simulator-NET-Local",
+        version: "v.1.0.0"
+    );
+});
+
+app.MapGet("/api/data", () =>
 {
     return new DataRecord
     (
-        deviceId,
         DateTime.UtcNow,
         Random.Shared.Next(-20, 55)
     );
@@ -41,11 +49,11 @@ for (int i = 0; i < columnCount; i++)
     columnNames.Add(RandomString(6));
 }
 
-app.MapGet("/random-data", () =>
+app.MapGet("/api/random-data", () =>
 {
     var response = new Dictionary<string, object>()
     {
-        { "deviceId", deviceId },
+        
     };
 
     foreach (var column in columnNames)
@@ -58,9 +66,12 @@ app.MapGet("/random-data", () =>
 
 app.Run();
 
-internal record DataRecord(string deviceId, DateTime Date, int TemperatureC)
+internal record DataRecord(DateTime Date, int TemperatureC)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+internal record DeviceIdAndVersion(string deviceId, string version);
+
 
 
