@@ -5,20 +5,20 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 
-export const RefreshRate = ({ term, getData }) => {
+export const RefreshRate = ({ validUrl, getData }) => {
   const theme = useTheme();
   const intervalRef = useRef(null);
   useEffect(() => {
-    if (term === "") {
+    if (validUrl === undefined) {
       return;
     }
     const interval = localStorage.getItem("...");
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 5000);
-  }, [term, getData]);
+  }, [validUrl, getData]);
   const onChangeInterval = (e) => {
-    if (term === "") {
+    if (validUrl === "") {
       return;
     }
     clearInterval(intervalRef.current);

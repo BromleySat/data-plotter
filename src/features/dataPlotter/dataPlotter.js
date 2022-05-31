@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import axios from "axios";
@@ -7,49 +7,128 @@ import Button from "@mui/material/Button";
 import { BromleySatSwitch } from "../../components/switch";
 import { useTheme } from "@material-ui/core/styles";
 import { Container, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { isLocalIp } from "./validation";
+import { validateInput } from "./validation";
+import { getApiList } from "./validation";
+
+// import { useForm } from "react-hook-form";
+
+export const storageSetItem = (key, value) => {
+  localStorage.setItem(key, value);
+};
 
 export const DataPlotter = ({}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
   const theme = useTheme();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
   );
-  const [term, setTerm] = useState(
-    localStorage.getItem("api-address") || "http://localhost:3080/random-data"
+  const [textBoxValue, setTextBoxValue] = useState("");
+  const [urlList, setUrlList] = useState(
+    JSON.parse(localStorage.getItem("urlList"))
   );
-  const [textboxValue, setTextboxValue] = useState("");
   const [toggle, setToggle] = useState(
     JSON.parse(localStorage.getItem("checked") || false)
   );
+  const [error, setError] = useState(false);
+  const [validUrl, setValidUrl] = useState();
+  const intervalRef = useRef(null);
 
-  const getData = useCallback(async () => {
-    await axios.get(term).then((res) => {
-      var today = new Date();
-      var time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      res.data.time = time;
-      setData((data) => [...data, res.data]);
-      console.log(data);
-      if (toggle) {
-        localStorage.setItem("localStorageData", JSON.stringify(data));
-      } else {
-        localStorage.removeItem("localStorageData");
+  const noApiConfigStored = useCallback(
+    (ip) => {
+      if (!urlList) {
+        let str = "/api/config";
+        const localIp = isLocalIp(ip);
+        if (localIp) {
+          setUrlList(ip + str);
+        }
       }
-    });
-  }, [data, term, toggle]);
+    },
+    [urlList]
+  );
 
-  const onFormSubmit = (formData) => {
-    if (term === "") {
+  const fetchingValidUrl = useCallback(async () => {
+    if (validUrl) {
       return;
     }
-    setTerm(textboxValue);
-    setData([]);
-    localStorage.setItem("api-address", textboxValue);
+    for (const url of urlList) {
+      let transformedUrl = transformUrl(url);
+      let foundUrl = false;
+      await axios.get(transformedUrl).then(
+        (res) => {
+          if (res.data.deviceId) {
+            setValidUrl(url);
+            foundUrl = true;
+          }
+        },
+        (error) => {
+          console.log("Error " + url);
+        }
+      );
+      console.log("Found Url: " + foundUrl);
+      if (foundUrl) {
+        break;
+      }
+    }
+  }, [urlList, validUrl]);
+
+  useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(fetchingValidUrl, 5000);
+    noApiConfigStored(window.location.host);
+  }, [noApiConfigStored, fetchingValidUrl]);
+
+  function transformUrl(url) {
+    let str = "api/config";
+    url = url.slice(0, url.indexOf("api"));
+    url = url + str;
+    return url;
+  }
+
+  const getData = useCallback(async () => {
+    if (validUrl) {
+      await axios.get(validUrl).then(
+        (res) => {
+          var today = new Date();
+          var time =
+            today.getHours() +
+            ":" +
+            today.getMinutes() +
+            ":" +
+            today.getSeconds();
+          res.data.time = time;
+          setData((data) => [...data, res.data]);
+
+          if (toggle) {
+            localStorage.setItem("localStorageData", JSON.stringify(data));
+          } else {
+            localStorage.removeItem("localStorageData");
+          }
+        },
+        (error) => {
+          console.log(error);
+
+          setValidUrl("");
+        }
+      );
+    }
+  }, [data, validUrl, toggle]);
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    setError(false);
+    const validate = validateInput(textBoxValue);
+    if (validate) {
+      setError(false);
+
+      storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
+    } else {
+      setError(true);
+    }
+
+    //setData([]);
+
+    //  // setTerm(formData.urlList);
+    // localStorage.setItem("api-address", "lalala");
   };
 
   const onCheckboxChange = (e) => {
@@ -68,7 +147,7 @@ export const DataPlotter = ({}) => {
       <div>
         <form
           autoComplete="off"
-          onSubmit={handleSubmit(onFormSubmit)}
+          onSubmit={onFormSubmit}
           style={{
             marginTop: "150px",
             textAlign: "center",
@@ -77,8 +156,9 @@ export const DataPlotter = ({}) => {
           <TextField
             id="standard-basic"
             variant="standard"
-            onChange={(e) => setTextboxValue(e.target.value)}
-            defaultValue={term}
+            defaultValue={urlList}
+            multiline={true}
+            data-testid={"kierzk"}
             sx={{
               input: {
                 color: theme.palette.text.primary,
@@ -87,11 +167,7 @@ export const DataPlotter = ({}) => {
                 fontWeight: "700",
               },
             }}
-            {...register("url", {
-              required: true,
-              pattern:
-                /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
-            })}
+            onChange={(e) => setTextBoxValue(e.target.value)}
           />
           <Button
             type="submit"
@@ -106,7 +182,7 @@ export const DataPlotter = ({}) => {
           >
             Update
           </Button>
-          {errors.url && (
+          {error ? (
             <p
               style={{
                 color: "red",
@@ -114,9 +190,9 @@ export const DataPlotter = ({}) => {
                 fontWeight: "700",
               }}
             >
-              Please provide a valid Url.
+              Please provide valid URL list
             </p>
-          )}
+          ) : null}
         </form>
       </div>
       <div
@@ -142,7 +218,7 @@ export const DataPlotter = ({}) => {
           Data Plotter
         </Typography>
 
-        <RefreshRate term={term} getData={getData} />
+        <RefreshRate validUrl={validUrl} getData={getData} />
       </div>
 
       <Chart data={data} />

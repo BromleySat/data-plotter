@@ -4,18 +4,18 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function makeId(length) {
-  var result = "";
-  var characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+// function makeId(length) {
+//   var result = "";
+//   var characters =
+//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//   var charactersLength = characters.length;
+//   for (var i = 0; i < length; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+//   return result;
+// }
 
-const deviceId = makeId(23);
+// const deviceId = makeId(23);
 
 const getDate = () => {
   var today = new Date();
@@ -26,7 +26,6 @@ const getDate = () => {
 
 function getData() {
   return {
-    deviceId: deviceId,
     date: getDate(),
     temperatureC: getRandomIntInclusive(-20, 55),
     temperatureF: getRandomIntInclusive(-20, 55),
