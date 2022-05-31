@@ -17,38 +17,30 @@ export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-const trimExtraSquareBrackets = (urlList) => {
-  if (urlList) {
-    urlList = urlList.replace(/[\[\]']+/g, "");
-    urlList = urlList.replaceAll('"', "");
-    return urlList;
-  }
-};
-
 export const DataPlotter = ({}) => {
   // const {
   //   register,
   //   handleSubmit,
   //   formState: { errors },
   // } = useForm();
-  const localStorageUrl = localStorage.getItem("urlList");
+
   const theme = useTheme();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
   );
   const [textBoxValue, setTextBoxValue] = useState("");
   const [urlList, setUrlList] = useState(
-    trimExtraSquareBrackets(localStorageUrl) ||
-      "http://localhost:3080/api/random-data"
+    JSON.parse(localStorage.getItem("urlList"))
   );
   const [toggle, setToggle] = useState(
     JSON.parse(localStorage.getItem("checked") || false)
   );
   const [error, setError] = useState(false);
+  const [validUrl, setValidUrl] = useState();
 
   const noApiConfigStored = useCallback(
     (ip) => {
-      if (!localStorageUrl) {
+      if (!urlList) {
         let str = "/api/config";
         const localIp = isLocalIp(ip);
         if (localIp) {
@@ -56,7 +48,7 @@ export const DataPlotter = ({}) => {
         }
       }
     },
-    [localStorageUrl]
+    [urlList]
   );
 
   useEffect(() => {
@@ -64,20 +56,29 @@ export const DataPlotter = ({}) => {
   }, [noApiConfigStored]);
 
   const getData = useCallback(async () => {
-    await axios.get(urlList).then((res) => {
-      var today = new Date();
-      var time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      res.data.time = time;
-      setData((data) => [...data, res.data]);
+    await axios.get(validUrl).then(
+      (res) => {
+        var today = new Date();
+        var time =
+          today.getHours() +
+          ":" +
+          today.getMinutes() +
+          ":" +
+          today.getSeconds();
+        res.data.time = time;
+        setData((data) => [...data, res.data]);
 
-      if (toggle) {
-        localStorage.setItem("localStorageData", JSON.stringify(data));
-      } else {
-        localStorage.removeItem("localStorageData");
+        if (toggle) {
+          localStorage.setItem("localStorageData", JSON.stringify(data));
+        } else {
+          localStorage.removeItem("localStorageData");
+        }
+      },
+      (error) => {
+        console.log(error);
       }
-    });
-  }, [data, urlList, toggle]);
+    );
+  }, [data, validUrl, toggle]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -89,9 +90,8 @@ export const DataPlotter = ({}) => {
     const validate = validateInput(textBoxValue);
     if (validate) {
       setError(false);
-      console.log(textBoxValue);
+
       storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
-      console.log(localStorage.getItem("urlList"));
     } else {
       setError(true);
     }
@@ -189,7 +189,7 @@ export const DataPlotter = ({}) => {
           Data Plotter
         </Typography>
 
-        <RefreshRate urlList={urlList} getData={getData} />
+        <RefreshRate validUrl={validUrl} getData={getData} />
       </div>
 
       <Chart data={data} />
