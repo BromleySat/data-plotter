@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import axios from "axios";
@@ -18,12 +18,6 @@ export const storageSetItem = (key, value) => {
 };
 
 export const DataPlotter = ({}) => {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
-
   const theme = useTheme();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem("localStorageData") || "[]")
@@ -37,6 +31,7 @@ export const DataPlotter = ({}) => {
   );
   const [error, setError] = useState(false);
   const [validUrl, setValidUrl] = useState();
+  const intervalRef = useRef(null);
 
   const noApiConfigStored = useCallback(
     (ip) => {
@@ -51,42 +46,76 @@ export const DataPlotter = ({}) => {
     [urlList]
   );
 
+  const fetchingValidUrl = useCallback(async () => {
+    if (validUrl) {
+      return;
+    }
+    for (const url of urlList) {
+      let transformedUrl = transformUrl(url);
+      let foundUrl = false;
+      await axios.get(transformedUrl).then(
+        (res) => {
+          if (res.data.deviceId) {
+            setValidUrl(url);
+            foundUrl = true;
+          }
+        },
+        (error) => {
+          console.log("Error " + url);
+        }
+      );
+      console.log("Found Url: " + foundUrl);
+      if (foundUrl) {
+        break;
+      }
+    }
+  }, [urlList, validUrl]);
+
   useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(fetchingValidUrl, 5000);
     noApiConfigStored(window.location.host);
-  }, [noApiConfigStored]);
+  }, [noApiConfigStored, fetchingValidUrl]);
+
+  function transformUrl(url) {
+    let str = "api/config";
+    url = url.slice(0, url.indexOf("api"));
+    url = url + str;
+    return url;
+  }
 
   const getData = useCallback(async () => {
-    await axios.get(validUrl).then(
-      (res) => {
-        var today = new Date();
-        var time =
-          today.getHours() +
-          ":" +
-          today.getMinutes() +
-          ":" +
-          today.getSeconds();
-        res.data.time = time;
-        setData((data) => [...data, res.data]);
+    if (validUrl) {
+      await axios.get(validUrl).then(
+        (res) => {
+          var today = new Date();
+          var time =
+            today.getHours() +
+            ":" +
+            today.getMinutes() +
+            ":" +
+            today.getSeconds();
+          res.data.time = time;
+          setData((data) => [...data, res.data]);
 
-        if (toggle) {
-          localStorage.setItem("localStorageData", JSON.stringify(data));
-        } else {
-          localStorage.removeItem("localStorageData");
+          if (toggle) {
+            localStorage.setItem("localStorageData", JSON.stringify(data));
+          } else {
+            localStorage.removeItem("localStorageData");
+          }
+        },
+        (error) => {
+          console.log(error);
+
+          setValidUrl("");
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
+    }
   }, [data, validUrl, toggle]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
     setError(false);
-    // if (term === "") {
-    //   return;
-    // }
-    // setUrlList(["afsdfds", "adasdsad"]);
     const validate = validateInput(textBoxValue);
     if (validate) {
       setError(false);
