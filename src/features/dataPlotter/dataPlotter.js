@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
+import DataRetention from "../dataRetention/dataRetention";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -31,6 +32,7 @@ export const DataPlotter = ({}) => {
   );
   const [error, setError] = useState(false);
   const [validUrl, setValidUrl] = useState();
+  const [time, setTime] = useState([]);
   const intervalRef = useRef(null);
 
   const noApiConfigStored = useCallback(
@@ -84,6 +86,47 @@ export const DataPlotter = ({}) => {
     return url;
   }
 
+  const lastIndexOf = (data, cutOff) => {
+    for (let i = data.length - 1; i >= 0; i--) {
+      if (data[i].currentTime.getTime() < cutOff) return i;
+    }
+    return -1;
+  };
+
+  const removeData = () => {
+    if (data.length < 1) {
+      return;
+    }
+    const value = localStorage.getItem("dataRetention") || 150000;
+    console.log("Remove data " + value);
+    const now = new Date();
+    const cutOff = now.getTime() - value;
+    console.log("Now " + now);
+    console.log("Cut Off " + new Date(cutOff));
+    const oldElementIndex = lastIndexOf(data, cutOff);
+    console.log(
+      "Data index 0 " +
+        data[0].currentTime.getTime() +
+        " " +
+        cutOff +
+        " " +
+        (data[0].currentTime.getTime() - cutOff)
+    );
+    console.log(oldElementIndex);
+    if (oldElementIndex !== -1) {
+      setData(data.slice(oldElementIndex));
+    }
+
+    // for (let t of time) {
+    //   const timeDifference = now.getTime() - t.getTime();
+    //   if (timeDifference >= value) {
+    //     let filteredArray = data.filter((e) => )
+    //     setData(filteredArray)
+    //     localStorage.removeItem("localStorageData")
+    //   }
+    // }
+  };
+
   const getData = useCallback(async () => {
     if (validUrl) {
       await axios.get(validUrl).then(
@@ -96,7 +139,10 @@ export const DataPlotter = ({}) => {
             ":" +
             today.getSeconds();
           res.data.time = time;
+          res.data.currentTime = today;
           setData((data) => [...data, res.data]);
+          console.log(data);
+          setTime((time) => [...time, res.data.currentTime]);
 
           if (toggle) {
             localStorage.setItem("localStorageData", JSON.stringify(data));
@@ -115,6 +161,7 @@ export const DataPlotter = ({}) => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    console.log(time[0].getTime());
     setError(false);
     const validate = validateInput(textBoxValue);
     if (validate) {
@@ -142,6 +189,21 @@ export const DataPlotter = ({}) => {
       console.log("anything");
     }
   };
+
+  const trimHttp = (urlList) => {
+    const results = [];
+    for (let url of urlList) {
+      if (url.startsWith("http://")) {
+        url = url.replace("http://", "");
+        results.push(url);
+      } else if (url.startsWith("https://")) {
+        url = url.replace("https://", "");
+        results.push(url);
+      }
+    }
+    return results;
+  };
+
   return (
     <Container>
       <div>
@@ -156,7 +218,7 @@ export const DataPlotter = ({}) => {
           <TextField
             id="standard-basic"
             variant="standard"
-            defaultValue={urlList}
+            defaultValue={trimHttp(urlList)}
             multiline={true}
             data-testid={"kierzk"}
             sx={{
@@ -203,10 +265,9 @@ export const DataPlotter = ({}) => {
           justifyContent: "space-between",
           marginTop: "20px",
           marginBottom: "20px",
-          paddingRight: "73px",
         }}
       >
-        <div style={{ paddingLeft: "240px" }}></div>
+        <DataRetention removeData={removeData} />
         <Typography
           variant="h4"
           style={{

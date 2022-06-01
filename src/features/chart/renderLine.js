@@ -11,7 +11,10 @@ export const RenderLine = (data) => {
     .map(([key, value]) => key)
     .filter(
       (column) =>
-        column !== "deviceId" && column !== "time" && column !== "date"
+        column !== "deviceId" &&
+        column !== "time" &&
+        column !== "date" &&
+        column !== "currentTime"
     );
   let i = 0;
   return columns.map((column) => {
