@@ -12,7 +12,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
     if (validUrl === undefined) {
       return;
     }
-    const interval = localStorage.getItem("...");
+    const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 5000);
@@ -23,7 +23,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
-    localStorage.setItem("...", e.target.value);
+    localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
   };
 
   return (
@@ -42,7 +42,9 @@ export const RefreshRate = ({ validUrl, getData }) => {
       <Select
         labelId="demo-select-small"
         id="demo-select-small"
-        defaultValue={localStorage.getItem("...") || "5000"}
+        defaultValue={
+          localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "5000"
+        }
         label="Refresh Rate"
         onChange={onChangeInterval}
         sx={{

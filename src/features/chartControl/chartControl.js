@@ -52,7 +52,8 @@ const ChartControl = ({ validUrl, deviceId }) => {
     if (data.length < 1) {
       return;
     }
-    const value = localStorage.getItem("dataRetention") || 5000;
+    const value =
+      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000;
     console.log("Remove data " + value);
     const now = new Date();
     const cutOff = now.getTime() - value;
@@ -98,7 +99,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           marginBottom: "20px",
         }}
       >
-        <DataRetention removeData={removeData} />
+        <DataRetention validUrl={validUrl} removeData={removeData} />
         <Typography
           variant="h4"
           style={{
