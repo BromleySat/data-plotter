@@ -11,8 +11,7 @@ const DataRetention = ({ removeData }) => {
   useEffect(() => {
     // TODO: Interval resets every time we get data
     console.log("blaballablall");
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(removeData, 5000);
+    setInterval(removeData, 5000);
   }, []);
 
   const onChangeInterval = (e) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import ChartControl from "../chartControl/chartControl";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -7,6 +7,9 @@ import { Container } from "@mui/material";
 import { validateInput } from "./validation";
 import { getApiList } from "./validation";
 import { trimHttp } from "../helpers/trimHttp";
+import { isLocalIp } from "./validation";
+import { transformUrl } from "../helpers/transformUrl";
+import axios from "axios";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
@@ -14,23 +17,62 @@ export const storageSetItem = (key, value) => {
 
 export const DataPlotter = ({}) => {
   const theme = useTheme();
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem("localStorageData") || "[]")
-  );
+  const intervalRef = useRef(null);
   const [textBoxValue, setTextBoxValue] = useState("");
+  const [error, setError] = useState(false);
+  const [validUrls, setValidUrls] = useState([]);
   const [urlList, setUrlList] = useState(
     JSON.parse(localStorage.getItem("urlList"))
   );
-  const [toggle, setToggle] = useState(
-    JSON.parse(localStorage.getItem("checked") || false)
+  const [deviceId, setDeviceId] = useState([]);
+
+  const noApiConfigStored = useCallback(
+    (ip) => {
+      if (!urlList) {
+        let str = "/api/config";
+        const localIp = isLocalIp(ip);
+        if (localIp) {
+          setUrlList(ip + str);
+        }
+      }
+    },
+    [urlList, setUrlList]
   );
-  const [error, setError] = useState(false);
-  const [validUrl, setValidUrl] = useState();
-  const [time, setTime] = useState([]);
+
+  const fetchingValidUrl = useCallback(async () => {
+    if (!urlList) {
+      return;
+    }
+    if (validUrls.length === urlList.length) {
+      return;
+    }
+    for (const url of urlList) {
+      if (validUrls.indexOf(url) !== -1) {
+        continue;
+      }
+      let transformedUrl = transformUrl(url);
+      await axios.get(transformedUrl).then(
+        (res) => {
+          if (res.data.deviceId) {
+            setDeviceId(res.data.deviceId);
+            setValidUrls((valUrl) => [...valUrl, url]);
+          }
+        },
+        (error) => {
+          console.log("Error " + url);
+        }
+      );
+    }
+  }, [urlList, validUrls]);
+
+  useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(fetchingValidUrl, 5000);
+    noApiConfigStored(window.location.host);
+  }, [noApiConfigStored, fetchingValidUrl]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log(time[0].getTime());
     setError(false);
     const validate = validateInput(textBoxValue);
     if (validate) {
@@ -97,17 +139,7 @@ export const DataPlotter = ({}) => {
           ) : null}
         </form>
       </div>
-      <ChartControl
-        validUrl={validUrl}
-        setValidUrl={setValidUrl}
-        data={data}
-        setData={setData}
-        toggle={toggle}
-        setToggle={setToggle}
-        urlList={urlList}
-        setUrlList={setUrlList}
-        setTime={setTime}
-      />
+      <ChartControl validUrl={validUrls[0]} deviceId={deviceId} />
     </Container>
   );
 };

@@ -1,87 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import DataRetention from "../dataRetention/dataRetention";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import { BromleySatSwitch } from "../../components/switch";
-import { isLocalIp } from "../dataPlotter/validation";
-import { transformUrl } from "../helpers/transformUrl";
 import { lastIndexOf } from "../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 
-const ChartControl = ({
-  validUrl,
-  setValidUrl,
-  data,
-  setData,
-  toggle,
-  setToggle,
-  setTime,
-  urlList,
-  setUrlList,
-}) => {
-  const theme = useTheme();
-  const intervalRef = useRef(null);
-  const [deviceId, setDeviceId] = useState("");
-
-  const noApiConfigStored = useCallback(
-    (ip) => {
-      if (!urlList) {
-        let str = "/api/config";
-        const localIp = isLocalIp(ip);
-        if (localIp) {
-          setUrlList(ip + str);
-        }
-      }
-    },
-    [urlList, setUrlList]
+const ChartControl = ({ validUrl, deviceId }) => {
+  const [data, setData] = useState(
+    JSON.parse(localStorage.getItem("localStorageData") || "[]")
   );
-
-  const fetchingValidUrl = useCallback(async () => {
-    if (validUrl) {
-      return;
-    }
-    if (!urlList) {
-      return;
-    }
-    for (const url of urlList) {
-      let transformedUrl = transformUrl(url);
-      let foundUrl = false;
-      await axios.get(transformedUrl).then(
-        (res) => {
-          if (res.data.deviceId) {
-            setValidUrl(url);
-            foundUrl = true;
-          }
-        },
-        (error) => {
-          console.log("Error " + url);
-        }
-      );
-      console.log("Found Url: " + foundUrl);
-      if (foundUrl) {
-        break;
-      }
-    }
-  }, [urlList, validUrl, setValidUrl]);
-
-  const getDeviceId = useCallback(async () => {
-    if (!validUrl) {
-      return;
-    }
-    let deviceIdUrl = transformUrl(validUrl);
-    await axios.get(deviceIdUrl).then((res) => {
-      setDeviceId(res.data.deviceId);
-    });
-  }, [validUrl]);
-
-  useEffect(() => {
-    getDeviceId();
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(fetchingValidUrl, 5000);
-    noApiConfigStored(window.location.host);
-  }, [noApiConfigStored, fetchingValidUrl, getDeviceId]);
+  const [toggle, setToggle] = useState(
+    JSON.parse(localStorage.getItem("checked") || false)
+  );
+  const theme = useTheme();
 
   const getData = useCallback(async () => {
     if (validUrl) {
@@ -98,7 +32,6 @@ const ChartControl = ({
           res.data.currentTime = today;
           setData((data) => [...data, res.data]);
           console.log(data);
-          setTime((time) => [...time, res.data.currentTime]);
 
           if (toggle) {
             localStorage.setItem("localStorageData", JSON.stringify(data));
@@ -109,11 +42,11 @@ const ChartControl = ({
         (error) => {
           console.log(error);
 
-          setValidUrl("");
+          //   setValidUrl("");
         }
       );
     }
-  }, [data, validUrl, toggle, setData, setTime, setValidUrl]);
+  }, [data, validUrl, toggle]);
 
   const removeData = () => {
     if (data.length < 1) {
