@@ -16,7 +16,7 @@ const ChartControl = ({
   data,
   setData,
   toggle,
-  onCheckboxChange,
+  setToggle,
   setTime,
   urlList,
   setUrlList,
@@ -125,6 +125,18 @@ const ChartControl = ({
     console.log(oldElementIndex);
     if (oldElementIndex !== -1) {
       setData(data.slice(oldElementIndex));
+    }
+  };
+
+  const onCheckboxChange = (e) => {
+    localStorage.setItem("checked", e.target.checked);
+    setToggle(e.target.checked);
+    if (e.target.checked) {
+      localStorage.setItem("localStorageData", JSON.stringify(data));
+    } else {
+      // Hidden Bug, removes data
+      localStorage.removeItem("localStorageData");
+      console.log("anything");
     }
   };
 
