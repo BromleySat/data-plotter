@@ -38,7 +38,7 @@ const DataRetention = ({ removeData }) => {
         id="demo-select-small"
         label="Data Retention"
         onChange={onChangeInterval}
-        value={localStorage.getItem("dataRetention") || 150000}
+        value={localStorage.getItem("dataRetention") || 5000}
         sx={{
           color: theme.palette.text.primary,
           fontFamily: "Quicksand",

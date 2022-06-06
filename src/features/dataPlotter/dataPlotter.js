@@ -52,6 +52,9 @@ export const DataPlotter = ({}) => {
     if (validUrl) {
       return;
     }
+    if (!urlList) {
+      return;
+    }
     for (const url of urlList) {
       let transformedUrl = transformUrl(url);
       let foundUrl = false;
@@ -97,7 +100,7 @@ export const DataPlotter = ({}) => {
     if (data.length < 1) {
       return;
     }
-    const value = localStorage.getItem("dataRetention") || 150000;
+    const value = localStorage.getItem("dataRetention") || 5000;
     console.log("Remove data " + value);
     const now = new Date();
     const cutOff = now.getTime() - value;
@@ -191,6 +194,9 @@ export const DataPlotter = ({}) => {
   };
 
   const trimHttp = (urlList) => {
+    if (!urlList) {
+      return "";
+    }
     const results = [];
     for (let url of urlList) {
       if (url.startsWith("http://")) {
