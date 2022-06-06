@@ -8,6 +8,8 @@ import { Container } from "@mui/material";
 import { isLocalIp } from "./validation";
 import { validateInput } from "./validation";
 import { getApiList } from "./validation";
+import { transformUrl } from "../helpers/transformUrl";
+import { lastIndexOf } from "../helpers/lastIndexOf";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
@@ -77,19 +79,19 @@ export const DataPlotter = ({}) => {
     noApiConfigStored(window.location.host);
   }, [noApiConfigStored, fetchingValidUrl]);
 
-  function transformUrl(url) {
-    let str = "api/config";
-    url = url.slice(0, url.indexOf("api"));
-    url = url + str;
-    return url;
-  }
+  // function transformUrl(url) {
+  //   let str = "api/config";
+  //   url = url.slice(0, url.indexOf("api"));
+  //   url = url + str;
+  //   return url;
+  // }
 
-  const lastIndexOf = (data, cutOff) => {
-    for (let i = data.length - 1; i >= 0; i--) {
-      if (data[i].currentTime.getTime() < cutOff) return i;
-    }
-    return -1;
-  };
+  // const lastIndexOf = (data, cutOff) => {
+  //   for (let i = data.length - 1; i >= 0; i--) {
+  //     if (data[i].currentTime.getTime() < cutOff) return i;
+  //   }
+  //   return -1;
+  // };
 
   const removeData = () => {
     if (data.length < 1) {
