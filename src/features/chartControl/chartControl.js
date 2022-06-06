@@ -67,6 +67,9 @@ const ChartControl = ({
   }, [urlList, validUrl, setValidUrl]);
 
   const getDeviceId = useCallback(async () => {
+    if (!validUrl) {
+      return;
+    }
     let deviceIdUrl = transformUrl(validUrl);
     await axios.get(deviceIdUrl).then((res) => {
       setDeviceId(res.data.deviceId);
