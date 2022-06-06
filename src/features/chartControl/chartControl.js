@@ -10,10 +10,10 @@ import axios from "axios";
 
 const ChartControl = ({ validUrl, deviceId }) => {
   const [data, setData] = useState(
-    JSON.parse(localStorage.getItem("localStorageData") || "[]")
+    JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
   const [toggle, setToggle] = useState(
-    JSON.parse(localStorage.getItem("checked") || false)
+    JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
   );
   const theme = useTheme();
 
@@ -34,9 +34,9 @@ const ChartControl = ({ validUrl, deviceId }) => {
           console.log(data);
 
           if (toggle) {
-            localStorage.setItem("localStorageData", JSON.stringify(data));
+            localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
           } else {
-            localStorage.removeItem("localStorageData");
+            localStorage.removeItem(`DATA FOR ${validUrl}`);
           }
         },
         (error) => {
@@ -74,13 +74,14 @@ const ChartControl = ({ validUrl, deviceId }) => {
   };
 
   const onCheckboxChange = (e) => {
-    localStorage.setItem("checked", e.target.checked);
     setToggle(e.target.checked);
+    localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
+
     if (e.target.checked) {
-      localStorage.setItem("localStorageData", JSON.stringify(data));
+      localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
     } else {
       // Hidden Bug, removes data
-      localStorage.removeItem("localStorageData");
+      localStorage.removeItem(`DATA FOR ${validUrl}`);
       console.log("anything");
     }
   };

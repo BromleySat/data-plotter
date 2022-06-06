@@ -24,7 +24,7 @@ export const DataPlotter = ({}) => {
   const [urlList, setUrlList] = useState(
     JSON.parse(localStorage.getItem("urlList"))
   );
-  const [deviceId, setDeviceId] = useState([]);
+  const [devicesId, setDevicesId] = useState([]);
 
   const noApiConfigStored = useCallback(
     (ip) => {
@@ -54,7 +54,7 @@ export const DataPlotter = ({}) => {
       await axios.get(transformedUrl).then(
         (res) => {
           if (res.data.deviceId) {
-            setDeviceId(res.data.deviceId);
+            setDevicesId((devId) => [...devId, res.data.deviceId]);
             setValidUrls((valUrl) => [...valUrl, url]);
           }
         },
@@ -139,7 +139,10 @@ export const DataPlotter = ({}) => {
           ) : null}
         </form>
       </div>
-      <ChartControl validUrl={validUrls[0]} deviceId={deviceId} />
+      {validUrls.map((validUrl, index) => {
+        const deviceIdIndex = devicesId[index];
+        return <ChartControl validUrl={validUrl} deviceId={deviceIdIndex} />;
+      })}
     </Container>
   );
 };
