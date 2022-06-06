@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import Chart from "../chart/chart";
+import ChartControl from "../chartControl/chartControl";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import DataRetention from "../dataRetention/dataRetention";
 import axios from "axios";
@@ -11,8 +12,6 @@ import { Container, Typography } from "@mui/material";
 import { isLocalIp } from "./validation";
 import { validateInput } from "./validation";
 import { getApiList } from "./validation";
-
-// import { useForm } from "react-hook-form";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
@@ -263,7 +262,12 @@ export const DataPlotter = ({}) => {
           ) : null}
         </form>
       </div>
-      <div
+      <ChartControl
+        removeData={removeData}
+        validUrl={validUrl}
+        getData={getData}
+      />
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -286,7 +290,7 @@ export const DataPlotter = ({}) => {
         </Typography>
 
         <RefreshRate validUrl={validUrl} getData={getData} />
-      </div>
+      </div> */}
 
       <Chart data={data} />
       <div
