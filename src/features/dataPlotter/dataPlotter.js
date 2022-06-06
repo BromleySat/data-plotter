@@ -32,52 +32,52 @@ export const DataPlotter = ({}) => {
   const [time, setTime] = useState([]);
   const intervalRef = useRef(null);
 
-  const noApiConfigStored = useCallback(
-    (ip) => {
-      if (!urlList) {
-        let str = "/api/config";
-        const localIp = isLocalIp(ip);
-        if (localIp) {
-          setUrlList(ip + str);
-        }
-      }
-    },
-    [urlList]
-  );
+  // const noApiConfigStored = useCallback(
+  //   (ip) => {
+  //     if (!urlList) {
+  //       let str = "/api/config";
+  //       const localIp = isLocalIp(ip);
+  //       if (localIp) {
+  //         setUrlList(ip + str);
+  //       }
+  //     }
+  //   },
+  //   [urlList]
+  // );
 
-  const fetchingValidUrl = useCallback(async () => {
-    if (validUrl) {
-      return;
-    }
-    if (!urlList) {
-      return;
-    }
-    for (const url of urlList) {
-      let transformedUrl = transformUrl(url);
-      let foundUrl = false;
-      await axios.get(transformedUrl).then(
-        (res) => {
-          if (res.data.deviceId) {
-            setValidUrl(url);
-            foundUrl = true;
-          }
-        },
-        (error) => {
-          console.log("Error " + url);
-        }
-      );
-      console.log("Found Url: " + foundUrl);
-      if (foundUrl) {
-        break;
-      }
-    }
-  }, [urlList, validUrl]);
+  // const fetchingValidUrl = useCallback(async () => {
+  //   if (validUrl) {
+  //     return;
+  //   }
+  //   if (!urlList) {
+  //     return;
+  //   }
+  //   for (const url of urlList) {
+  //     let transformedUrl = transformUrl(url);
+  //     let foundUrl = false;
+  //     await axios.get(transformedUrl).then(
+  //       (res) => {
+  //         if (res.data.deviceId) {
+  //           setValidUrl(url);
+  //           foundUrl = true;
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log("Error " + url);
+  //       }
+  //     );
+  //     console.log("Found Url: " + foundUrl);
+  //     if (foundUrl) {
+  //       break;
+  //     }
+  //   }
+  // }, [urlList, validUrl]);
 
-  useEffect(() => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(fetchingValidUrl, 5000);
-    noApiConfigStored(window.location.host);
-  }, [noApiConfigStored, fetchingValidUrl]);
+  // useEffect(() => {
+  //   clearInterval(intervalRef.current);
+  //   intervalRef.current = setInterval(fetchingValidUrl, 5000);
+  //   noApiConfigStored(window.location.host);
+  // }, [noApiConfigStored, fetchingValidUrl]);
 
   // function transformUrl(url) {
   //   let str = "api/config";

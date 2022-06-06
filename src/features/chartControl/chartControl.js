@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import DataRetention from "../dataRetention/dataRetention";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import { BromleySatSwitch } from "../../components/switch";
+import { isLocalIp } from "../dataPlotter/validation";
+import { transformUrl } from "../helpers/transformUrl";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
@@ -16,8 +18,58 @@ const ChartControl = ({
   toggle,
   onCheckboxChange,
   setTime,
+  urlList,
+  setUrlList,
 }) => {
   const theme = useTheme();
+  const intervalRef = useRef(null);
+
+  const noApiConfigStored = useCallback(
+    (ip) => {
+      if (!urlList) {
+        let str = "/api/config";
+        const localIp = isLocalIp(ip);
+        if (localIp) {
+          setUrlList(ip + str);
+        }
+      }
+    },
+    [urlList, setUrlList]
+  );
+
+  const fetchingValidUrl = useCallback(async () => {
+    if (validUrl) {
+      return;
+    }
+    if (!urlList) {
+      return;
+    }
+    for (const url of urlList) {
+      let transformedUrl = transformUrl(url);
+      let foundUrl = false;
+      await axios.get(transformedUrl).then(
+        (res) => {
+          if (res.data.deviceId) {
+            setValidUrl(url);
+            foundUrl = true;
+          }
+        },
+        (error) => {
+          console.log("Error " + url);
+        }
+      );
+      console.log("Found Url: " + foundUrl);
+      if (foundUrl) {
+        break;
+      }
+    }
+  }, [urlList, validUrl, setValidUrl]);
+
+  useEffect(() => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(fetchingValidUrl, 5000);
+    noApiConfigStored(window.location.host);
+  }, [noApiConfigStored, fetchingValidUrl]);
 
   const getData = useCallback(async () => {
     if (validUrl) {
