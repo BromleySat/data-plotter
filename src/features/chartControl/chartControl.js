@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import DataRetention from "../dataRetention/dataRetention";
 import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
@@ -23,6 +23,7 @@ const ChartControl = ({
 }) => {
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const [deviceId, setDeviceId] = useState("");
 
   const noApiConfigStored = useCallback(
     (ip) => {
@@ -65,11 +66,19 @@ const ChartControl = ({
     }
   }, [urlList, validUrl, setValidUrl]);
 
+  const getDeviceId = useCallback(async () => {
+    let deviceIdUrl = transformUrl(validUrl);
+    await axios.get(deviceIdUrl).then((res) => {
+      setDeviceId(res.data.deviceId);
+    });
+  }, [validUrl]);
+
   useEffect(() => {
+    getDeviceId();
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(fetchingValidUrl, 5000);
     noApiConfigStored(window.location.host);
-  }, [noApiConfigStored, fetchingValidUrl]);
+  }, [noApiConfigStored, fetchingValidUrl, getDeviceId]);
 
   const getData = useCallback(async () => {
     if (validUrl) {
@@ -161,7 +170,7 @@ const ChartControl = ({
             fontWeight: "700",
           }}
         >
-          Data Plotter
+          {deviceId}
         </Typography>
         <RefreshRate validUrl={validUrl} getData={getData} />
       </div>
