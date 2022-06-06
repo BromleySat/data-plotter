@@ -1,15 +1,11 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import ChartControl from "../chartControl/chartControl";
-import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useTheme } from "@material-ui/core/styles";
 import { Container } from "@mui/material";
-import { isLocalIp } from "./validation";
 import { validateInput } from "./validation";
 import { getApiList } from "./validation";
-import { transformUrl } from "../helpers/transformUrl";
-import { lastIndexOf } from "../helpers/lastIndexOf";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
@@ -30,7 +26,6 @@ export const DataPlotter = ({}) => {
   const [error, setError] = useState(false);
   const [validUrl, setValidUrl] = useState();
   const [time, setTime] = useState([]);
-  const intervalRef = useRef(null);
 
   // const noApiConfigStored = useCallback(
   //   (ip) => {
@@ -93,39 +88,39 @@ export const DataPlotter = ({}) => {
   //   return -1;
   // };
 
-  const removeData = () => {
-    if (data.length < 1) {
-      return;
-    }
-    const value = localStorage.getItem("dataRetention") || 5000;
-    console.log("Remove data " + value);
-    const now = new Date();
-    const cutOff = now.getTime() - value;
-    console.log("Now " + now);
-    console.log("Cut Off " + new Date(cutOff));
-    const oldElementIndex = lastIndexOf(data, cutOff);
-    console.log(
-      "Data index 0 " +
-        data[0].currentTime.getTime() +
-        " " +
-        cutOff +
-        " " +
-        (data[0].currentTime.getTime() - cutOff)
-    );
-    console.log(oldElementIndex);
-    if (oldElementIndex !== -1) {
-      setData(data.slice(oldElementIndex));
-    }
+  // const removeData = () => {
+  //   if (data.length < 1) {
+  //     return;
+  //   }
+  //   const value = localStorage.getItem("dataRetention") || 5000;
+  //   console.log("Remove data " + value);
+  //   const now = new Date();
+  //   const cutOff = now.getTime() - value;
+  //   console.log("Now " + now);
+  //   console.log("Cut Off " + new Date(cutOff));
+  //   const oldElementIndex = lastIndexOf(data, cutOff);
+  //   console.log(
+  //     "Data index 0 " +
+  //       data[0].currentTime.getTime() +
+  //       " " +
+  //       cutOff +
+  //       " " +
+  //       (data[0].currentTime.getTime() - cutOff)
+  //   );
+  //   console.log(oldElementIndex);
+  //   if (oldElementIndex !== -1) {
+  //     setData(data.slice(oldElementIndex));
+  //   }
 
-    // for (let t of time) {
-    //   const timeDifference = now.getTime() - t.getTime();
-    //   if (timeDifference >= value) {
-    //     let filteredArray = data.filter((e) => )
-    //     setData(filteredArray)
-    //     localStorage.removeItem("localStorageData")
-    //   }
-    // }
-  };
+  //   // for (let t of time) {
+  //   //   const timeDifference = now.getTime() - t.getTime();
+  //   //   if (timeDifference >= value) {
+  //   //     let filteredArray = data.filter((e) => )
+  //   //     setData(filteredArray)
+  //   //     localStorage.removeItem("localStorageData")
+  //   //   }
+  //   // }
+  // };
 
   // const getData = useCallback(async () => {
   //   if (validUrl) {
@@ -261,7 +256,6 @@ export const DataPlotter = ({}) => {
         </form>
       </div>
       <ChartControl
-        removeData={removeData}
         validUrl={validUrl}
         setValidUrl={setValidUrl}
         data={data}

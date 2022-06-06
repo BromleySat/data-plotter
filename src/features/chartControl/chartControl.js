@@ -5,12 +5,12 @@ import { RefreshRate } from "../refreshRate/refreshRate";
 import { BromleySatSwitch } from "../../components/switch";
 import { isLocalIp } from "../dataPlotter/validation";
 import { transformUrl } from "../helpers/transformUrl";
+import { lastIndexOf } from "../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 
 const ChartControl = ({
-  removeData,
   validUrl,
   setValidUrl,
   data,
@@ -102,6 +102,31 @@ const ChartControl = ({
       );
     }
   }, [data, validUrl, toggle, setData, setTime, setValidUrl]);
+
+  const removeData = () => {
+    if (data.length < 1) {
+      return;
+    }
+    const value = localStorage.getItem("dataRetention") || 5000;
+    console.log("Remove data " + value);
+    const now = new Date();
+    const cutOff = now.getTime() - value;
+    console.log("Now " + now);
+    console.log("Cut Off " + new Date(cutOff));
+    const oldElementIndex = lastIndexOf(data, cutOff);
+    console.log(
+      "Data index 0 " +
+        data[0].currentTime.getTime() +
+        " " +
+        cutOff +
+        " " +
+        (data[0].currentTime.getTime() - cutOff)
+    );
+    console.log(oldElementIndex);
+    if (oldElementIndex !== -1) {
+      setData(data.slice(oldElementIndex));
+    }
+  };
 
   return (
     <>
