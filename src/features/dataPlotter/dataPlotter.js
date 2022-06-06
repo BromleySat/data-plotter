@@ -1,14 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import Chart from "../chart/chart";
 import ChartControl from "../chartControl/chartControl";
-import { RefreshRate } from "../refreshRate/refreshRate";
-import DataRetention from "../dataRetention/dataRetention";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { BromleySatSwitch } from "../../components/switch";
 import { useTheme } from "@material-ui/core/styles";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import { isLocalIp } from "./validation";
 import { validateInput } from "./validation";
 import { getApiList } from "./validation";
@@ -129,37 +125,37 @@ export const DataPlotter = ({}) => {
     // }
   };
 
-  const getData = useCallback(async () => {
-    if (validUrl) {
-      await axios.get(validUrl).then(
-        (res) => {
-          var today = new Date();
-          var time =
-            today.getHours() +
-            ":" +
-            today.getMinutes() +
-            ":" +
-            today.getSeconds();
-          res.data.time = time;
-          res.data.currentTime = today;
-          setData((data) => [...data, res.data]);
-          console.log(data);
-          setTime((time) => [...time, res.data.currentTime]);
+  // const getData = useCallback(async () => {
+  //   if (validUrl) {
+  //     await axios.get(validUrl).then(
+  //       (res) => {
+  //         var today = new Date();
+  //         var time =
+  //           today.getHours() +
+  //           ":" +
+  //           today.getMinutes() +
+  //           ":" +
+  //           today.getSeconds();
+  //         res.data.time = time;
+  //         res.data.currentTime = today;
+  //         setData((data) => [...data, res.data]);
+  //         console.log(data);
+  //         setTime((time) => [...time, res.data.currentTime]);
 
-          if (toggle) {
-            localStorage.setItem("localStorageData", JSON.stringify(data));
-          } else {
-            localStorage.removeItem("localStorageData");
-          }
-        },
-        (error) => {
-          console.log(error);
+  //         if (toggle) {
+  //           localStorage.setItem("localStorageData", JSON.stringify(data));
+  //         } else {
+  //           localStorage.removeItem("localStorageData");
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error);
 
-          setValidUrl("");
-        }
-      );
-    }
-  }, [data, validUrl, toggle]);
+  //         setValidUrl("");
+  //       }
+  //     );
+  //   }
+  // }, [data, validUrl, toggle]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -265,7 +261,15 @@ export const DataPlotter = ({}) => {
       <ChartControl
         removeData={removeData}
         validUrl={validUrl}
-        getData={getData}
+        setValidUrl={setValidUrl}
+        data={data}
+        setData={setData}
+        toggle={toggle}
+        setToggle={setToggle}
+        onCheckboxChange={onCheckboxChange}
+        urlList={urlList}
+        setUrlList={setUrlList}
+        setTime={setTime}
       />
       {/* <div
         style={{
@@ -292,8 +296,8 @@ export const DataPlotter = ({}) => {
         <RefreshRate validUrl={validUrl} getData={getData} />
       </div> */}
 
-      <Chart data={data} />
-      <div
+      {/* <Chart data={data} /> */}
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -314,7 +318,7 @@ export const DataPlotter = ({}) => {
           </Typography>
           <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 };
