@@ -22,7 +22,8 @@ function chart({ data }) {
       <LineChart width={1000} height={300} data={data}>
         <CartesianGrid></CartesianGrid>
         <XAxis dataKey="time"></XAxis>
-        <YAxis></YAxis>
+        <YAxis yAxisId="left-axis"></YAxis>
+        <YAxis yAxisId="right-axis" orientation="right"></YAxis>
         <Tooltip></Tooltip>
         <Legend></Legend>
         {RenderLine(data)}

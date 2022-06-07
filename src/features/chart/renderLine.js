@@ -16,13 +16,41 @@ export const RenderLine = (data) => {
         column !== "date" &&
         column !== "currentTime"
     );
+  let valArray = [];
+  let numArray = [];
+  let values = Object.entries(data[data.length - 1]).map(([key, value]) =>
+    valArray.push(value)
+  );
+
+  for (let value of valArray) {
+    if (Number.isInteger(value)) {
+      numArray.push(value);
+    }
+  }
+  console.log(numArray);
+
+  console.log(valArray);
   if (columns.length > 5) {
     columns = columns.slice(0, 5);
   }
   let i = 0;
-  return columns.map((column) => {
+  return columns.map((column, index) => {
+    const indexValue = numArray[index];
+    if (indexValue < 100) {
+      return (
+        <Line
+          yAxisId="right-axis"
+          key={column}
+          data-testid={"chart-line-" + column}
+          type="monotone"
+          dataKey={column}
+          stroke={colors[i++]}
+        />
+      );
+    }
     return (
       <Line
+        yAxisId="left-axis"
         key={column}
         data-testid={"chart-line-" + column}
         type="monotone"
