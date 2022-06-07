@@ -87,7 +87,7 @@ export const DataPlotter = ({}) => {
   };
 
   return (
-    <Container>
+    <Container style={{ height: "100%" }}>
       <div>
         <form
           autoComplete="off"

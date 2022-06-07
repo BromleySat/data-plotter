@@ -88,7 +88,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   };
 
   return (
-    <>
+    <div>
       <div
         style={{
           display: "flex",
@@ -135,7 +135,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
