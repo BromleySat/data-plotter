@@ -9,10 +9,14 @@ const DataRetention = ({ removeData, validUrl }) => {
   const theme = useTheme();
   const intervalRef = useRef(null);
   useEffect(() => {
+    // if (intervalRef.current !== null) {
+    //   return;
+    // }
+    clearInterval(intervalRef.current);
     // TODO: Interval resets every time we get data
     console.log("blaballablall");
-    setInterval(removeData, 5000);
-  }, []);
+    intervalRef.current = setInterval(removeData, 5000);
+  }, [removeData, intervalRef]);
 
   const onChangeInterval = (e) => {
     clearInterval(intervalRef.current);
@@ -51,6 +55,9 @@ const DataRetention = ({ removeData, validUrl }) => {
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="10000">
           10s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="30000">
+          30s
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="300000">
           5 min

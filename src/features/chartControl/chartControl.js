@@ -31,7 +31,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
           res.data.time = time;
           res.data.currentTime = today;
           setData((data) => [...data, res.data]);
-          console.log(data);
 
           if (toggle) {
             localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
@@ -48,7 +47,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
     }
   }, [data, validUrl, toggle]);
 
-  const removeData = () => {
+  const removeData = useCallback(() => {
     if (data.length < 1) {
       return;
     }
@@ -72,7 +71,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
     if (oldElementIndex !== -1) {
       setData(data.slice(oldElementIndex));
     }
-  };
+  }, [data, validUrl]);
 
   const onCheckboxChange = (e) => {
     setToggle(e.target.checked);
@@ -83,7 +82,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
     } else {
       // Hidden Bug, removes data
       localStorage.removeItem(`DATA FOR ${validUrl}`);
-      console.log("anything");
     }
   };
 

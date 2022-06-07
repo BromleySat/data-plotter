@@ -141,7 +141,13 @@ export const DataPlotter = ({}) => {
       </div>
       {validUrls.map((validUrl, index) => {
         const deviceIdIndex = devicesId[index];
-        return <ChartControl validUrl={validUrl} deviceId={deviceIdIndex} />;
+        return (
+          <ChartControl
+            key={`chart_${index}`}
+            validUrl={validUrl}
+            deviceId={deviceIdIndex}
+          />
+        );
       })}
     </Container>
   );
