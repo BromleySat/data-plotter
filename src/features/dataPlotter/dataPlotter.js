@@ -89,9 +89,7 @@ export const DataPlotter = ({}) => {
   return (
     <Container style={{ height: "100%" }}>
       <div>
-        <form
-          autoComplete="off"
-          onSubmit={onFormSubmit}
+        <div
           style={{
             marginTop: "150px",
             textAlign: "center",
@@ -102,7 +100,6 @@ export const DataPlotter = ({}) => {
             variant="standard"
             defaultValue={trimHttp(urlList)}
             multiline={true}
-            data-testid={"kierzk"}
             sx={{
               input: {
                 color: theme.palette.text.primary,
@@ -112,11 +109,14 @@ export const DataPlotter = ({}) => {
               },
             }}
             onChange={(e) => setTextBoxValue(e.target.value)}
+            inputProps={{ "data-testid": "text-area" }}
           />
           <Button
             type="submit"
             variant="contained"
             size="small"
+            onClick={onFormSubmit}
+            data-testid="text-area-submit"
             style={{
               marginLeft: "20px",
               backgroundColor: "#00C119",
@@ -128,6 +128,7 @@ export const DataPlotter = ({}) => {
           </Button>
           {error ? (
             <p
+              data-testid="error"
               style={{
                 color: "red",
                 fontFamily: "Quicksand",
@@ -137,7 +138,7 @@ export const DataPlotter = ({}) => {
               Please provide valid URL list
             </p>
           ) : null}
-        </form>
+        </div>
       </div>
       {validUrls.map((validUrl, index) => {
         const deviceIdIndex = devicesId[index];

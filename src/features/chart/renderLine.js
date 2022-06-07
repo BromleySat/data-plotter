@@ -7,7 +7,7 @@ export const RenderLine = (data) => {
   }
 
   const colors = ["#ff0505", "#0285f7", "#00C119", "#ae02f7", "#d41393"];
-  const columns = Object.entries(data[data.length - 1])
+  let columns = Object.entries(data[data.length - 1])
     .map(([key, value]) => key)
     .filter(
       (column) =>
@@ -16,6 +16,9 @@ export const RenderLine = (data) => {
         column !== "date" &&
         column !== "currentTime"
     );
+  if (columns.length > 5) {
+    columns = columns.slice(0, 5);
+  }
   let i = 0;
   return columns.map((column) => {
     return (
