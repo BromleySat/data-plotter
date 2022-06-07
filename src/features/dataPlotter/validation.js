@@ -43,24 +43,38 @@ export function isLocalIp(ip) {
 // }
 
 export function validateInput(input) {
+  const localhostRegex = /(localhost|[\w-]+(?:\.[\w-]+)+)(:\d+)?(\/\S*)/;
+  const httpRegex = /^https?:\/\/\w+(\.\w+)*(:[0-9]+)?(\/.*)?$/;
   const specialChars = /[`!@#$%^&*()_+\=\[\]{};'"\\|<>\?~]/;
   const validDomain =
-    /^((http|https):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9\/]+([a-zA-Z0-9]){1,10})$/g;
+    /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9\/]+([a-zA-Z0-9]){1,10})$/g;
   if (specialChars.test(input)) {
+    console.log("special chars");
     return false;
   }
 
   if (input.length > 100) {
+    console.log("length");
     return false;
   }
   if (input.length <= 10) {
+    console.log("short");
     return false;
   }
 
   if (validDomain.test(input)) {
     return true;
   }
+
+  if (localhostRegex.test(input) && !/\s/.test(input)) {
+    return true;
+  }
+
+  if (httpRegex.test(input)) {
+    return true;
+  }
   if (!input.includes(",")) {
+    console.log("comma");
     return false;
   }
   if (/\s/.test(input)) {
@@ -68,6 +82,7 @@ export function validateInput(input) {
   }
 
   if (!validDomain.test(input)) {
+    console.log("valid domain");
     return false;
   }
   // if (multipleEntries(input)) {
