@@ -23,7 +23,7 @@ export const RenderLine = (data) => {
   );
 
   for (let value of valArray) {
-    if (Number.isInteger(value)) {
+    if (!Number.isNaN(value)) {
       numArray.push(value);
     }
   }
