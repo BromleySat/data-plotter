@@ -1,6 +1,4 @@
 import React from "react";
-import logoLight from "./logo-light.png";
-import logoDark from "./logo-dark.png";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { useTheme } from "@material-ui/core/styles";
@@ -21,7 +19,11 @@ export const Logo = () => {
       <ButtonBase href="https://bromleysat.com/">
         <CardMedia
           component="img"
-          image={theme.palette.mode === "dark" ? logoDark : logoLight}
+          src={
+            theme.palette.mode === "dark"
+              ? "https://bromleysat.space/assets/images/logo-dark.png"
+              : "https://bromleysat.space/assets/images/logo-light.png"
+          }
           alt="BromleySat Home"
           sx={{
             bgcolor: theme.palette.background.default,
