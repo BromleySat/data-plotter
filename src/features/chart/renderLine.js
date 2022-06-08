@@ -23,7 +23,7 @@ export const RenderLine = (data) => {
   );
 
   for (let value of valArray) {
-    if (!Number.isNaN(value)) {
+    if (Number.isInteger(value)) {
       numArray.push(value);
     }
   }
@@ -36,7 +36,7 @@ export const RenderLine = (data) => {
   let i = 0;
   return columns.map((column, index) => {
     const indexValue = numArray[index];
-    if (indexValue < 100) {
+    if (indexValue < 5) {
       return (
         <Line
           yAxisId="right-axis"
