@@ -17,7 +17,6 @@
     "axios": "^0.24.0",
     "react": "^17.0.2",
     "react-chartjs-2": "^4.0.0",
-    "react-charts": "^2.0.0-beta.7",
     "react-dom": "^17.0.2",
     "react-google-charts": "^3.0.15",
     "react-redux": "^7.2.6",
@@ -44,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@bromleysat/relative-to-absolute": "^1.1.0"
   }
 }
