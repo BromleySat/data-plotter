@@ -1,4 +1,4 @@
-import { renderLine } from "./renderLine";
+import { RenderLine } from "./renderLine";
 
 describe("Testing Displaying Of The Chart", () => {
   const initialData = [
@@ -19,12 +19,12 @@ describe("Testing Displaying Of The Chart", () => {
   ];
 
   it("should ... ", () => {
-    const result = renderLine(initialData);
+    const result = RenderLine(initialData);
     expect(result.length).toEqual(initialData.length);
   });
 
   it("should exclude time column", () => {
-    const result = renderLine(initialData);
+    const result = RenderLine(initialData);
     const time = result.find((item) => item.props.dataKey === "time");
     expect(time).toBeUndefined();
   });
