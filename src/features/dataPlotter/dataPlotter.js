@@ -15,7 +15,7 @@ export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-export const DataPlotter = ({}) => {
+export const DataPlotter = () => {
   const theme = useTheme();
   const intervalRef = useRef(null);
   const [textBoxValue, setTextBoxValue] = useState("");

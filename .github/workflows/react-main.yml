@@ -1,7 +1,7 @@
-name: Pull request job
+name: Deployment pipeline
 
 on:
-  pull_request:
+  push:
     branches: ["main"]
 jobs:
   build:

@@ -45,9 +45,9 @@ export function isLocalIp(ip) {
 export function validateInput(input) {
   const localhostRegex = /(localhost|[\w-]+(?:\.[\w-]+)+)(:\d+)?(\/\S*)/;
   const httpRegex = /^https?:\/\/\w+(\.\w+)*(:[0-9]+)?(\/.*)?$/;
-  const specialChars = /[`!@#$%^&*()_+\=\[\]{};'"\\|<>\?~]/;
+  const specialChars = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
   const validDomain =
-    /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9\/]+([a-zA-Z0-9]){1,10})$/g;
+    /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
   if (specialChars.test(input)) {
     console.log("special chars");
     return false;
@@ -102,9 +102,9 @@ export function getApiList(input) {
     if (inputArray[i].startsWith("localhost") || /^\d/.test(inputArray[i])) {
       inputArray[i] = str + inputArray[i];
     } else if (inputArray[i].startsWith("https://")) {
-      inputArray[i] = inputArray[i];
+      //  inputArray[i] = inputArray[i];
     } else if (inputArray[i].startsWith("http://")) {
-      inputArray[i] = inputArray[i];
+      //      inputArray[i] = inputArray[i];
     } else {
       inputArray[i] = str2 + inputArray[i];
     }

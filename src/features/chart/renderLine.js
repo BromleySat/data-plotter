@@ -18,7 +18,7 @@ export const RenderLine = (data) => {
     );
   let valArray = [];
   let numArray = [];
-  let values = Object.entries(data[data.length - 1]).map(([key, value]) =>
+  Object.entries(data[data.length - 1]).forEach(([key, value]) =>
     valArray.push(value)
   );
 
