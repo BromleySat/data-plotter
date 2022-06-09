@@ -3,7 +3,6 @@ name: Pull request job
 on:
   pull_request:
     branches: ["main"]
-
 jobs:
   build:
     runs-on: ubuntu-latest
