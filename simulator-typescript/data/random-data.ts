@@ -17,7 +17,7 @@ function getRandomIntInclusive(min: number, max: number): number {
 
 // const deviceId = randomString(23);
 
-const columnCount = getRandomIntInclusive(3, 5);
+const columnCount = getRandomIntInclusive(3, 10);
 const columnNames: Array<String> = [];
 
 for (let i = 0; i < columnCount; i++) {

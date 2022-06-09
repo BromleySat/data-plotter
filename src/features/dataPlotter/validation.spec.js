@@ -64,6 +64,10 @@ describe("Testing Validation Of The Api List Input", () => {
     const input = "localhost:3080/random-data, localhost:3090/random-data";
     expect(validateInput(input)).toBe(true);
   });
+  it("should allow a known URL", () => {
+    const input = "localhost:3080/api/random-data";
+    expect(validateInput(input)).toBe(true);
+  });
   it("should not allow invalid multiple entries", () => {
     const input = "localhost:3080/random-data, :)localhost:3090/random-data";
     expect(validateInput(input)).toBe(false);

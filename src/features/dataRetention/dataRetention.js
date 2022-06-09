@@ -5,20 +5,23 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 
-const DataRetention = ({ removeData }) => {
+const DataRetention = ({ removeData, validUrl }) => {
   const theme = useTheme();
   const intervalRef = useRef(null);
   useEffect(() => {
+    // if (intervalRef.current !== null) {
+    //   return;
+    // }
+    clearInterval(intervalRef.current);
     // TODO: Interval resets every time we get data
     console.log("blaballablall");
-    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(removeData, 5000);
-  }, []);
+  }, [removeData, intervalRef]);
 
   const onChangeInterval = (e) => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(removeData, e.target.value);
-    localStorage.setItem("dataRetention", e.target.value);
+    localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
   };
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small" variant="outlined">
@@ -38,7 +41,9 @@ const DataRetention = ({ removeData }) => {
         id="demo-select-small"
         label="Data Retention"
         onChange={onChangeInterval}
-        value={localStorage.getItem("dataRetention") || 150000}
+        defaultValue={
+          localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000
+        }
         sx={{
           color: theme.palette.text.primary,
           fontFamily: "Quicksand",
@@ -50,6 +55,9 @@ const DataRetention = ({ removeData }) => {
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="10000">
           10s
+        </MenuItem>
+        <MenuItem style={{ fontFamily: "Quicksand" }} value="30000">
+          30s
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="300000">
           5 min
