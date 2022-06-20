@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   XAxis,
@@ -6,10 +6,12 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ReferenceArea,
+  ResponsiveContainer,
 } from "recharts";
 import { RenderLine } from "./renderLine";
 
-function chart({ data }) {
+function Chart({ visibleData }) {
   return (
     <div
       style={{
@@ -19,17 +21,17 @@ function chart({ data }) {
         fontWeight: "700",
       }}
     >
-      <LineChart width={1000} height={300} data={data}>
+      <LineChart width={800} height={400} data={visibleData}>
         <CartesianGrid></CartesianGrid>
         <XAxis dataKey="time"></XAxis>
-        <YAxis yAxisId="left-axis"></YAxis>
+        <YAxis yAxisId="left-axis" allowDataOverflow></YAxis>
         <YAxis yAxisId="right-axis" orientation="right"></YAxis>
         <Tooltip></Tooltip>
         <Legend></Legend>
-        {RenderLine(data)}
+        {RenderLine(visibleData)}
       </LineChart>
     </div>
   );
 }
 
-export default chart;
+export default Chart;

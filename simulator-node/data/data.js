@@ -27,8 +27,8 @@ const getDate = () => {
 function getData() {
   return {
     date: getDate(),
-    temperatureC: getRandomIntInclusive(-20, 55),
-    temperatureF: getRandomIntInclusive(-20, 55),
+    temperatureC: getRandomIntInclusive(300, 900),
+    temperatureF: getRandomIntInclusive(0, 3),
   };
 }
 
