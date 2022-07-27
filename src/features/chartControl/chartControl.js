@@ -1,6 +1,5 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState } from "react";
 import DataRetention from "../dataRetention/dataRetention";
-import Chart from "../chart/chart";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import { ChartTimeWindow } from "../chartTimeWindow/chartTimeWindow";
 import { BromleySatSwitch } from "../../components/switch";
@@ -8,8 +7,7 @@ import { lastIndexOf } from "../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
-import moment from "moment";
-import Chart2 from "../chart/chart2";
+import Chart from "../chart/chart";
 
 const ChartControl = ({ validUrl, deviceId }) => {
   const [data, setData] = useState(
@@ -22,8 +20,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
   );
   const theme = useTheme();
 
-  const counter = useRef(0);
-
   const getData = useCallback(async () => {
     if (validUrl) {
       await axios.get(validUrl).then(
@@ -31,9 +27,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           const now = new Date().getTime();
           const filteredData =
             now - localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`);
-          res.data.number = counter.current;
           res.data.time = new Date().getTime();
-          // res.data.time = moment().format("h:mm:ss");
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
 
@@ -41,10 +35,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
             (data) => data.currentTime < filteredData
           );
           setVisibleData(filData);
-
-          console.log(visibleData);
-          // console.log(data);
-          // console.log(visibleData);
           localStorage.setItem(
             `VISIBLE DATA FOR ${validUrl}`,
             JSON.stringify(visibleData)
@@ -55,7 +45,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
           } else {
             localStorage.removeItem(`DATA FOR ${validUrl}`);
           }
-          counter.current = counter.current + 1;
         },
         (error) => {
           console.log(error);
@@ -129,8 +118,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         </Typography>
         <RefreshRate validUrl={validUrl} getData={getData} />
       </div>
-      {/* <Chart visibleData={visibleData} /> */}
-      <Chart2 visibleData={visibleData} />
+      <Chart visibleData={visibleData} />
       <div
         style={{
           display: "flex",
