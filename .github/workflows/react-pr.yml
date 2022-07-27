@@ -17,6 +17,9 @@ jobs:
       - run: yarn test
       - run: yarn build
 
+      - name: relative to absolute
+        run: sed -i 's/\/data/https:\/\/bromleysat.space\/data/g' build/index.html
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
