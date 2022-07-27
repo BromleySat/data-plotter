@@ -14,7 +14,8 @@ export const RenderLine = (data) => {
         column !== "deviceId" &&
         column !== "time" &&
         column !== "date" &&
-        column !== "currentTime"
+        column !== "currentTime" &&
+        column !== "number"
     );
   let valArray = [];
   let numArray = [];
@@ -27,9 +28,6 @@ export const RenderLine = (data) => {
       numArray.push(value);
     }
   }
-  console.log(numArray);
-
-  console.log(valArray);
   if (columns.length > 5) {
     columns = columns.slice(0, 5);
   }

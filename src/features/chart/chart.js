@@ -1,35 +1,125 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import {
   LineChart,
+  Legend,
+  CartesianGrid,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
+  ReferenceArea,
+  ResponsiveContainer,
 } from "recharts";
 import { RenderLine } from "./renderLine";
+import moment from "moment";
 
-function chart({ data }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        fontFamily: "Quicksand",
-        fontWeight: "700",
-      }}
-    >
-      <LineChart width={1000} height={300} data={data}>
-        <CartesianGrid></CartesianGrid>
-        <XAxis dataKey="time"></XAxis>
-        <YAxis yAxisId="left-axis"></YAxis>
-        <YAxis yAxisId="right-axis" orientation="right"></YAxis>
-        <Tooltip></Tooltip>
-        <Legend></Legend>
-        {RenderLine(data)}
-      </LineChart>
-    </div>
-  );
+export default class Chart extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      left: "dataMin",
+      right: "dataMax",
+      refAreaLeft: "",
+      refAreaRight: "",
+      animation: true,
+    };
+  }
+
+  zoom() {
+    let { refAreaLeft, refAreaRight } = this.state;
+
+    if (refAreaLeft === refAreaRight || refAreaRight === "") {
+      this.setState(() => ({
+        refAreaLeft: "",
+        refAreaRight: "",
+      }));
+      return;
+    }
+
+    // xAxis domain
+    if (refAreaLeft > refAreaRight)
+      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
+    this.props.visibleData.slice();
+    this.setState(() => ({
+      refAreaLeft: "",
+      refAreaRight: "",
+      left: refAreaLeft,
+      right: refAreaRight,
+    }));
+  }
+
+  zoomOut() {
+    this.props.visibleData.slice();
+    this.setState(() => ({
+      refAreaLeft: "",
+      refAreaRight: "",
+      left: "dataMin",
+      right: "dataMax",
+    }));
+  }
+
+  render() {
+    const { left, right, refAreaLeft, refAreaRight } = this.state;
+
+    return (
+      <div
+        className="highlight-bar-charts"
+        style={{ userSelect: "none", width: "100%" }}
+      >
+        <button
+          type="button"
+          className="btn update"
+          onClick={this.zoomOut.bind(this)}
+        >
+          Zoom Out
+        </button>
+
+        <ResponsiveContainer width="100%" height={350}>
+          <LineChart
+            width={800}
+            height={400}
+            data={this.props.visibleData}
+            onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
+            onMouseMove={(e) =>
+              this.state.refAreaLeft &&
+              this.setState({ refAreaRight: e.activeLabel })
+            }
+            // eslint-disable-next-line react/jsx-no-bind
+            onMouseUp={this.zoom.bind(this)}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="time"
+              tickFormatter={(unixTime) => moment(unixTime).format("h:mm:ss")}
+              allowDataOverflow={true}
+              domain={[left, right]}
+              type="number"
+            />
+            <YAxis allowDataOverflow type="number" yAxisId="left-axis" />
+            <YAxis
+              orientation="right"
+              allowDataOverflow
+              type="number"
+              yAxisId="right-axis"
+            />
+            <Tooltip
+              labelFormatter={function (value) {
+                value = moment(value).format("h:mm:ss");
+                return `TIME: ${value}`;
+              }}
+            />
+            <Legend></Legend>
+            {RenderLine(this.props.visibleData)}
+            {refAreaLeft && refAreaRight ? (
+              <ReferenceArea
+                yAxisId="left-axis"
+                x1={refAreaLeft}
+                x2={refAreaRight}
+                strokeOpacity={0.3}
+              />
+            ) : null}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    );
+  }
 }
-
-export default chart;

@@ -1,27 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 
-const DataRetention = ({ removeData, validUrl }) => {
+export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
   const theme = useTheme();
-  const intervalRef = useRef(null);
-  useEffect(() => {
-    // if (intervalRef.current !== null) {
-    //   return;
-    // }
-    clearInterval(intervalRef.current);
-    // TODO: Interval resets every time we get data
-    intervalRef.current = setInterval(removeData, 5000);
-  }, [removeData, intervalRef]);
-
-  const onChangeInterval = (e) => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(removeData, e.target.value);
-    localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
-  };
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small" variant="outlined">
       <InputLabel
@@ -32,17 +17,17 @@ const DataRetention = ({ removeData, validUrl }) => {
           fontWeight: "700",
         }}
       >
-        Data Retention
+        Chart Time Window
       </InputLabel>
 
       <Select
         labelId="demo-select-small"
         id="demo-select-small"
         label="Data Retention"
-        onChange={onChangeInterval}
-        defaultValue={
-          localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000
+        value={
+          localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || "5000"
         }
+        onChange={(e) => dataFromThePast(e.target.value)}
         sx={{
           color: theme.palette.text.primary,
           fontFamily: "Quicksand",
@@ -92,5 +77,3 @@ const DataRetention = ({ removeData, validUrl }) => {
     </FormControl>
   );
 };
-
-export default DataRetention;
