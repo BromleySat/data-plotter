@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Line } from "recharts";
 
 export const RenderLine = (data) => {
