@@ -20,6 +20,9 @@ jobs:
       - name: relative to absolute
         run: sed -i 's/\/static/https:\/\/bromleysat.space\/data\/static/g' build/index.html
 
+      - name: relative to absolute favicon
+        run: sed -i 's/\/favicon.ico/https:\/\/bromleysat.space\/favicon.ico/g' build/index.html
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
