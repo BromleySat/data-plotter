@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
+import AutoDeleteSharpIcon from "@mui/icons-material/AutoDeleteSharp";
 
 const DataRetention = ({ removeData, validUrl }) => {
   const theme = useTheme();
@@ -23,7 +24,7 @@ const DataRetention = ({ removeData, validUrl }) => {
     localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
   };
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small" variant="outlined">
+    <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
       <InputLabel
         id="demo-select-small"
         sx={{
@@ -31,20 +32,32 @@ const DataRetention = ({ removeData, validUrl }) => {
           fontFamily: "Quicksand",
           fontWeight: "700",
         }}
-      >
-        Data Retention
-      </InputLabel>
-
+      />
       <Select
         labelId="demo-select-small"
         id="demo-select-small"
-        label="Data Retention"
         onChange={onChangeInterval}
         defaultValue={
           localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000
         }
+        IconComponent={AutoDeleteSharpIcon}
         sx={{
           color: theme.palette.text.primary,
+          "& .MuiSvgIcon-root": {
+            color: theme.palette.text.primary,
+            fontSize: "1.25rem",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.text.primary,
+            borderWidth: "3px",
+            borderRadius: "5px",
+          },
+          "&:hover": {
+            "&& fieldset": {
+              borderColor: theme.palette.text.primary,
+              opacity: "0.5",
+            },
+          },
           fontFamily: "Quicksand",
           fontWeight: "700",
         }}
@@ -59,34 +72,34 @@ const DataRetention = ({ removeData, validUrl }) => {
           30s
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="300000">
-          5 min
+          5min
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="900000">
-          15 min
+          15min
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="1800000">
-          30 min
+          30min
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="3600000">
-          1 hr
+          1hr
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="21600000">
-          6 hrs
+          6hrs
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="43200000">
-          12 hrs
+          12hrs
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="86400000">
-          24 hrs
+          24hrs
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="259200000">
-          3 days
+          3d
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="604800000">
-          7 days
+          7d
         </MenuItem>
         <MenuItem style={{ fontFamily: "Quicksand" }} value="1814400000">
-          21 days
+          21d
         </MenuItem>
       </Select>
     </FormControl>

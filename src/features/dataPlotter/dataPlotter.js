@@ -9,7 +9,9 @@ import { getApiList } from "./validation";
 import { trimHttp } from "../helpers/trimHttp";
 import { isLocalIp } from "./validation";
 import { transformUrl } from "../helpers/transformUrl";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import "./dataPlotter.css";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);
@@ -25,6 +27,38 @@ export const DataPlotter = () => {
     JSON.parse(localStorage.getItem("urlList"))
   );
   const [devicesId, setDevicesId] = useState([]);
+
+  const useStyles = makeStyles({
+    root: {
+      "&::before": {
+        borderBottom: `1px solid ${theme.palette.text.primary}`,
+        display: "none",
+      },
+      "&::after": {
+        borderBottom: `1px solid ${theme.palette.text.primary}`,
+        display: "none",
+      },
+      "& .MuiInput-input": {
+        minWidth: "350px",
+        fontFamily: "Quicksand",
+        fontWeight: "700",
+        color: `${theme.palette.text.primary}`,
+        borderBottom: `1px solid ${theme.palette.text.primary}`,
+      },
+    },
+    disabled: {},
+    notchedOutline: {},
+  });
+
+  const classes = useStyles();
+
+  // const StyledTextField = styled(TextField)`
+  //   & .MuiInput-input {
+  //     min-width: 350px;
+  //     font-family: Quicksand;
+  //     color: ;
+  //   }
+  // `;
 
   const noApiConfigStored = useCallback(
     (ip) => {
@@ -87,58 +121,51 @@ export const DataPlotter = () => {
   };
 
   return (
-    <Container style={{ height: "100%" }}>
-      <div>
-        <div
+    <Container>
+      <div className="textfield-container">
+        <TextField
+          id="standard-basic"
+          variant="standard"
+          defaultValue={trimHttp(urlList)}
+          multiline={true}
+          onChange={(e) => setTextBoxValue(e.target.value)}
+          inputProps={{ "data-testid": "text-area" }}
+          InputProps={{
+            classes: {
+              root: classes.root,
+              disabled: classes.disabled,
+              notchedOutline: classes.notchedOutline,
+            },
+          }}
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          size="small"
+          onClick={onFormSubmit}
+          data-testid="text-area-submit"
           style={{
-            marginTop: "150px",
-            textAlign: "center",
+            marginLeft: "1em",
+            backgroundColor: "#00C119",
+            fontFamily: "Quicksand",
+            fontWeight: "700",
           }}
         >
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            defaultValue={trimHttp(urlList)}
-            multiline={true}
-            sx={{
-              input: {
-                color: theme.palette.text.primary,
-                minWidth: "350px",
-                fontFamily: "Quicksand",
-                fontWeight: "700",
-              },
-            }}
-            onChange={(e) => setTextBoxValue(e.target.value)}
-            inputProps={{ "data-testid": "text-area" }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            size="small"
-            onClick={onFormSubmit}
-            data-testid="text-area-submit"
+          Update
+        </Button>
+        {error ? (
+          <p
+            data-testid="error"
             style={{
-              marginLeft: "20px",
-              backgroundColor: "#00C119",
+              color: "red",
               fontFamily: "Quicksand",
               fontWeight: "700",
             }}
           >
-            Update
-          </Button>
-          {error ? (
-            <p
-              data-testid="error"
-              style={{
-                color: "red",
-                fontFamily: "Quicksand",
-                fontWeight: "700",
-              }}
-            >
-              Please provide valid URL list
-            </p>
-          ) : null}
-        </div>
+            Please provide valid URL list
+          </p>
+        ) : null}
       </div>
       {validUrls.map((validUrl, index) => {
         const deviceIdIndex = devicesId[index];

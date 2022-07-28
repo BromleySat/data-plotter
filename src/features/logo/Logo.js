@@ -3,16 +3,16 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { useTheme } from "@material-ui/core/styles";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import "./logo.css";
 
 export const Logo = () => {
   const theme = useTheme();
   return (
     <Card
       sx={{
-        width: "30%",
-        position: "absolute",
-        top: 6,
-        left: 2,
+        margin: 0,
+        marginBottom: "4em",
+        maxWidth: "30%",
         borderRadius: 0,
       }}
     >

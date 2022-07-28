@@ -11,6 +11,11 @@ import {
 } from "recharts";
 import { RenderLine } from "./renderLine";
 import moment from "moment";
+import "./chart.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
+
+export const zoomOutContext = React.createContext();
 
 export default class Chart extends PureComponent {
   constructor(props) {
@@ -59,20 +64,10 @@ export default class Chart extends PureComponent {
 
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.state;
+    this.props.zoomOut(this.zoomOut);
 
     return (
-      <div
-        className="highlight-bar-charts"
-        style={{ userSelect: "none", width: "100%" }}
-      >
-        <button
-          type="button"
-          className="btn update"
-          onClick={this.zoomOut.bind(this)}
-        >
-          Zoom Out
-        </button>
-
+      <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             width={800}
@@ -107,7 +102,9 @@ export default class Chart extends PureComponent {
                 return `TIME: ${value}`;
               }}
             />
+
             <Legend></Legend>
+
             {RenderLine(this.props.visibleData)}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea

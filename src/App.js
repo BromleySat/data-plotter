@@ -12,16 +12,12 @@ function App() {
   return (
     <Grid
       sx={{
-        display: "flex",
-        height: "100%",
         width: "100%",
+        padding: 0,
         margin: 0,
-        alignItems: "center",
-        justifyContent: "center",
         bgcolor: theme.palette.background.default,
         color: "text.primary",
         borderRadius: 0,
-        p: 3,
       }}
     >
       <Logo />

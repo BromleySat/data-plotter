@@ -8,6 +8,9 @@ import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import Chart from "../chart/chart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
+import "./chartControl.css";
 
 const ChartControl = ({ validUrl, deviceId }) => {
   const [data, setData] = useState(
@@ -93,6 +96,10 @@ const ChartControl = ({ validUrl, deviceId }) => {
     }
   };
 
+  const zoomOut = (data) => {
+    console.log(data);
+  };
+
   return (
     <div>
       <div
@@ -101,8 +108,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: "20px",
-          marginBottom: "20px",
+          marginBottom: "3em",
         }}
       >
         <DataRetention validUrl={validUrl} removeData={removeData} />
@@ -116,28 +122,33 @@ const ChartControl = ({ validUrl, deviceId }) => {
         >
           {deviceId}
         </Typography>
-        <RefreshRate validUrl={validUrl} getData={getData} />
+        <div>
+          <FontAwesomeIcon
+            style={{ color: theme.palette.text.primary }}
+            icon={faMagnifyingGlassMinus}
+            className="zoomOut"
+          />
+          <RefreshRate validUrl={validUrl} getData={getData} />
+        </div>
       </div>
-      <Chart visibleData={visibleData} />
+      <Chart zoomOut={zoomOut} theme={theme} visibleData={visibleData} />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: "20px",
+          marginBottom: "3em",
         }}
       >
-        <div style={{ minHeight: "100px" }}>
+        <div>
           <Typography
             sx={{
               color: theme.palette.text.primary,
               fontFamily: "Quicksand",
               fontWeight: "700",
             }}
-          >
-            Local Storage Toggle
-          </Typography>
+          />
           <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         </div>
         <ChartTimeWindow
