@@ -12,7 +12,8 @@ export const Logo = () => {
       sx={{
         margin: 0,
         marginBottom: "4em",
-        maxWidth: "30%",
+        minWidth: "140px",
+        maxWidth: "15%",
         borderRadius: 0,
       }}
     >

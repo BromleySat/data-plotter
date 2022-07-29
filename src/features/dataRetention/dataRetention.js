@@ -52,10 +52,38 @@ const DataRetention = ({ removeData, validUrl }) => {
             borderWidth: "3px",
             borderRadius: "5px",
           },
+          "&.MuiOutlinedInput-root": {
+            "&.Mui-focused": {
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#00C119",
+                borderWidth: "3px",
+                borderRadius: "5px",
+              },
+            },
+          },
           "&:hover": {
             "&& fieldset": {
               borderColor: theme.palette.text.primary,
               opacity: "0.5",
+            },
+          },
+          ".MuiSelect-icon": {
+            transform: "none",
+          },
+          "@media (max-width: 40em)": {
+            "& .MuiSelect-select": {
+              fontSize: "0.75rem",
+            },
+            "& .MuiSvgIcon-root": {
+              fontSize: "1rem",
+            },
+          },
+          "@media (min-width: 40em) and (max-width: 60em)": {
+            "& .MuiSelect-select": {
+              fontSize: "0.80rem",
+            },
+            "& .MuiSvgIcon-root": {
+              fontSize: "1rem",
             },
           },
           fontFamily: "Quicksand",

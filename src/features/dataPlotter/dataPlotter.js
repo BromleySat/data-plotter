@@ -45,6 +45,11 @@ export const DataPlotter = () => {
         color: `${theme.palette.text.primary}`,
         borderBottom: `1px solid ${theme.palette.text.primary}`,
       },
+      "@media (max-width: 30em)": {
+        "& .MuiInput-input": {
+          minWidth: "275px",
+        },
+      },
     },
     disabled: {},
     notchedOutline: {},
@@ -146,7 +151,6 @@ export const DataPlotter = () => {
           onClick={onFormSubmit}
           data-testid="text-area-submit"
           style={{
-            marginLeft: "1em",
             backgroundColor: "#00C119",
             fontFamily: "Quicksand",
             fontWeight: "700",

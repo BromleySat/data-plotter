@@ -64,7 +64,6 @@ export default class Chart extends PureComponent {
 
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.state;
-    this.props.zoomOut(this.zoomOut);
 
     return (
       <div className="chart">

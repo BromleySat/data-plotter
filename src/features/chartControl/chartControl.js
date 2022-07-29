@@ -96,21 +96,9 @@ const ChartControl = ({ validUrl, deviceId }) => {
     }
   };
 
-  const zoomOut = (data) => {
-    console.log(data);
-  };
-
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: "3em",
-        }}
-      >
+    <div style={{ marginBottom: "4em" }}>
+      <div className="flex">
         <DataRetention validUrl={validUrl} removeData={removeData} />
         <Typography
           variant="h4"
@@ -122,7 +110,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         >
           {deviceId}
         </Typography>
-        <div>
+        <div className="split">
           <FontAwesomeIcon
             style={{ color: theme.palette.text.primary }}
             icon={faMagnifyingGlassMinus}
@@ -131,26 +119,16 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
       </div>
-      <Chart zoomOut={zoomOut} theme={theme} visibleData={visibleData} />
+      <Chart theme={theme} visibleData={visibleData} />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: "3em",
         }}
       >
-        <div>
-          <Typography
-            sx={{
-              color: theme.palette.text.primary,
-              fontFamily: "Quicksand",
-              fontWeight: "700",
-            }}
-          />
-          <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
-        </div>
+        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}
