@@ -8,6 +8,9 @@ import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import Chart from "../chart/chart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
+import "./chartControl.css";
 
 const ChartControl = ({ validUrl, deviceId }) => {
   const [data, setData] = useState(
@@ -18,6 +21,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const [toggle, setToggle] = useState(
     JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
   );
+  const [zoomedOut, setZoomedOut] = useState({ value: false });
   const theme = useTheme();
 
   const getData = useCallback(async () => {
@@ -94,17 +98,8 @@ const ChartControl = ({ validUrl, deviceId }) => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
+    <div style={{ marginBottom: "4em" }}>
+      <div className="flex">
         <DataRetention validUrl={validUrl} removeData={removeData} />
         <Typography
           variant="h4"
@@ -116,30 +111,26 @@ const ChartControl = ({ validUrl, deviceId }) => {
         >
           {deviceId}
         </Typography>
-        <RefreshRate validUrl={validUrl} getData={getData} />
+        <div className="split">
+          <FontAwesomeIcon
+            style={{ color: theme.palette.text.primary }}
+            icon={faMagnifyingGlassMinus}
+            className="zoomOut"
+            onClick={() => setZoomedOut({ value: true })}
+          />
+          <RefreshRate validUrl={validUrl} getData={getData} />
+        </div>
       </div>
-      <Chart visibleData={visibleData} />
+      <Chart zoomedOut={zoomedOut} theme={theme} visibleData={visibleData} />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: "20px",
         }}
       >
-        <div style={{ minHeight: "100px" }}>
-          <Typography
-            sx={{
-              color: theme.palette.text.primary,
-              fontFamily: "Quicksand",
-              fontWeight: "700",
-            }}
-          >
-            Local Storage Toggle
-          </Typography>
-          <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
-        </div>
+        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}

@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { RenderLine } from "./renderLine";
 import moment from "moment";
+import "./chart.css";
 
 export default class Chart extends PureComponent {
   constructor(props) {
@@ -22,6 +23,14 @@ export default class Chart extends PureComponent {
       refAreaRight: "",
       animation: true,
     };
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.zoomedOut);
+    if (this.props.zoomedOut.value === true) {
+      this.props.zoomedOut.value = false;
+      this.zoomOut();
+    }
   }
 
   zoom() {
@@ -48,31 +57,21 @@ export default class Chart extends PureComponent {
   }
 
   zoomOut() {
-    this.props.visibleData.slice();
+    // this.props.visibleData.slice();
     this.setState(() => ({
       refAreaLeft: "",
       refAreaRight: "",
       left: "dataMin",
       right: "dataMax",
     }));
+    console.log("it worked");
   }
 
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.state;
 
     return (
-      <div
-        className="highlight-bar-charts"
-        style={{ userSelect: "none", width: "100%" }}
-      >
-        <button
-          type="button"
-          className="btn update"
-          onClick={this.zoomOut.bind(this)}
-        >
-          Zoom Out
-        </button>
-
+      <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             width={800}
@@ -107,7 +106,9 @@ export default class Chart extends PureComponent {
                 return `TIME: ${value}`;
               }}
             />
+
             <Legend></Legend>
+
             {RenderLine(this.props.visibleData)}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea
