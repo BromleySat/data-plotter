@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import darkThemeReducer from "../features/darkTheme/darkThemeSlice";
-import chartSlice from "../features/chart/chartSlice";
 
 const darkModeMiddleware = (store) => (next) => (action) => {
   const result = next(action);
@@ -15,7 +14,7 @@ const darkModeMiddleware = (store) => (next) => (action) => {
 };
 
 export const store = configureStore({
-  reducer: { darkTheme: darkThemeReducer, chart: chartSlice },
+  reducer: { darkTheme: darkThemeReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(darkModeMiddleware),
 });
