@@ -1,8 +1,15 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
+import { Tooltip } from "@material-ui/core";
 
 export const BromleySatSwitch = styled((props) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+  <Tooltip title="Local Storage" arrow placement="top">
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+  </Tooltip>
 ))(({ theme }) => ({
   width: 52,
   height: 26,

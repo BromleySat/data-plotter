@@ -6,6 +6,7 @@ import { BromleySatSwitch } from "../../components/switch";
 import { lastIndexOf } from "../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
+import { Tooltip } from "@material-ui/core";
 import axios from "axios";
 import Chart from "../chart/chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,12 +113,15 @@ const ChartControl = ({ validUrl, deviceId }) => {
           {deviceId}
         </Typography>
         <div className="split">
-          <FontAwesomeIcon
-            style={{ color: theme.palette.text.primary }}
-            icon={faMagnifyingGlassMinus}
-            className="zoomOut"
-            onClick={() => setZoomedOut({ value: true })}
-          />
+          <Tooltip title="Zoom Out" arrow placement="top">
+            <FontAwesomeIcon
+              style={{ color: theme.palette.text.primary }}
+              icon={faMagnifyingGlassMinus}
+              className="zoomOut"
+              onClick={() => setZoomedOut({ value: true })}
+            />
+          </Tooltip>
+
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
       </div>
