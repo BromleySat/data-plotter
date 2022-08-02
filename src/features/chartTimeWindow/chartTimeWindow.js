@@ -21,7 +21,6 @@ export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
       <Select
         labelId="demo-select-small"
         id="demo-select-small"
-        label="Data Retention"
         value={
           localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || "5000"
         }

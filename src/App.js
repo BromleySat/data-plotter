@@ -18,6 +18,7 @@ function App() {
         bgcolor: theme.palette.background.default,
         color: "text.primary",
         borderRadius: 0,
+        minHeight: "100vh",
       }}
     >
       <Logo />
