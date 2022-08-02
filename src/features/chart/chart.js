@@ -9,83 +9,47 @@ import {
   ReferenceArea,
   ResponsiveContainer,
 } from "recharts";
+import { connect } from "react-redux";
+import {
+  zoom,
+  zoomOut,
+  updateRefAreaLeft,
+  updateRefAreaRight,
+  updateData,
+  sliceData,
+  updateLeft,
+  updateRight,
+} from "./chartSlice";
 import { RenderLine } from "./renderLine";
 import moment from "moment";
 import "./chart.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 
-export const zoomOutContext = React.createContext();
-
-export default class Chart extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      left: "dataMin",
-      right: "dataMax",
-      refAreaLeft: "",
-      refAreaRight: "",
-      animation: true,
-    };
-  }
-
-  zoom() {
-    let { refAreaLeft, refAreaRight } = this.state;
-
-    if (refAreaLeft === refAreaRight || refAreaRight === "") {
-      this.setState(() => ({
-        refAreaLeft: "",
-        refAreaRight: "",
-      }));
-      return;
-    }
-
-    // xAxis domain
-    if (refAreaLeft > refAreaRight)
-      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-    this.props.visibleData.slice();
-    this.setState(() => ({
-      refAreaLeft: "",
-      refAreaRight: "",
-      left: refAreaLeft,
-      right: refAreaRight,
-    }));
-  }
-
-  zoomOut() {
-    this.props.visibleData.slice();
-    this.setState(() => ({
-      refAreaLeft: "",
-      refAreaRight: "",
-      left: "dataMin",
-      right: "dataMax",
-    }));
-  }
-
+export class Chart extends PureComponent {
   render() {
-    const { left, right, refAreaLeft, refAreaRight } = this.state;
-
+    this.props.updateData(this.props.visibleData);
     return (
       <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             width={800}
             height={400}
-            data={this.props.visibleData}
-            onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
-            onMouseMove={(e) =>
-              this.state.refAreaLeft &&
-              this.setState({ refAreaRight: e.activeLabel })
-            }
+            data={this.props.data}
+            onMouseDown={(e) => {
+              this.props.updateRefAreaLeft(e.activeLabel);
+            }}
+            onMouseMove={(e) => {
+              this.props.refAreaLeft &&
+                this.props.updateRefAreaRight(e.activeLabel);
+            }}
             // eslint-disable-next-line react/jsx-no-bind
-            onMouseUp={this.zoom.bind(this)}
+            onMouseUp={() => this.props.zoom()}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
               tickFormatter={(unixTime) => moment(unixTime).format("h:mm:ss")}
               allowDataOverflow={true}
-              domain={[left, right]}
+              domain={[this.props.left, this.props.right]}
               type="number"
             />
             <YAxis allowDataOverflow type="number" yAxisId="left-axis" />
@@ -104,12 +68,12 @@ export default class Chart extends PureComponent {
 
             <Legend></Legend>
 
-            {RenderLine(this.props.visibleData)}
-            {refAreaLeft && refAreaRight ? (
+            {RenderLine(this.props.data)}
+            {this.props.refAreaLeft && this.props.refAreaRight ? (
               <ReferenceArea
                 yAxisId="left-axis"
-                x1={refAreaLeft}
-                x2={refAreaRight}
+                x1={this.props.refAreaLeft}
+                x2={this.props.refAreaRight}
                 strokeOpacity={0.3}
               />
             ) : null}
@@ -119,3 +83,22 @@ export default class Chart extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  left: state.chart.left,
+  right: state.chart.right,
+  refAreaLeft: state.chart.refAreaLeft,
+  refAreaRight: state.chart.refAreaRight,
+  data: state.chart.data,
+});
+
+export default connect(mapStateToProps, {
+  zoom,
+  zoomOut,
+  updateRefAreaLeft,
+  updateRefAreaRight,
+  updateData,
+  sliceData,
+  updateLeft,
+  updateRight,
+})(Chart);
