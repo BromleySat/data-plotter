@@ -12,10 +12,6 @@ import {
 import { RenderLine } from "./renderLine";
 import moment from "moment";
 import "./chart.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
-
-export const zoomOutContext = React.createContext();
 
 export default class Chart extends PureComponent {
   constructor(props) {
@@ -27,6 +23,14 @@ export default class Chart extends PureComponent {
       refAreaRight: "",
       animation: true,
     };
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.zoomedOut);
+    if (this.props.zoomedOut.value === true) {
+      this.props.zoomedOut.value = false;
+      this.zoomOut();
+    }
   }
 
   zoom() {
@@ -53,13 +57,14 @@ export default class Chart extends PureComponent {
   }
 
   zoomOut() {
-    this.props.visibleData.slice();
+    // this.props.visibleData.slice();
     this.setState(() => ({
       refAreaLeft: "",
       refAreaRight: "",
       left: "dataMin",
       right: "dataMax",
     }));
+    console.log("it worked");
   }
 
   render() {

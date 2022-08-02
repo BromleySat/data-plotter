@@ -21,6 +21,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const [toggle, setToggle] = useState(
     JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
   );
+  const [zoomedOut, setZoomedOut] = useState({ value: false });
   const theme = useTheme();
 
   const getData = useCallback(async () => {
@@ -115,11 +116,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
             style={{ color: theme.palette.text.primary }}
             icon={faMagnifyingGlassMinus}
             className="zoomOut"
+            onClick={() => setZoomedOut({ value: true })}
           />
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
       </div>
-      <Chart theme={theme} visibleData={visibleData} />
+      <Chart zoomedOut={zoomedOut} theme={theme} visibleData={visibleData} />
       <div
         style={{
           display: "flex",
