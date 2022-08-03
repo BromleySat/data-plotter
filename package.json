@@ -51,5 +51,10 @@
   },
   "devDependencies": {
     "@bromleysat/relative-to-absolute": "^1.1.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "!node_modules/"
+    ]
   }
 }
