@@ -18,13 +18,14 @@ export const storageSetItem = (key, value) => {
 };
 
 export const DataPlotter = () => {
+  const publicApi = "https://api.bromleysat.space/api/data";
   const theme = useTheme();
   const intervalRef = useRef(null);
   const [textBoxValue, setTextBoxValue] = useState("");
   const [error, setError] = useState(false);
   const [validUrls, setValidUrls] = useState([]);
   const [urlList, setUrlList] = useState(
-    JSON.parse(localStorage.getItem("urlList"))
+    JSON.parse(localStorage.getItem("urlList")) || [publicApi]
   );
   const [devicesId, setDevicesId] = useState([]);
 

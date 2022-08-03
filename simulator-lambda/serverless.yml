@@ -5,14 +5,8 @@ provider:
   runtime: nodejs16.x
   memorySize: 512
   timeout: 15
-  stage: prod
+  stage: dev
   region: eu-west-2
-
-params:
-  prod:
-    domain: bromleysat.com
-  dev:
-    domain: bromleysat.com
 
 functions:
   api:
