@@ -17,6 +17,7 @@ function getData() {
     TemperatureC: getRandomIntInclusive(300, 900),
     TemperatureF: getRandomIntInclusive(0, 3),
     Voltage: getRandomIntInclusive(0, 240),
+    WaterLevel: getRandomIntInclusive(0, 150),
   };
 }
 
