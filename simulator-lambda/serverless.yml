@@ -1,0 +1,22 @@
+service: simulator-lambda
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 15
+  stage: prod
+  region: eu-west-2
+
+params:
+  prod:
+    domain: bromleysat.com
+  dev:
+    domain: bromleysat.com
+
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - http: ANY {proxy+}
+      - http: ANY /

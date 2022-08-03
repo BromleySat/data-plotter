@@ -43,6 +43,7 @@ export const RenderLine = (data) => {
           type="monotone"
           dataKey={column}
           stroke={colors[i++]}
+          isAnimationActive={false}
         />
       );
     }
@@ -54,6 +55,7 @@ export const RenderLine = (data) => {
         type="monotone"
         dataKey={column}
         stroke={colors[i++]}
+        isAnimationActive={false}
       />
     );
   });
