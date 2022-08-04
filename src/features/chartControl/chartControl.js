@@ -12,8 +12,24 @@ import Chart from "../chart/chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    color: "#fff",
+    fontFamily: "Quicksand",
+    fontWeight: "700",
+    fontSize: ".8rem",
+    backgroundColor: "#00C119",
+    maxWidth: "150px",
+  },
+  arrow: {
+    color: "#00C119",
+  },
+}));
 
 const ChartControl = ({ validUrl, deviceId }) => {
+  const classes = useStyles();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -25,25 +41,44 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const [zoomedOut, setZoomedOut] = useState({ value: false });
   const theme = useTheme();
 
+  const dataFromThePast = useCallback(
+    (value) => {
+      const now = new Date().getTime();
+      const filteredData = now - value;
+      const filData = data.filter((dat) => dat.currentTime > filteredData);
+      localStorage.setItem(
+        `VISIBLE DATA FOR ${validUrl}`,
+        JSON.stringify(visibleData)
+      );
+      localStorage.setItem(`VISIBLE DATA VALUE FOR ${validUrl}`, value);
+      return filData;
+    },
+    [validUrl, visibleData, data]
+  );
+
   const getData = useCallback(async () => {
     if (validUrl) {
       await axios.get(validUrl).then(
         (res) => {
-          const now = new Date().getTime();
-          const filteredData =
-            now - localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`);
+          // const now = new Date().getTime();
+          // const filteredData =
+          //   now - localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`);
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
 
-          const filData = data.filter(
-            (data) => data.currentTime < filteredData
-          );
-          setVisibleData(filData);
-          localStorage.setItem(
-            `VISIBLE DATA FOR ${validUrl}`,
-            JSON.stringify(visibleData)
-          );
+          // const filData = data.filter(
+          //   (data) => data.currentTime < filteredData
+          // );
+          // setVisibleData(filData);
+          // localStorage.setItem(
+          //   `VISIBLE DATA FOR ${validUrl}`,
+          //   JSON.stringify(visibleData)
+          // );
+          const dataFromThePastValue =
+            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
+            `10000`;
+          setVisibleData(dataFromThePast(dataFromThePastValue));
 
           if (toggle) {
             localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
@@ -58,7 +93,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         }
       );
     }
-  }, [data, validUrl, toggle, visibleData]);
+  }, [data, validUrl, toggle, dataFromThePast]);
 
   const removeData = useCallback(() => {
     if (data.length < 1) {
@@ -73,18 +108,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
       setData(data.slice(oldElementIndex));
     }
   }, [data, validUrl]);
-
-  const dataFromThePast = (value) => {
-    const now = new Date().getTime();
-    const filteredData = now - value;
-    const filData = data.filter((data) => data.currentTime < filteredData);
-    setVisibleData(filData);
-    localStorage.setItem(
-      `VISIBLE DATA FOR ${validUrl}`,
-      JSON.stringify(visibleData)
-    );
-    localStorage.setItem(`VISIBLE DATA VALUE FOR ${validUrl}`, value);
-  };
 
   const onCheckboxChange = (e) => {
     setToggle(e.target.checked);
@@ -113,7 +136,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
           {deviceId}
         </Typography>
         <div className="split">
-          <Tooltip title="Zoom Out" arrow placement="top">
+          <Tooltip
+            title="Zoom Out"
+            arrow
+            placement="top"
+            classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
+          >
             <FontAwesomeIcon
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
@@ -134,7 +162,11 @@ const ChartControl = ({ validUrl, deviceId }) => {
           justifyContent: "space-between",
         }}
       >
-        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
+        <BromleySatSwitch
+          classes={classes}
+          checked={toggle}
+          onChange={onCheckboxChange}
+        />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}

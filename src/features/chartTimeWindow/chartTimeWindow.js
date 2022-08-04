@@ -6,11 +6,38 @@ import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import { Tooltip } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    color: "#fff",
+    fontFamily: "Quicksand",
+    fontWeight: "700",
+    fontSize: ".8rem",
+    backgroundColor: "#00C119",
+    maxWidth: "150px",
+  },
+  arrow: {
+    color: "#00C119",
+  },
+}));
 
 export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
+  const classes = useStyles();
   const theme = useTheme();
   return (
-    <Tooltip title="Chart Time Window" arrow placement="top">
+    <Tooltip
+      title={
+        <React.Fragment>
+          <h3 style={{ margin: 0 }}>Chart Time Window</h3>
+          <br />
+          And here's some amazing content It's very engaging. Right?
+        </React.Fragment>
+      }
+      arrow
+      placement="top"
+      classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
+    >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
         <InputLabel
           id="demo-select-small"
@@ -24,7 +51,8 @@ export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
           labelId="demo-select-small"
           id="demo-select-small"
           value={
-            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || "5000"
+            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
+            `10000`
           }
           onChange={(e) => dataFromThePast(e.target.value)}
           IconComponent={EqualizerIcon}

@@ -6,8 +6,24 @@ import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import AutoDeleteSharpIcon from "@mui/icons-material/AutoDeleteSharp";
 import { Tooltip } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  tooltip: {
+    color: "#fff",
+    fontFamily: "Quicksand",
+    fontWeight: "700",
+    fontSize: ".8rem",
+    backgroundColor: "#00C119",
+    maxWidth: "150px",
+  },
+  arrow: {
+    color: "#00C119",
+  },
+}));
 
 const DataRetention = ({ removeData, validUrl }) => {
+  const classes = useStyles();
   const theme = useTheme();
   const intervalRef = useRef(null);
   useEffect(() => {
@@ -25,7 +41,18 @@ const DataRetention = ({ removeData, validUrl }) => {
     localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
   };
   return (
-    <Tooltip title="Data Retention" arrow placement="top">
+    <Tooltip
+      title={
+        <React.Fragment>
+          <h3 style={{ margin: 0 }}>Data Retention</h3>
+          <br />
+          And here's some amazing content It's very engaging. Right?
+        </React.Fragment>
+      }
+      arrow
+      placement="top"
+      classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
+    >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
         <InputLabel
           id="demo-select-small"
