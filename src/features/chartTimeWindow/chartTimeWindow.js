@@ -22,7 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
+export const ChartTimeWindow = ({
+  dataFromThePast,
+  setVisibleData,
+  validUrl,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   return (
@@ -54,7 +58,7 @@ export const ChartTimeWindow = ({ dataFromThePast, validUrl }) => {
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
             `10000`
           }
-          onChange={(e) => dataFromThePast(e.target.value)}
+          onChange={(e) => setVisibleData(dataFromThePast(e.target.value))}
           IconComponent={EqualizerIcon}
           sx={{
             color: theme.palette.text.primary,

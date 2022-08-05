@@ -170,6 +170,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}
+          setVisibleData={setVisibleData}
         />
       </div>
     </div>
