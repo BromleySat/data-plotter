@@ -6,30 +6,14 @@ import { BromleySatSwitch } from "../../components/switch";
 import { lastIndexOf } from "../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
-import { Tooltip } from "@material-ui/core";
 import axios from "axios";
 import Chart from "../chart/chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  tooltip: {
-    color: "#fff",
-    fontFamily: "Quicksand",
-    fontWeight: "700",
-    fontSize: ".8rem",
-    backgroundColor: "#00C119",
-    maxWidth: "150px",
-  },
-  arrow: {
-    color: "#00C119",
-  },
-}));
+import ControlledTooltip from "../../components/Tooltip";
 
 const ChartControl = ({ validUrl, deviceId }) => {
-  const classes = useStyles();
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -136,19 +120,14 @@ const ChartControl = ({ validUrl, deviceId }) => {
           {deviceId}
         </Typography>
         <div className="split">
-          <Tooltip
-            title="Zoom Out"
-            arrow
-            placement="top"
-            classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
-          >
+          <ControlledTooltip title="Zoom Out">
             <FontAwesomeIcon
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
               onClick={() => setZoomedOut({ value: true })}
             />
-          </Tooltip>
+          </ControlledTooltip>
 
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
@@ -162,11 +141,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           justifyContent: "space-between",
         }}
       >
-        <BromleySatSwitch
-          classes={classes}
-          checked={toggle}
-          onChange={onCheckboxChange}
-        />
+        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}

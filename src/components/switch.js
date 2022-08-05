@@ -1,27 +1,19 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
-import { Tooltip } from "@material-ui/core";
 import React from "react";
+import ControlledTooltip from "./Tooltip";
 
 export const BromleySatSwitch = styled((props) => (
-  <Tooltip
-    title={
-      <React.Fragment>
-        <h3 style={{ margin: 0 }}>Local Storage</h3>
-        <br />
-        And here's some amazing content It's very engaging. Right?
-      </React.Fragment>
-    }
-    arrow
-    placement="top"
-    classes={{ tooltip: props.classes.tooltip, arrow: props.classes.arrow }}
+  <ControlledTooltip
+    title="Local Storage"
+    content="And here's some amazing content It's very engaging. Right?"
   >
     <Switch
       focusVisibleClassName=".Mui-focusVisible"
       disableRipple
       {...props}
     />
-  </Tooltip>
+  </ControlledTooltip>
 ))(({ theme }) => ({
   width: 52,
   height: 26,
