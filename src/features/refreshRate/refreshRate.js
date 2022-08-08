@@ -9,8 +9,10 @@ import ControlledTooltip from "../../components/Tooltip";
 
 export const RefreshRate = ({ validUrl, getData }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const intervalRefreshRate = useRef(null);
   useEffect(() => {
     if (validUrl === undefined) {
       return;
@@ -31,6 +33,19 @@ export const RefreshRate = ({ validUrl, getData }) => {
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
+  };
+
+  const handleTooltipClose = () => {
+    clearInterval(intervalRefreshRate.current);
+    localStorage.setItem("refreshRateTooltip", counter);
+    if (localStorage.getItem("refreshRateTooltip") <= 4) {
+      intervalRefreshRate.current = setInterval(() => {
+        setTooltipOpen(false);
+      }, 5000);
+    } else {
+      setTooltipOpen(false);
+    }
+    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -58,6 +73,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
           onOpen={() => {
             handleTooltip(false);
           }}
+          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           id="demo-select-small"
           defaultValue={

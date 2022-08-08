@@ -82,6 +82,7 @@ export default class Chart extends PureComponent {
             }
             // eslint-disable-next-line react/jsx-no-bind
             onMouseUp={this.zoom.bind(this)}
+            margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis

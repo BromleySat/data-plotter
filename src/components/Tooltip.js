@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
   arrow: {
     color: "#00C119",
   },
+  "@media (max-width: 40em)": {
+    tooltip: {
+      maxWidth: "120px",
+    },
+  },
 }));
 
 export const ControlledTooltip = (props) => {
@@ -21,6 +26,8 @@ export const ControlledTooltip = (props) => {
 
   return (
     <Tooltip
+      enterTouchDelay={0}
+      leaveTouchDelay={5000}
       open={props.open}
       title={
         <React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -14,9 +14,24 @@ export const ChartTimeWindow = ({
 }) => {
   const theme = useTheme();
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const intervalRef = useRef(null);
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
+  };
+
+  const handleTooltipClose = () => {
+    clearInterval(intervalRef.current);
+    localStorage.setItem("chartTimeWindowTooltip", counter);
+    if (localStorage.getItem("chartTimeWindowTooltip") <= 4) {
+      intervalRef.current = setInterval(() => {
+        setTooltipOpen(false);
+      }, 5000);
+    } else {
+      setTooltipOpen(false);
+    }
+    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -35,14 +50,11 @@ export const ChartTimeWindow = ({
           }}
         />
         <Select
-          onMouseEnter={() => {
-            handleTooltip(true);
-          }}
-          onMouseLeave={() => {
-            handleTooltip(false);
-          }}
-          onOpen={() => {
-            handleTooltip(false);
+          onMouseEnter={() => handleTooltip(true)}
+          onMouseLeave={() => handleTooltip(false)}
+          onOpen={() => handleTooltip(false)}
+          onClose={() => {
+            handleTooltipClose();
           }}
           labelId="demo-select-small"
           id="demo-select-small"

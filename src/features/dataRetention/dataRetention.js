@@ -9,9 +9,10 @@ import ControlledTooltip from "../../components/Tooltip";
 
 const DataRetention = ({ removeData, validUrl }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
-
+  const [counter, setCounter] = useState(0);
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const intervalRefreshRate = useRef(null);
   useEffect(() => {
     // if (intervalRef.current !== null) {
     //   return;
@@ -29,6 +30,19 @@ const DataRetention = ({ removeData, validUrl }) => {
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
+  };
+
+  const handleTooltipClose = () => {
+    clearInterval(intervalRefreshRate.current);
+    localStorage.setItem("dataRetentionTooltip", counter);
+    if (localStorage.getItem("dataRetentionTooltip") <= 4) {
+      intervalRefreshRate.current = setInterval(() => {
+        setTooltipOpen(false);
+      }, 5000);
+    } else {
+      setTooltipOpen(false);
+    }
+    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -56,6 +70,7 @@ const DataRetention = ({ removeData, validUrl }) => {
           onOpen={() => {
             handleTooltip(false);
           }}
+          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           id="demo-select-small"
           onChange={onChangeInterval}
