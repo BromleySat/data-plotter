@@ -9,6 +9,8 @@ simulator-node/node_modules
 
 # testing
 /coverage
+/cypress/videos
+/cypress/screenshots
 
 # production
 /build

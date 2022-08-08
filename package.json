@@ -32,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --verbose",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,7 +51,10 @@
     ]
   },
   "devDependencies": {
-    "@bromleysat/relative-to-absolute": "^1.1.0"
+    "@bromleysat/relative-to-absolute": "^1.1.0",
+    "@testing-library/cypress": "^8.0.3",
+    "cypress": "^10.4.0",
+    "eslint-plugin-cypress": "^2.12.1"
   },
   "jest": {
     "transformIgnorePatterns": [
