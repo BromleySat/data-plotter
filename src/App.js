@@ -6,24 +6,32 @@ import { withTheme } from "./themes/Theme";
 import { DarkThemeToggle } from "./features/darkTheme/darkThemeToggle";
 import { Logo } from "./features/logo/Logo";
 import Grid from "@mui/material/Grid";
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 function App() {
   const theme = useTheme();
   return (
-    <Grid
-      sx={{
-        width: "100%",
-        padding: 0,
-        margin: 0,
-        bgcolor: theme.palette.background.default,
-        color: "text.primary",
-        borderRadius: 0,
-      }}
-    >
-      <Logo />
-      <DataPlotter />
-      <DarkThemeToggle />
-    </Grid>
+    <div>
+      <GlobalStyles
+        styles={{
+          body: { backgroundColor: theme.palette.background.default },
+        }}
+      />
+      <Grid
+        sx={{
+          width: "100%",
+          padding: 0,
+          margin: 0,
+          bgcolor: theme.palette.background.default,
+          color: "text.primary",
+          borderRadius: 0,
+        }}
+      >
+        <Logo />
+        <DataPlotter />
+        <DarkThemeToggle />
+      </Grid>
+    </div>
   );
 }
 

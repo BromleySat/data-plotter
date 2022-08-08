@@ -1,15 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import AutoDeleteSharpIcon from "@mui/icons-material/AutoDeleteSharp";
-import { Tooltip } from "@material-ui/core";
+import ControlledTooltip from "../../components/Tooltip";
 
 const DataRetention = ({ removeData, validUrl }) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const intervalRefreshRate = useRef(null);
   useEffect(() => {
     // if (intervalRef.current !== null) {
     //   return;
@@ -24,8 +27,30 @@ const DataRetention = ({ removeData, validUrl }) => {
     intervalRef.current = setInterval(removeData, e.target.value);
     localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
   };
+
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
+  };
+
+  const handleTooltipClose = () => {
+    clearInterval(intervalRefreshRate.current);
+    localStorage.setItem("dataRetentionTooltip", counter);
+    if (localStorage.getItem("dataRetentionTooltip") <= 4) {
+      intervalRefreshRate.current = setInterval(() => {
+        setTooltipOpen(false);
+      }, 5000);
+    } else {
+      setTooltipOpen(false);
+    }
+    setCounter((counter) => counter + 1);
+  };
+
   return (
-    <Tooltip title="Data Retention" arrow placement="top">
+    <ControlledTooltip
+      title="Data Retention"
+      content="And here's some amazing content It's very engaging. Right?"
+      open={tooltipOpen}
+    >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
         <InputLabel
           id="demo-select-small"
@@ -36,6 +61,16 @@ const DataRetention = ({ removeData, validUrl }) => {
           }}
         />
         <Select
+          onMouseEnter={() => {
+            handleTooltip(true);
+          }}
+          onMouseLeave={() => {
+            handleTooltip(false);
+          }}
+          onOpen={() => {
+            handleTooltip(false);
+          }}
+          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           id="demo-select-small"
           onChange={onChangeInterval}
@@ -133,7 +168,7 @@ const DataRetention = ({ removeData, validUrl }) => {
           </MenuItem>
         </Select>
       </FormControl>
-    </Tooltip>
+    </ControlledTooltip>
   );
 };
 

@@ -9,6 +9,10 @@ const bromleySatDark = createTheme({
   palette: {
     type: "dark",
     mode: "dark",
+    secondary: {
+      main: "#00C119",
+      light: "#fff",
+    },
   },
 });
 
@@ -16,6 +20,10 @@ const bromleySatLight = createTheme({
   palette: {
     type: "light",
     mode: "light",
+    secondary: {
+      main: "#00C119",
+      light: "fff",
+    },
   },
 });
 

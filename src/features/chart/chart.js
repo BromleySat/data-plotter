@@ -26,7 +26,6 @@ export default class Chart extends PureComponent {
   }
 
   componentDidUpdate() {
-    console.log(this.props.zoomedOut);
     if (this.props.zoomedOut.value === true) {
       this.props.zoomedOut.value = false;
       this.zoomOut();
@@ -57,14 +56,13 @@ export default class Chart extends PureComponent {
   }
 
   zoomOut() {
-    // this.props.visibleData.slice();
+    this.props.visibleData.slice();
     this.setState(() => ({
       refAreaLeft: "",
       refAreaRight: "",
       left: "dataMin",
       right: "dataMax",
     }));
-    console.log("it worked");
   }
 
   render() {
@@ -84,6 +82,7 @@ export default class Chart extends PureComponent {
             }
             // eslint-disable-next-line react/jsx-no-bind
             onMouseUp={this.zoom.bind(this)}
+            margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis

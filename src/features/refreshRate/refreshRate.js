@@ -1,15 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
-import { Tooltip } from "@material-ui/core";
+import ControlledTooltip from "../../components/Tooltip";
 
 export const RefreshRate = ({ validUrl, getData }) => {
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const intervalRefreshRate = useRef(null);
   useEffect(() => {
     if (validUrl === undefined) {
       return;
@@ -28,8 +31,29 @@ export const RefreshRate = ({ validUrl, getData }) => {
     localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
   };
 
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
+  };
+
+  const handleTooltipClose = () => {
+    clearInterval(intervalRefreshRate.current);
+    localStorage.setItem("refreshRateTooltip", counter);
+    if (localStorage.getItem("refreshRateTooltip") <= 4) {
+      intervalRefreshRate.current = setInterval(() => {
+        setTooltipOpen(false);
+      }, 5000);
+    } else {
+      setTooltipOpen(false);
+    }
+    setCounter((counter) => counter + 1);
+  };
+
   return (
-    <Tooltip title="Refresh Rate" arrow placement="top">
+    <ControlledTooltip
+      title="Refresh Rate"
+      content="And here's some amazing content It's very engaging. Right?"
+      open={tooltipOpen}
+    >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
         <InputLabel
           id="demo-select-small"
@@ -40,6 +64,16 @@ export const RefreshRate = ({ validUrl, getData }) => {
           }}
         />
         <Select
+          onMouseEnter={() => {
+            handleTooltip(true);
+          }}
+          onMouseLeave={() => {
+            handleTooltip(false);
+          }}
+          onOpen={() => {
+            handleTooltip(false);
+          }}
+          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           id="demo-select-small"
           defaultValue={
@@ -112,6 +146,6 @@ export const RefreshRate = ({ validUrl, getData }) => {
           </MenuItem>
         </Select>
       </FormControl>
-    </Tooltip>
+    </ControlledTooltip>
   );
 };
