@@ -5,10 +5,12 @@ import ControlledTooltip from "./Tooltip";
 
 export const BromleySatSwitch = styled((props) => (
   <ControlledTooltip
+    data-testid="local-storage-tooltip"
     title="Local Storage"
     content="And here's some amazing content It's very engaging. Right?"
   >
     <Switch
+      data-testid="local-storage"
       focusVisibleClassName=".Mui-focusVisible"
       disableRipple
       {...props}

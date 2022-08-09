@@ -36,6 +36,7 @@ export const ChartTimeWindow = ({
 
   return (
     <ControlledTooltip
+      data-testid={`chart-time-window-tooltip-${validUrl}`}
       open={tooltipOpen}
       title="Chart Time Window"
       content="And here's some amazing content It's very engaging. Right?"
@@ -57,6 +58,7 @@ export const ChartTimeWindow = ({
             handleTooltipClose();
           }}
           labelId="demo-select-small"
+          data-testid={`chart-time-window-${validUrl}`}
           id="demo-select-small"
           value={
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||

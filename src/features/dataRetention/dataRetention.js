@@ -47,6 +47,7 @@ const DataRetention = ({ removeData, validUrl }) => {
 
   return (
     <ControlledTooltip
+      data-testid={`data-retention-tooltip-${validUrl}`}
       title="Data Retention"
       content="And here's some amazing content It's very engaging. Right?"
       open={tooltipOpen}
@@ -72,6 +73,7 @@ const DataRetention = ({ removeData, validUrl }) => {
           }}
           onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
+          data-testid={`data-retention-${validUrl}`}
           id="demo-select-small"
           onChange={onChangeInterval}
           defaultValue={

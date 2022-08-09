@@ -133,6 +133,7 @@ export const DataPlotter = () => {
     <Container>
       <div className="textfield-container">
         <TextField
+          data-testid="text-area"
           id="standard-basic"
           variant="standard"
           defaultValue={trimHttp(urlList)}

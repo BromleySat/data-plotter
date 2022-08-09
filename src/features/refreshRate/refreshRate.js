@@ -50,6 +50,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
 
   return (
     <ControlledTooltip
+      data-testid={`refresh-rate-tooltip-${validUrl}`}
       title="Refresh Rate"
       content="And here's some amazing content It's very engaging. Right?"
       open={tooltipOpen}
@@ -75,6 +76,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
           }}
           onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
+          data-testid={`refresh-rate-${validUrl}`}
           id="demo-select-small"
           defaultValue={
             localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "5000"

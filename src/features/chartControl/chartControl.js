@@ -120,8 +120,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
           {deviceId}
         </Typography>
         <div className="split">
-          <ControlledTooltip title="Zoom Out">
+          <ControlledTooltip
+            title="Zoom Out"
+            data-testid={`zoom-out-tooltip-${validUrl}`}
+          >
             <FontAwesomeIcon
+              data-testid={`zoom-out-${validUrl}`}
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
