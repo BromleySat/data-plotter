@@ -5,11 +5,17 @@ describe("Data Plotter", () => {
     cy.get('[data-testid="text-area"]').clear();
     cy.get('[data-testid="text-area"]').type("api.bromleysat.space/api/data");
     cy.get('[data-testid="text-area-submit"]').click();
-    cy.wait();
+    cy.reload();
+    cy.wait(5000);
     cy.get(":nth-child(1) > .MuiInputBase-root > #demo-select-small").trigger(
       "mouseover"
     );
     cy.get(":nth-child(1) > .MuiInputBase-root > #demo-select-small").click();
     cy.get('[data-value="300000"]').click();
+    cy.get(
+      '[style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;"] > .MuiFormControl-root > .MuiInputBase-root > #demo-select-small'
+    ).click();
+    cy.get('[data-value="300000"]').click();
+    cy.get(".PrivateSwitchBase-input").click();
   });
 });

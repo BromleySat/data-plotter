@@ -61,7 +61,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           // );
           const dataFromThePastValue =
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
-            `10000`;
+            `300000`;
           setVisibleData(dataFromThePast(dataFromThePastValue));
 
           if (toggle) {
@@ -84,7 +84,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
       return;
     }
     const value =
-      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000;
+      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
     const now = new Date().getTime();
     const cutOff = now - value;
     const oldElementIndex = lastIndexOf(data, cutOff);

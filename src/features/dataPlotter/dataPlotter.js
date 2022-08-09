@@ -107,9 +107,11 @@ export const DataPlotter = () => {
 
   useEffect(() => {
     clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(fetchingValidUrl, 5000);
+    intervalRef.current = setInterval(() => {
+      fetchingValidUrl();
+    }, 5000);
     noApiConfigStored(window.location.host);
-  }, [noApiConfigStored, fetchingValidUrl]);
+  }, [noApiConfigStored, fetchingValidUrl, urlList, validUrls]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -119,11 +121,11 @@ export const DataPlotter = () => {
       setError(false);
 
       storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
+      setUrlList(getApiList(textBoxValue));
+      setValidUrls([]);
     } else {
       setError(true);
     }
-
-    //setData([]);
   };
 
   return (

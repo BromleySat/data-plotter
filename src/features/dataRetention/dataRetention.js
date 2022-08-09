@@ -75,7 +75,7 @@ const DataRetention = ({ removeData, validUrl }) => {
           id="demo-select-small"
           onChange={onChangeInterval}
           defaultValue={
-            localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000
+            localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000
           }
           IconComponent={AutoDeleteSharpIcon}
           sx={{
