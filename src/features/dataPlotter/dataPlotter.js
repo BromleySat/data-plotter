@@ -123,6 +123,7 @@ export const DataPlotter = () => {
       storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
       setUrlList(getApiList(textBoxValue));
       setValidUrls([]);
+      setDevicesId([]);
     } else {
       setError(true);
     }
