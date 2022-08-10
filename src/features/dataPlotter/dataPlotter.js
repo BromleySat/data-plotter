@@ -139,7 +139,6 @@ export const DataPlotter = () => {
           defaultValue={trimHttp(urlList)}
           multiline={true}
           onChange={(e) => setTextBoxValue(e.target.value)}
-          inputProps={{ "data-testid": "text-area" }}
           InputProps={{
             classes: {
               root: classes.root,
