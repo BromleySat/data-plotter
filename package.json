@@ -35,7 +35,7 @@
     "test:e2e": "cypress run",
     "eject": "react-scripts eject",
     "cypress": "cypress open",
-    "int-test": "start-server-and-test next http://localhost:3000 test:e2e"
+    "int-test": "start-server-and-test http://localhost:3000 test:e2e"
   },
   "eslintConfig": {
     "extends": [
