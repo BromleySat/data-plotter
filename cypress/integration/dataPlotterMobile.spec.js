@@ -1,10 +1,4 @@
-const sizes = [
-  "iphone-xr",
-  "iphone-x",
-  "iphone-6+",
-  "samsung-s10",
-  "samsung-note9",
-];
+const sizes = ["iphone-xr", "samsung-note9"];
 
 describe("Data Plotter Testing Features On Touch Devices", () => {
   beforeEach(() => {
