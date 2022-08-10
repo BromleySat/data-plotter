@@ -20,7 +20,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
     const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(getData, interval ?? 5000);
+    intervalRef.current = setInterval(getData, interval ?? 1000);
   }, [validUrl, getData]);
   const onChangeInterval = (e) => {
     if (validUrl === "") {
@@ -79,7 +79,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
           data-testid={`refresh-rate-${validUrl}`}
           id="demo-select-small"
           defaultValue={
-            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "5000"
+            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "1000"
           }
           onChange={onChangeInterval}
           sx={{
@@ -131,19 +131,46 @@ export const RefreshRate = ({ validUrl, getData }) => {
           }}
           IconComponent={LoopSharpIcon}
         >
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="5000">
+          <MenuItem
+            data-testid={`refresh-rate-1s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="1000"
+          >
+            1s
+          </MenuItem>
+          <MenuItem
+            data-testid={`refresh-rate-5s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="5000"
+          >
             5s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="10000">
+          <MenuItem
+            data-testid={`refresh-rate-10s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="10000"
+          >
             10s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="15000">
+          <MenuItem
+            data-testid={`refresh-rate-15s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="15000"
+          >
             15s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="20000">
+          <MenuItem
+            data-testid={`refresh-rate-20s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="20000"
+          >
             20s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="25000">
+          <MenuItem
+            data-testid={`refresh-rate-25s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="25000"
+          >
             25s
           </MenuItem>
         </Select>

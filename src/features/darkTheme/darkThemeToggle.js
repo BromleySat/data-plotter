@@ -11,6 +11,7 @@ export const DarkThemeToggle = () => {
 
   return (
     <Checkbox
+      data-testid="dark-theme-toggle"
       style={{
         position: "absolute",
         top: 6,

@@ -16,3 +16,5 @@ jobs:
       - run: yarn install
       - run: yarn test
       - run: yarn build
+      - run: yarn start & wait-on http://localhost:3000
+      - run: yarn test:e2e -- --spec "cypress/integration/dataPlotter.spec.js"

@@ -145,7 +145,11 @@ const ChartControl = ({ validUrl, deviceId }) => {
           justifyContent: "space-between",
         }}
       >
-        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
+        <BromleySatSwitch
+          currentUrl={validUrl}
+          checked={toggle}
+          onChange={onCheckboxChange}
+        />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}
