@@ -47,7 +47,7 @@ const DataRetention = ({ removeData, validUrl }) => {
 
   return (
     <ControlledTooltip
-      data-testid={`data-retention-tooltip-${validUrl}`}
+      dataTestId={`data-retention-tooltip-${validUrl}`}
       title="Data Retention"
       content="And here's some amazing content It's very engaging. Right?"
       open={tooltipOpen}

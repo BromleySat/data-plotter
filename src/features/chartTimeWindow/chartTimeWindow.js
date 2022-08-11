@@ -36,7 +36,7 @@ export const ChartTimeWindow = ({
 
   return (
     <ControlledTooltip
-      data-testid={`chart-time-window-tooltip-${validUrl}`}
+      dataTestId={`chart-time-window-tooltip-${validUrl}`}
       open={tooltipOpen}
       title="Chart Time Window"
       content="And here's some amazing content It's very engaging. Right?"

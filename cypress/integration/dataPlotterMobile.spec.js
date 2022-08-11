@@ -13,12 +13,32 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
     cy.wait(3000);
   });
   sizes.forEach((size) => {
+    it("tests displaying the textfield and update button", () => {
+      cy.get('[data-testid="text-area"]').should("be.visible");
+      cy.get('[data-testid="text-area"]').should(
+        "have.value",
+        "api.bromleysat.space/api/data"
+      );
+      cy.get('[data-testid="text-area"]').should(
+        "have.attr",
+        "data-testid",
+        "text-area"
+      );
+      cy.get('[data-testid="text-area-submit"]').should("be.visible");
+      cy.get('[data-testid="text-area-submit"]').should("have.text", "Update");
+      cy.get('[data-testid="text-area-submit"]').should(
+        "have.attr",
+        "type",
+        "submit"
+      );
+    });
     it("tests switching to light mode", () => {
       if (Cypress._.isArray(size)) {
         cy.viewport(size[0], size[1]);
       } else {
         cy.viewport(size);
       }
+      cy.get('[data-testid="dark-theme-toggle"]').should("be.visible");
       cy.get('[data-testid="dark-theme-toggle"]').realTouch();
     });
     it("tests switching to dark mode", () => {
@@ -27,6 +47,7 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       } else {
         cy.viewport(size);
       }
+      cy.get('[data-testid="dark-theme-toggle"]').should("be.visible");
       cy.get('[data-testid="dark-theme-toggle"]').realTouch();
       cy.get('[data-testid="dark-theme-toggle"]').realTouch();
     });
@@ -41,8 +62,11 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       ).realTouch();
       cy.get(
         '[data-testid="data-retention-5s-https://api.bromleysat.space/api/data"]'
-      ).click();
+      ).realTouch();
       cy.get(".MuiContainer-root").realTouch();
+      cy.get(
+        '[data-testid="data-retention-tooltip-https://api.bromleysat.space/api/data"]'
+      ).should("be.visible");
     });
     it("tests toggling local storage", () => {
       if (Cypress._.isArray(size)) {
@@ -50,6 +74,9 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       } else {
         cy.viewport(size);
       }
+      cy.get(
+        '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
+      ).should("be.visible");
       cy.get(
         '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
       ).realTouch();
@@ -60,6 +87,12 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       } else {
         cy.viewport(size);
       }
+      cy.get(
+        '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("be.visible");
+      cy.get(
+        '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("have.text", "21d");
       cy.get(
         '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
       ).realTouch();
@@ -76,6 +109,12 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       }
       cy.get(
         '[data-testid="refresh-rate-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("be.visible");
+      cy.get(
+        '[data-testid="refresh-rate-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("have.text", "1s");
+      cy.get(
+        '[data-testid="refresh-rate-https://api.bromleysat.space/api/data"] > #demo-select-small'
       ).realTouch();
       cy.get(
         '[data-testid="refresh-rate-15s-https://api.bromleysat.space/api/data"]'
@@ -88,6 +127,12 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       } else {
         cy.viewport(size);
       }
+      cy.get(
+        '[data-testid="chart-time-window-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("be.visible");
+      cy.get(
+        '[data-testid="chart-time-window-https://api.bromleysat.space/api/data"] > #demo-select-small'
+      ).should("have.text", "5m");
       cy.get(
         '[data-testid="chart-time-window-https://api.bromleysat.space/api/data"] > #demo-select-small'
       ).realTouch();

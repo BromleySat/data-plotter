@@ -27,6 +27,7 @@ export const ControlledTooltip = (props) => {
 
   return (
     <Tooltip
+      data-testid={props.dataTestId}
       enterTouchDelay={0}
       leaveTouchDelay={5000}
       open={props.open}

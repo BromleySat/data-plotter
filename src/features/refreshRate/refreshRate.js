@@ -50,7 +50,7 @@ export const RefreshRate = ({ validUrl, getData }) => {
 
   return (
     <ControlledTooltip
-      data-testid={`refresh-rate-tooltip-${validUrl}`}
+      dataTestId={`refresh-rate-tooltip-${validUrl}`}
       title="Refresh Rate"
       content="And here's some amazing content It's very engaging. Right?"
       open={tooltipOpen}
