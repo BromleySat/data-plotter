@@ -136,7 +136,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
       </div>
-      <Chart zoomedOut={zoomedOut} theme={theme} visibleData={visibleData} />
+      <Chart
+        zoomedOut={zoomedOut}
+        theme={theme}
+        visibleData={visibleData}
+        currentUrl={validUrl}
+      />
       <div
         style={{
           display: "flex",

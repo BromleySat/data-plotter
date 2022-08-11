@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@4tw/cypress-drag-drop@^2.2.1":
+  "integrity" "sha512-+ioJSnEwx70IiMyb4pLEjOS5u6AMWRIVCV20toCY7lb0YcvA0ipbjQBa9DdxEI7Zg2E2jtcIj7Rx0e3WNUbk/w=="
+  "resolved" "https://registry.npmjs.org/@4tw/cypress-drag-drop/-/cypress-drag-drop-2.2.1.tgz"
+  "version" "2.2.1"
+
 "@apideck/better-ajv-errors@^0.3.1":
   "integrity" "sha512-6RMV31esAxqlDIvVCG/CJxY/s8dFNVOI5w8RWIfDMhjg/iwqnawko9tJXau/leqC4+T1Bu8et99QVWCwU5wk+g=="
   "resolved" "https://registry.npmjs.org/@apideck/better-ajv-errors/-/better-ajv-errors-0.3.1.tgz"
@@ -3939,7 +3944,12 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.1.0.tgz"
   "version" "3.1.0"
 
-"cypress@^9.7.0":
+"cypress-real-events@^1.7.1":
+  "integrity" "sha512-/Bg15RgJ0SYsuXc6lPqH08x19z6j2vmhWN4wXfJqm3z8BTAFiK2MvipZPzxT8Z0jJP0q7kuniWrLIvz/i/8lCQ=="
+  "resolved" "https://registry.npmjs.org/cypress-real-events/-/cypress-real-events-1.7.1.tgz"
+  "version" "1.7.1"
+
+"cypress@^2.1.0 || ^3.1.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0", "cypress@^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x", "cypress@^9.7.0":
   "integrity" "sha512-+1EE1nuuuwIt/N1KXRR2iWHU+OiIt7H28jJDyyI4tiUftId/DrXYEwoDa5+kH2pki1zxnA0r6HrUGHV5eLbF5Q=="
   "resolved" "https://registry.npmjs.org/cypress/-/cypress-9.7.0.tgz"
   "version" "9.7.0"

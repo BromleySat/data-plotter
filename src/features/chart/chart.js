@@ -67,11 +67,13 @@ export default class Chart extends PureComponent {
 
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.state;
+    const currentUrl = this.props.currentUrl;
 
     return (
       <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
+            data-testid={`line-chart-${currentUrl}`}
             width={800}
             height={400}
             data={this.props.visibleData}
