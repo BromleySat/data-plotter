@@ -1,14 +1,14 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import * as React from "react";
 //import { storageSetItem } from "./dataPlotter";
 import { DataPlotter } from "./dataPlotter";
 
-describe("...", () => {
+describe("Local Storage", () => {
   jest.spyOn(Object.getPrototypeOf(window.localStorage), "setItem");
   Object.setPrototypeOf(window.localStorage.setItem, jest.fn());
 
-  it("should set local storage", () => {
+  it("tests setting local storage value", () => {
     const { getByTestId, queryByTestId } = render(<DataPlotter />);
     const textfield = getByTestId("text-area");
     const submitButton = getByTestId("text-area-submit");
@@ -31,7 +31,7 @@ describe("...", () => {
     expect(submitError).toBeNull();
   });
 
-  it("should not set local storage and display an error", () => {
+  it("tests not setting local storage value and displaying an error", () => {
     const { getByTestId } = render(<DataPlotter />);
     const textfield = getByTestId("text-area");
     const submitButton = getByTestId("text-area-submit");

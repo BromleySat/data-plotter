@@ -1,47 +1,47 @@
 import { validateInput, getApiList, isLocalIp } from "./validation.js";
 
 describe("Testing local IP logic", () => {
-  it("a", () => {
+  it("tests 10.0.0.0 input value", () => {
     const input = "10.0.0.0";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("b", () => {
+  it("tests 172.16.0.0 input value", () => {
     const input = "172.16.0.0";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("tests 192.168.0.0 input value", () => {
     const input = "192.168.0.0";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("should recognise a known local IP", () => {
+  it("tests recognising a known local IP", () => {
     const input = "192.168.1.95";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("tests 172.15.255.255 input value", () => {
     const input = "172.15.255.255";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("...", () => {
+  it("tests 192.167.255.255 input value", () => {
     const input = "192.167.255.255";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("...", () => {
+  it("tests 10.255.255.255 input value", () => {
     const input = "10.255.255.255";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("tests 172.31.255.255 input value", () => {
     const input = "172.31.255.255";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("tests 192.168.255.255 input value", () => {
     const input = "192.168.255.255";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("should reconginse public IP as public 146.199.86.133", () => {
+  it("tests recognising public IP as public 146.199.86.133", () => {
     const input = "146.199.86.133";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("should reconginse public IP as public 2.98.79.218", () => {
+  it("tests recognising public IP as public 2.98.79.218", () => {
     const input = "2.98.79.218";
     expect(isLocalIp(input)).toBe(false);
   });
@@ -110,11 +110,11 @@ describe("Testing Validation Of The Api List Input", () => {
 });
 
 describe("Testing Api List Generation", () => {
-  it("should ... ", () => {
+  it("should generate Api", () => {
     const input = "localhost:3080/random-data";
     expect(getApiList(input)).toEqual(["http://localhost:3080/random-data"]);
   });
-  it("should generate two ips", () => {
+  it("should generate two Api's", () => {
     const input = "localhost:3080/random-data, localhost:3090/random-data";
     expect(getApiList(input)).toEqual([
       "http://localhost:3080/random-data",
@@ -130,7 +130,7 @@ describe("Testing Api List Generation", () => {
       "https://data.bromleysat.space/random-data",
     ]);
   });
-  it("should generate a mixure of local and public", () => {
+  it("should generate a mixture of local and public", () => {
     const input =
       "192.168.1.95/data, 192.168.1.96/data, localhost:3080/data, localhost:3090/data, 12.0.0.1/random-data";
     expect(getApiList(input)).toEqual([
@@ -141,7 +141,7 @@ describe("Testing Api List Generation", () => {
       "http://12.0.0.1/random-data",
     ]);
   });
-  it("should generate two ips with extra spaces", () => {
+  it("should generate two Api's when input contains extra spaces", () => {
     const input =
       "    localhost:3080/random-data,     localhost:3090/random-data";
     expect(getApiList(input)).toEqual([
