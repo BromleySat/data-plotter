@@ -4,7 +4,7 @@ import * as React from "react";
 import { DataPlotter } from "./dataPlotter";
 
 describe("Textfield Functionality", () => {
-  it("tests visibility of the TextField", () => {
+  it("should be visible", () => {
     const { getByTestId } = render(<DataPlotter />);
     const textField = getByTestId("text-area");
     expect(textField).toBeVisible();
@@ -14,16 +14,16 @@ describe("Textfield Functionality", () => {
     const textField = getByTestId("text-area");
     expect(textField.textContent).toBe("api.bromleysat.space/api/data");
   });
-  it("should clear the TextField", () => {
+  it("should change the TextField value", () => {
     const { getByTestId } = render(<DataPlotter />);
     const textField = getByTestId("text-area");
     const submitButton = getByTestId("text-area-submit");
     fireEvent.change(textField, {
       target: {
-        value: "",
+        value: "localhost:3080/api/data",
       },
     });
     fireEvent.click(submitButton);
-    expect(textField).toBeEmpty();
+    expect(textField).toHaveTextContent("localhost:3080/api/data");
   });
 });

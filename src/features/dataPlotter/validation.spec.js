@@ -130,7 +130,7 @@ describe("Testing Api List Generation", () => {
       "https://data.bromleysat.space/random-data",
     ]);
   });
-  it("should generate a mixture of local and public", () => {
+  it("should generate a mixture of local and public Api's", () => {
     const input =
       "192.168.1.95/data, 192.168.1.96/data, localhost:3080/data, localhost:3090/data, 12.0.0.1/random-data";
     expect(getApiList(input)).toEqual([
