@@ -29,6 +29,7 @@ function getData() {
     date: getDate(),
     temperatureC: getRandomIntInclusive(300, 900),
     temperatureF: getRandomIntInclusive(0, 3),
+    voltage: getRandomIntInclusive(0, 240),
   };
 }
 

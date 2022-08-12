@@ -36,6 +36,7 @@ export const ChartTimeWindow = ({
 
   return (
     <ControlledTooltip
+      dataTestId={`chart-time-window-tooltip-${validUrl}`}
       open={tooltipOpen}
       title="Chart Time Window"
       content="And here's some amazing content It's very engaging. Right?"
@@ -57,10 +58,11 @@ export const ChartTimeWindow = ({
             handleTooltipClose();
           }}
           labelId="demo-select-small"
+          data-testid={`chart-time-window-${validUrl}`}
           id="demo-select-small"
           value={
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
-            `10000`
+            `300000`
           }
           onChange={(e) => setVisibleData(dataFromThePast(e.target.value))}
           IconComponent={EqualizerIcon}
@@ -119,43 +121,95 @@ export const ChartTimeWindow = ({
             },
           }}
         >
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="5000">
+          <MenuItem
+            data-testid={`chart-time-window-5s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="5000"
+          >
             5s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="10000">
+          <MenuItem
+            data-testid={`chart-time-window-10s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="10000"
+          >
             10s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="30000">
+          <MenuItem
+            data-testid={`chart-time-window-30s-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="30000"
+          >
             30s
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="300000">
+          <MenuItem
+            data-testid={`chart-time-window-5m-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="300000"
+          >
             5m
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="900000">
+          <MenuItem
+            data-testid={`chart-time-window-15m-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="900000"
+          >
             15m
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="1800000">
+          <MenuItem
+            data-testid={`chart-time-window-30m-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="1800000"
+          >
             30m
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="3600000">
+          <MenuItem
+            data-testid={`chart-time-window-1hr-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="3600000"
+          >
             1hr
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="21600000">
+          <MenuItem
+            data-testid={`chart-time-window-6hrs-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="21600000"
+          >
             6hrs
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="43200000">
+          <MenuItem
+            data-testid={`chart-time-window-12hrs-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="43200000"
+          >
             12hrs
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="86400000">
+          <MenuItem
+            data-testid={`chart-time-window-24hrs-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="86400000"
+          >
             24hrs
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="259200000">
+          <MenuItem
+            data-testid={`chart-time-window-3d-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="259200000"
+          >
             3d
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="604800000">
+          <MenuItem
+            data-testid={`chart-time-window-7d-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="604800000"
+          >
             7d
           </MenuItem>
-          <MenuItem style={{ fontFamily: "Quicksand" }} value="1814400000">
+          <MenuItem
+            data-testid={`chart-time-window-21d-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="1814400000"
+          >
             21d
           </MenuItem>
         </Select>

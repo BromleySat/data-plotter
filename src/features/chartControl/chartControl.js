@@ -61,7 +61,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           // );
           const dataFromThePastValue =
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
-            `10000`;
+            `300000`;
           setVisibleData(dataFromThePast(dataFromThePastValue));
 
           if (toggle) {
@@ -84,7 +84,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
       return;
     }
     const value =
-      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 5000;
+      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
     const now = new Date().getTime();
     const cutOff = now - value;
     const oldElementIndex = lastIndexOf(data, cutOff);
@@ -120,8 +120,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
           {deviceId}
         </Typography>
         <div className="split">
-          <ControlledTooltip title="Zoom Out">
+          <ControlledTooltip
+            title="Zoom Out"
+            data-testid={`zoom-out-tooltip-${validUrl}`}
+          >
             <FontAwesomeIcon
+              data-testid={`zoom-out-${validUrl}`}
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
@@ -132,7 +136,12 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <RefreshRate validUrl={validUrl} getData={getData} />
         </div>
       </div>
-      <Chart zoomedOut={zoomedOut} theme={theme} visibleData={visibleData} />
+      <Chart
+        zoomedOut={zoomedOut}
+        theme={theme}
+        visibleData={visibleData}
+        currentUrl={validUrl}
+      />
       <div
         style={{
           display: "flex",
@@ -141,7 +150,11 @@ const ChartControl = ({ validUrl, deviceId }) => {
           justifyContent: "space-between",
         }}
       >
-        <BromleySatSwitch checked={toggle} onChange={onCheckboxChange} />
+        <BromleySatSwitch
+          currentUrl={validUrl}
+          checked={toggle}
+          onChange={onCheckboxChange}
+        />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
           validUrl={validUrl}

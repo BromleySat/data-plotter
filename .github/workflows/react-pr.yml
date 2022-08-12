@@ -15,4 +15,5 @@ jobs:
           cache: "yarn"
       - run: yarn install
       - run: yarn test
+      - run: yarn int-test
       - run: yarn build
