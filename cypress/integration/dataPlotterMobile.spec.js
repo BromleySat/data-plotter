@@ -13,6 +13,22 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
     cy.wait(3000);
   });
   sizes.forEach((size) => {
+    it("tests toggling local storage", () => {
+      if (Cypress._.isArray(size)) {
+        cy.viewport(size[0], size[1]);
+      } else {
+        cy.viewport(size);
+      }
+      cy.get('.MuiButtonBase-root > [type="checkbox"]').should(
+        "not.be.checked"
+      );
+      cy.get('.MuiButtonBase-root > [type="checkbox"]').realTouch();
+      cy.get('.MuiButtonBase-root > [type="checkbox"]').should("be.checked");
+      cy.get('.MuiButtonBase-root > [type="checkbox"]').realTouch();
+      cy.get('.MuiButtonBase-root > [type="checkbox"]').should(
+        "not.be.checked"
+      );
+    });
     it("tests displaying the textfield and update button", () => {
       cy.get('[data-testid="text-area"]').should("be.visible");
       cy.get('[data-testid="text-area"]').should(
@@ -68,19 +84,7 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
         '[data-testid="data-retention-tooltip-https://api.bromleysat.space/api/data"]'
       ).should("be.visible");
     });
-    it("tests toggling local storage", () => {
-      if (Cypress._.isArray(size)) {
-        cy.viewport(size[0], size[1]);
-      } else {
-        cy.viewport(size);
-      }
-      cy.get(
-        '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
-      ).should("be.visible");
-      cy.get(
-        '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
-      ).realTouch();
-    });
+
     it("tests changing data retention value", () => {
       if (Cypress._.isArray(size)) {
         cy.viewport(size[0], size[1]);
@@ -147,6 +151,10 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       } else {
         cy.viewport(size);
       }
+      cy.get(".recharts-wrapper").should("be.visible");
+      cy.get(
+        '[data-testid="zoom-out-https://api.bromleysat.space/api/data"]'
+      ).should("be.visible");
       cy.wait(30000);
       cy.get(".recharts-wrapper").drag(".recharts-wrapper", {
         source: { x: 100, y: 100 },

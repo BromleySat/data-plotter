@@ -6,6 +6,13 @@ describe("Data Plotter Testing Features", () => {
   afterEach(() => {
     cy.wait(3000);
   });
+  it("tests toggling local storage", () => {
+    cy.get('.MuiButtonBase-root > [type="checkbox"]').should("not.be.checked");
+    cy.get('.MuiButtonBase-root > [type="checkbox"]').check();
+    cy.get('.MuiButtonBase-root > [type="checkbox"]').should("be.checked");
+    cy.get('.MuiButtonBase-root > [type="checkbox"]').uncheck();
+    cy.get('.MuiButtonBase-root > [type="checkbox"]').should("not.be.checked");
+  });
   it("tests displaying the textfield and update button", () => {
     cy.get('[data-testid="text-area"]').should("be.visible");
     cy.get('[data-testid="text-area"]').should(
@@ -42,14 +49,7 @@ describe("Data Plotter Testing Features", () => {
       '[data-testid="data-retention-tooltip-https://api.bromleysat.space/api/data"]'
     ).should("be.visible");
   });
-  it("tests toggling local storage", () => {
-    cy.get(
-      '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
-    ).should("be.visible");
-    cy.get(
-      '[data-testid="local-storage-https://api.bromleysat.space/api/data"]'
-    ).realClick();
-  });
+
   it("tests changing data retention value", () => {
     cy.get(
       '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
@@ -96,6 +96,11 @@ describe("Data Plotter Testing Features", () => {
     cy.get(".MuiContainer-root").realClick();
   });
   it("tests zooming in and out functionality", () => {
+    cy.get(".recharts-wrapper").should("be.visible");
+    cy.get(
+      '[data-testid="zoom-out-https://api.bromleysat.space/api/data"]'
+    ).should("be.visible");
+    cy.wait(30000);
     cy.get(".recharts-wrapper").drag(".recharts-wrapper", {
       source: { x: 100, y: 100 },
       target: { x: 600, y: 20 },
