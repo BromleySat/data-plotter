@@ -1,6 +1,4 @@
-export function transformUrl(url) {
-  let str = "api/config";
-  url = url.slice(0, url.indexOf("api/"));
+export function transformUrl(url, str) {
   url = url + str;
   return url;
 }

@@ -53,6 +53,28 @@ export function validateInput(input) {
     return false;
   }
 
+  const inputIntoArray = input.split(",");
+
+  for (let inp of inputIntoArray) {
+    if (inp.startsWith("http://")) {
+      inp = inp.replace("http://", "");
+      if (inp.includes("/")) {
+        console.log("slash 1");
+        return false;
+      }
+    } else if (inp.startsWith("https://")) {
+      inp = inp.replace("https://", "");
+      if (inp.includes("/")) {
+        console.log("slash 1");
+        return false;
+      }
+    } else if (inp.includes("/")) {
+      console.log("slash 2");
+      return false;
+    }
+    console.log(inputIntoArray);
+  }
+
   if (input.length > 100) {
     console.log("length");
     return false;
@@ -73,11 +95,14 @@ export function validateInput(input) {
   if (httpRegex.test(input)) {
     return true;
   }
-  if (!input.includes(",")) {
-    console.log("comma");
-    return false;
-  }
+
+  console.log(inputIntoArray);
+
   if (/\s/.test(input)) {
+    return true;
+  }
+
+  if (input.startsWith("localhost") || input.startsWith("http://localhost")) {
     return true;
   }
 

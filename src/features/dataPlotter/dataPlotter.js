@@ -90,12 +90,15 @@ export const DataPlotter = () => {
       if (validUrls.indexOf(url) !== -1) {
         continue;
       }
-      let transformedUrl = transformUrl(url);
+      let transformedUrl = transformUrl(url, "/api/config");
       await axios.get(transformedUrl).then(
         (res) => {
           if (res.data.deviceId) {
             setDevicesId((devId) => [...devId, res.data.deviceId]);
-            setValidUrls((valUrl) => [...valUrl, url]);
+            setValidUrls((valUrl) => [
+              ...valUrl,
+              transformUrl(url, "/api/data"),
+            ]);
           }
         },
         (error) => {
