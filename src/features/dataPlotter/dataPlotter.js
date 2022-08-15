@@ -117,7 +117,7 @@ export const DataPlotter = () => {
 
   useEffect(() => {
     noApiConfigStored();
-  }, []);
+  }, [noApiConfigStored]);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
