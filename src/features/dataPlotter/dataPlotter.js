@@ -18,7 +18,7 @@ export const storageSetItem = (key, value) => {
 };
 
 export const DataPlotter = () => {
-  const publicApi = "https://api.bromleysat.space/api/data";
+  const publicApi = "https://api.bromleysat.space";
   const theme = useTheme();
   const intervalRef = useRef(null);
   const [urlList, setUrlList] = useState(

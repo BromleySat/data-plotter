@@ -33,7 +33,7 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
       cy.get('[data-testid="text-area"]').should("be.visible");
       cy.get('[data-testid="text-area"]').should(
         "have.value",
-        "api.bromleysat.space/api/data"
+        "api.bromleysat.space"
       );
       cy.get('[data-testid="text-area"]').should(
         "have.attr",
