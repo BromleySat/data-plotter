@@ -15,16 +15,15 @@ describe("...", () => {
 
     fireEvent.change(textfield, {
       target: {
-        value: "localhost:3080/api/random-data,localhost:3090/api/random-data",
+        value: "localhost:3080,localhost:3090",
       },
     });
-
     fireEvent.click(submitButton);
 
     //TODO validate that there is No error message
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
       "urlList",
-      `["http://localhost:3080/api/random-data","http://localhost:3090/api/random-data"]`
+      `["http://localhost:3080","http://localhost:3090"]`
     );
 
     const submitError = queryByTestId("error");

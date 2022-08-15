@@ -21,12 +21,13 @@ export const DataPlotter = () => {
   const publicApi = "https://api.bromleysat.space/api/data";
   const theme = useTheme();
   const intervalRef = useRef(null);
-  const [textBoxValue, setTextBoxValue] = useState("");
-  const [error, setError] = useState(false);
-  const [validUrls, setValidUrls] = useState([]);
   const [urlList, setUrlList] = useState(
     JSON.parse(localStorage.getItem("urlList")) || [publicApi]
   );
+  const [textBoxValue, setTextBoxValue] = useState(trimHttp(urlList).join(","));
+  const [error, setError] = useState(false);
+  const [validUrls, setValidUrls] = useState([]);
+
   const [devicesId, setDevicesId] = useState([]);
 
   const useStyles = makeStyles({
@@ -141,7 +142,9 @@ export const DataPlotter = () => {
           defaultValue={trimHttp(urlList)}
           multiline={true}
           onChange={(e) => setTextBoxValue(e.target.value)}
-          inputProps={{ "data-testid": "text-area" }}
+          inputProps={{
+            "data-testid": "text-area",
+          }}
           InputProps={{
             classes: {
               root: classes.root,

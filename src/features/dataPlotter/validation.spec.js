@@ -61,11 +61,11 @@ describe("Testing Validation Of The Api List Input", () => {
   //   expect(validateInput(input)).toBe(true);
   // });
   it("should allow multiple entries ", () => {
-    const input = "localhost:3080/random-data, localhost:3090/random-data";
+    const input = "localhost:3080, localhost:3090";
     expect(validateInput(input)).toBe(true);
   });
   it("should allow a known URL", () => {
-    const input = "localhost:3080/api/random-data";
+    const input = "localhost:3080";
     expect(validateInput(input)).toBe(true);
   });
   it("should not allow invalid multiple entries", () => {
@@ -77,8 +77,7 @@ describe("Testing Validation Of The Api List Input", () => {
     expect(validateInput(input)).toBe(false);
   });
   it("should allow double and triple spaces", () => {
-    const input =
-      "     localhost:3080/random-data,    localhost:3090/random-data";
+    const input = "     localhost:3080,    localhost:3090";
     expect(validateInput(input)).toBe(true);
   });
   it("should not allow users to forget comma", () => {
@@ -87,7 +86,7 @@ describe("Testing Validation Of The Api List Input", () => {
     expect(validateInput(input)).toBe(false);
   });
   it("should allow domain names", () => {
-    const input = "api.bromleysat.space/servo";
+    const input = "api.bromleysat.space";
     expect(validateInput(input)).toBe(true);
   });
   it("should not allow invalid domain names", () => {
@@ -105,6 +104,10 @@ describe("Testing Validation Of The Api List Input", () => {
   });
   it("should not allow only one character", () => {
     const input = "a";
+    expect(validateInput(input)).toBe(false);
+  });
+  it("should not allow full path", () => {
+    const input = "http://localhost:3080/api/data";
     expect(validateInput(input)).toBe(false);
   });
 });
