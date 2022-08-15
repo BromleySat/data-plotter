@@ -67,18 +67,17 @@ export const DataPlotter = () => {
   //   }
   // `;
 
-  const noApiConfigStored = useCallback(
-    (ip) => {
-      if (!urlList) {
-        let str = "/api/config";
-        const localIp = isLocalIp(ip);
-        if (localIp) {
-          setUrlList(ip + str);
-        }
-      }
-    },
-    [urlList, setUrlList]
-  );
+  const noApiConfigStored = useCallback(() => {
+    const localIp = isLocalIp(window.location.host);
+    if (localIp) {
+      storageSetItem(
+        "urlList",
+        JSON.stringify(getApiList(window.location.host))
+      );
+      console.log(localStorage.getItem("urlList"));
+      setUrlList(getApiList(window.location.host));
+    }
+  }, [setUrlList]);
 
   const fetchingValidUrl = useCallback(async () => {
     if (!urlList) {
@@ -114,8 +113,11 @@ export const DataPlotter = () => {
     intervalRef.current = setInterval(() => {
       fetchingValidUrl();
     }, 5000);
-    noApiConfigStored(window.location.host);
   }, [noApiConfigStored, fetchingValidUrl, urlList, validUrls]);
+
+  useEffect(() => {
+    noApiConfigStored();
+  }, []);
 
   const onFormSubmit = (e) => {
     e.preventDefault();
