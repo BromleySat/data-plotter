@@ -59,6 +59,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
           //   `VISIBLE DATA FOR ${validUrl}`,
           //   JSON.stringify(visibleData)
           // );
+          console.log(validUrl);
           const dataFromThePastValue =
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
             `300000`;

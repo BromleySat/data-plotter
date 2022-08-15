@@ -18,15 +18,16 @@ export const storageSetItem = (key, value) => {
 };
 
 export const DataPlotter = () => {
-  const publicApi = "https://api.bromleysat.space/api/data";
+  const publicApi = "https://api.bromleysat.space";
   const theme = useTheme();
   const intervalRef = useRef(null);
-  const [textBoxValue, setTextBoxValue] = useState("");
-  const [error, setError] = useState(false);
-  const [validUrls, setValidUrls] = useState([]);
   const [urlList, setUrlList] = useState(
     JSON.parse(localStorage.getItem("urlList")) || [publicApi]
   );
+  const [textBoxValue, setTextBoxValue] = useState(trimHttp(urlList).join(","));
+  const [error, setError] = useState(false);
+  const [validUrls, setValidUrls] = useState([]);
+
   const [devicesId, setDevicesId] = useState([]);
 
   const useStyles = makeStyles({
@@ -90,12 +91,15 @@ export const DataPlotter = () => {
       if (validUrls.indexOf(url) !== -1) {
         continue;
       }
-      let transformedUrl = transformUrl(url);
+      let transformedUrl = transformUrl(url, "/api/config");
       await axios.get(transformedUrl).then(
         (res) => {
           if (res.data.deviceId) {
             setDevicesId((devId) => [...devId, res.data.deviceId]);
-            setValidUrls((valUrl) => [...valUrl, url]);
+            setValidUrls((valUrl) => [
+              ...valUrl,
+              transformUrl(url, "/api/data"),
+            ]);
           }
         },
         (error) => {
@@ -138,7 +142,9 @@ export const DataPlotter = () => {
           defaultValue={trimHttp(urlList)}
           multiline={true}
           onChange={(e) => setTextBoxValue(e.target.value)}
-          inputProps={{ "data-testid": "text-area" }}
+          inputProps={{
+            "data-testid": "text-area",
+          }}
           InputProps={{
             classes: {
               root: classes.root,
