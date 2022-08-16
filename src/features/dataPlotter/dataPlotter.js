@@ -29,6 +29,7 @@ export const DataPlotter = () => {
   const [validUrls, setValidUrls] = useState([]);
 
   const [devicesId, setDevicesId] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const useStyles = makeStyles({
     root: {
@@ -91,6 +92,10 @@ export const DataPlotter = () => {
         continue;
       }
       let transformedUrl = transformUrl(url, "/api/config");
+      if (loading) {
+        return;
+      }
+      setLoading(true);
       await axios.get(transformedUrl).then(
         (res) => {
           if (res.data.deviceId) {
@@ -100,13 +105,14 @@ export const DataPlotter = () => {
               transformUrl(url, "/api/data"),
             ]);
           }
+          setLoading(false);
         },
         (error) => {
           console.log("Error " + url);
         }
       );
     }
-  }, [urlList, validUrls]);
+  }, [urlList, validUrls, loading]);
 
   useEffect(() => {
     clearInterval(intervalRef.current);
