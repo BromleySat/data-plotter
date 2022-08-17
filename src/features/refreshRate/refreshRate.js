@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -7,30 +7,11 @@ import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
 import ControlledTooltip from "../../components/Tooltip";
 
-export const RefreshRate = ({ validUrl, getData, setRunning }) => {
+export const RefreshRate = ({ validUrl, onChangeInterval }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [counter, setCounter] = useState(0);
   const theme = useTheme();
-  const intervalRef = useRef(null);
   const intervalRefreshRate = useRef(null);
-  useEffect(() => {
-    if (validUrl === undefined) {
-      return;
-    }
-    const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
-    // TODO: Interval resets every time we get data
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(getData, interval ?? 1000);
-    setRunning(intervalRef.current);
-  }, [validUrl, getData, setRunning]);
-  const onChangeInterval = (e) => {
-    if (validUrl === "") {
-      return;
-    }
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(getData, e.target.value);
-    localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
-  };
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);

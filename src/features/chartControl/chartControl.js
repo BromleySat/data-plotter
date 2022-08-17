@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import DataRetention from "../dataRetention/dataRetention";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import { ChartTimeWindow } from "../chartTimeWindow/chartTimeWindow";
@@ -13,7 +13,7 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = ({ validUrl, deviceId, setRunning }) => {
+const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -25,6 +25,7 @@ const ChartControl = ({ validUrl, deviceId, setRunning }) => {
   const [zoomedOut, setZoomedOut] = useState({ value: false });
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
+  const intervalRef = useRef(null);
 
   const dataFromThePast = useCallback(
     (value) => {
@@ -112,6 +113,28 @@ const ChartControl = ({ validUrl, deviceId, setRunning }) => {
     }
   };
 
+  useEffect(() => {
+    if (validUrl === undefined) {
+      return;
+    }
+    const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
+    // TODO: Interval resets every time we get data
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(getData, interval ?? 1000);
+    setRunning(intervalRef.current);
+  }, [validUrl, getData, setRunning]);
+
+  const onChangeInterval = (e) => {
+    if (validUrl === "") {
+      return;
+    }
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(getData, e.target.value);
+    setRunning(intervalRef.current);
+    localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
+    console.log(visibleData);
+  };
+
   return (
     <div style={{ marginBottom: "4em" }}>
       <div className="flex">
@@ -141,9 +164,8 @@ const ChartControl = ({ validUrl, deviceId, setRunning }) => {
           </ControlledTooltip>
 
           <RefreshRate
+            onChangeInterval={onChangeInterval}
             validUrl={validUrl}
-            getData={getData}
-            setRunning={setRunning}
           />
         </div>
       </div>

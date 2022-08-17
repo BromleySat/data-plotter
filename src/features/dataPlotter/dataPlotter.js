@@ -120,7 +120,7 @@ export const DataPlotter = () => {
     intervalRef.current = setInterval(() => {
       fetchingValidUrl();
     }, 5000);
-  }, [noApiConfigStored, fetchingValidUrl, urlList, validUrls]);
+  }, [fetchingValidUrl]);
 
   useEffect(() => {
     noApiConfigStored();
@@ -196,6 +196,7 @@ export const DataPlotter = () => {
         return (
           <ChartControl
             setRunning={setRunning}
+            running={running}
             key={`chart_${index}`}
             validUrl={validUrl}
             deviceId={deviceIdIndex}
