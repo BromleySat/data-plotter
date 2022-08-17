@@ -196,6 +196,7 @@ export const DataPlotter = () => {
         return (
           <ChartControl
             setRunning={setRunning}
+            running={running}
             key={`chart_${index}`}
             validUrl={validUrl}
             deviceId={deviceIdIndex}
