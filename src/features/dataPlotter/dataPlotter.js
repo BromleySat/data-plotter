@@ -30,6 +30,7 @@ export const DataPlotter = () => {
 
   const [devicesId, setDevicesId] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [running, setRunning] = useState();
 
   const useStyles = makeStyles({
     root: {
@@ -127,6 +128,7 @@ export const DataPlotter = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
+    clearInterval(running);
     setError(false);
     const validate = validateInput(textBoxValue);
     if (validate) {
@@ -193,6 +195,7 @@ export const DataPlotter = () => {
         const deviceIdIndex = devicesId[index];
         return (
           <ChartControl
+            setRunning={setRunning}
             key={`chart_${index}`}
             validUrl={validUrl}
             deviceId={deviceIdIndex}
