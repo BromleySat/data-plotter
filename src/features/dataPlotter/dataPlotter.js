@@ -120,7 +120,7 @@ export const DataPlotter = () => {
     intervalRef.current = setInterval(() => {
       fetchingValidUrl();
     }, 5000);
-  }, [noApiConfigStored, fetchingValidUrl, urlList, validUrls]);
+  }, [fetchingValidUrl]);
 
   useEffect(() => {
     noApiConfigStored();

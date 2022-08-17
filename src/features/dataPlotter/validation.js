@@ -126,6 +126,8 @@ export function getApiList(input) {
     inputArray[i] = inputArray[i].replace(/\s+/g, "");
     if (inputArray[i].startsWith("localhost") || /^\d/.test(inputArray[i])) {
       inputArray[i] = str + inputArray[i];
+    } else if (isLocalIp(inputArray[i])) {
+      inputArray[i] = str + inputArray[i];
     } else if (inputArray[i].startsWith("https://")) {
       //  inputArray[i] = inputArray[i];
     } else if (inputArray[i].startsWith("http://")) {
