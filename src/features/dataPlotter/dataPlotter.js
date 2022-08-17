@@ -109,6 +109,7 @@ export const DataPlotter = () => {
           setLoading(false);
         },
         (error) => {
+          setLoading(false);
           console.log("Error " + url);
         }
       );

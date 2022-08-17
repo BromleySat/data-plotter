@@ -50,21 +50,10 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
       setLoading(true);
       await axios.get(validUrl).then(
         (res) => {
-          // const now = new Date().getTime();
-          // const filteredData =
-          //   now - localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`);
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
 
-          // const filData = data.filter(
-          //   (data) => data.currentTime < filteredData
-          // );
-          // setVisibleData(filData);
-          // localStorage.setItem(
-          //   `VISIBLE DATA FOR ${validUrl}`,
-          //   JSON.stringify(visibleData)
-          // );
           console.log(validUrl);
           const dataFromThePastValue =
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
@@ -79,9 +68,8 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
           }
         },
         (error) => {
+          setLoading(false);
           console.log(error);
-
-          //   setValidUrl("");
         }
       );
     }
