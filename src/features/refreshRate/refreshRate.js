@@ -29,6 +29,7 @@ export const RefreshRate = ({ validUrl, getData, setRunning }) => {
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
+    setRunning(intervalRef.current);
     localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
   };
 
