@@ -7,7 +7,7 @@ import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
 import ControlledTooltip from "../../components/Tooltip";
 
-export const RefreshRate = ({ validUrl, getData }) => {
+export const RefreshRate = ({ validUrl, getData, setRunning }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [counter, setCounter] = useState(0);
   const theme = useTheme();
@@ -21,7 +21,8 @@ export const RefreshRate = ({ validUrl, getData }) => {
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 1000);
-  }, [validUrl, getData]);
+    setRunning(intervalRef.current);
+  }, [validUrl, getData, setRunning]);
   const onChangeInterval = (e) => {
     if (validUrl === "") {
       return;

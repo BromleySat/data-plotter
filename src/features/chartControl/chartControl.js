@@ -13,7 +13,7 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = ({ validUrl, deviceId }) => {
+const ChartControl = ({ validUrl, deviceId, setRunning }) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -140,7 +140,11 @@ const ChartControl = ({ validUrl, deviceId }) => {
             />
           </ControlledTooltip>
 
-          <RefreshRate validUrl={validUrl} getData={getData} />
+          <RefreshRate
+            validUrl={validUrl}
+            getData={getData}
+            setRunning={setRunning}
+          />
         </div>
       </div>
       <Chart
