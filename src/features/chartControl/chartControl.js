@@ -23,6 +23,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
     JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
   );
   const [zoomedOut, setZoomedOut] = useState({ value: false });
+  const [loading, setLoading] = useState(false);
   const theme = useTheme();
 
   const dataFromThePast = useCallback(
@@ -42,6 +43,10 @@ const ChartControl = ({ validUrl, deviceId }) => {
 
   const getData = useCallback(async () => {
     if (validUrl) {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
       await axios.get(validUrl).then(
         (res) => {
           // const now = new Date().getTime();
@@ -64,6 +69,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
             `300000`;
           setVisibleData(dataFromThePast(dataFromThePastValue));
+          setLoading(false);
 
           if (toggle) {
             localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
@@ -78,7 +84,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         }
       );
     }
-  }, [data, validUrl, toggle, dataFromThePast]);
+  }, [data, validUrl, toggle, dataFromThePast, loading]);
 
   const removeData = useCallback(() => {
     if (data.length < 1) {

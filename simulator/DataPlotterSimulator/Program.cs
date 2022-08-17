@@ -25,6 +25,7 @@ string RandomString(int length)
 
 app.MapGet("/api/config", () =>
 {
+    Thread.Sleep(10000);
     return new DeviceIdAndVersion
     (
         deviceId: "Simulator-NET-Local",
@@ -34,6 +35,7 @@ app.MapGet("/api/config", () =>
 
 app.MapGet("/api/data", () =>
 {
+    Thread.Sleep(10000);
     return new DataRecord
     (
         DateTime.UtcNow,
