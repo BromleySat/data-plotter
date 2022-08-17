@@ -13,7 +13,14 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
+const ChartControl = ({
+  validUrl,
+  deviceId,
+  setRunning,
+  running,
+  invokeGetData,
+  setInvokeGetData,
+}) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -111,6 +118,13 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
     intervalRef.current = setInterval(getData, interval ?? 1000);
     setRunning(intervalRef.current);
   }, [validUrl, getData, setRunning]);
+
+  useEffect(() => {
+    if (invokeGetData.value === true) {
+      setInvokeGetData({ value: false });
+      getData();
+    }
+  }, [getData, invokeGetData, setInvokeGetData]);
 
   const onChangeInterval = (e) => {
     if (validUrl === "") {
