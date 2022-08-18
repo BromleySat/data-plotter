@@ -108,6 +108,13 @@ const ChartControl = ({
     }
   };
 
+  const runningIntervals = useCallback(
+    (interval) => {
+      setRunning((intervals) => [...intervals, interval]);
+    },
+    [setRunning]
+  );
+
   useEffect(() => {
     if (validUrl === undefined) {
       return;
@@ -116,8 +123,8 @@ const ChartControl = ({
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 1000);
-    setRunning(intervalRef.current);
-  }, [validUrl, getData, setRunning]);
+    runningIntervals(intervalRef.current);
+  }, [validUrl, getData, runningIntervals]);
 
   useEffect(() => {
     if (invokeGetData.value === true) {

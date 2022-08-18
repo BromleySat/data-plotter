@@ -30,7 +30,7 @@ export const DataPlotter = () => {
 
   const [devicesId, setDevicesId] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [running, setRunning] = useState();
+  const [running, setRunning] = useState([]);
   const [invokeGetData, setInvokeGetData] = useState({ value: false });
 
   const useStyles = makeStyles({
@@ -131,7 +131,9 @@ export const DataPlotter = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    clearInterval(running);
+    for (let interval of running) {
+      window.clearInterval(interval);
+    }
     setError(false);
     const validate = validateInput(textBoxValue);
     if (validate) {
