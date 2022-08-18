@@ -31,7 +31,8 @@ export const DataPlotter = () => {
   const [devicesId, setDevicesId] = useState([]);
   const [loading, setLoading] = useState(false);
   const [running, setRunning] = useState([]);
-  const [invokeGetData, setInvokeGetData] = useState({ value: false });
+
+  const getDataRef = useRef();
 
   const useStyles = makeStyles({
     root: {
@@ -114,7 +115,7 @@ export const DataPlotter = () => {
           console.log("Error " + url);
         }
       );
-      setInvokeGetData({ value: true });
+      getDataRef.current.getData();
     }
   }, [urlList, validUrls, loading]);
 
@@ -200,8 +201,7 @@ export const DataPlotter = () => {
         const deviceIdIndex = devicesId[index];
         return (
           <ChartControl
-            invokeGetData={invokeGetData}
-            setInvokeGetData={setInvokeGetData}
+            ref={getDataRef}
             setRunning={setRunning}
             running={running}
             key={`chart_${index}`}
