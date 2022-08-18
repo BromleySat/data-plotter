@@ -33,6 +33,9 @@ const ChartControl = ({
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const intervalRef = useRef(null);
+  const dataFromThePastValue =
+    localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
+  const [handleVisibleData, setHandleVisibleData] = useState({ value: false });
 
   const dataFromThePast = useCallback(
     (value) => {
@@ -60,12 +63,8 @@ const ChartControl = ({
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
+          setHandleVisibleData({ value: true });
 
-          console.log(validUrl);
-          const dataFromThePastValue =
-            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
-            `300000`;
-          setVisibleData(dataFromThePast(dataFromThePastValue));
           setLoading(false);
 
           if (toggle) {
@@ -80,7 +79,7 @@ const ChartControl = ({
         }
       );
     }
-  }, [data, validUrl, toggle, dataFromThePast, loading]);
+  }, [data, validUrl, toggle, loading]);
 
   const removeData = useCallback(() => {
     if (data.length < 1) {
@@ -108,6 +107,13 @@ const ChartControl = ({
     }
   };
 
+  const runningIntervals = useCallback(
+    (interval) => {
+      setRunning((intervals) => [...intervals, interval]);
+    },
+    [setRunning]
+  );
+
   useEffect(() => {
     if (validUrl === undefined) {
       return;
@@ -116,8 +122,8 @@ const ChartControl = ({
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 1000);
-    setRunning(intervalRef.current);
-  }, [validUrl, getData, setRunning]);
+    runningIntervals(intervalRef.current);
+  }, [validUrl, getData, runningIntervals]);
 
   useEffect(() => {
     if (invokeGetData.value === true) {
@@ -125,6 +131,13 @@ const ChartControl = ({
       getData();
     }
   }, [getData, invokeGetData, setInvokeGetData]);
+
+  useEffect(() => {
+    if (handleVisibleData.value === true) {
+      setHandleVisibleData({ value: false });
+      setVisibleData(dataFromThePast(dataFromThePastValue));
+    }
+  }, [data, dataFromThePast, dataFromThePastValue, handleVisibleData]);
 
   const onChangeInterval = (e) => {
     if (validUrl === "") {

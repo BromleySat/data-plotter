@@ -72,7 +72,6 @@ export function validateInput(input) {
       console.log("slash 2");
       return false;
     }
-    console.log(inputIntoArray);
   }
 
   if (input.length > 100) {
@@ -95,8 +94,6 @@ export function validateInput(input) {
   if (httpRegex.test(input)) {
     return true;
   }
-
-  console.log(inputIntoArray);
 
   if (/\s/.test(input)) {
     return true;
