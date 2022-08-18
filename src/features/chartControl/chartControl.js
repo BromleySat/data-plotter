@@ -13,7 +13,14 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
+const ChartControl = ({
+  validUrl,
+  deviceId,
+  setRunning,
+  running,
+  invokeGetData,
+  setInvokeGetData,
+}) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -50,21 +57,10 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
       setLoading(true);
       await axios.get(validUrl).then(
         (res) => {
-          // const now = new Date().getTime();
-          // const filteredData =
-          //   now - localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`);
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
 
-          // const filData = data.filter(
-          //   (data) => data.currentTime < filteredData
-          // );
-          // setVisibleData(filData);
-          // localStorage.setItem(
-          //   `VISIBLE DATA FOR ${validUrl}`,
-          //   JSON.stringify(visibleData)
-          // );
           console.log(validUrl);
           const dataFromThePastValue =
             localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
@@ -79,9 +75,8 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
           }
         },
         (error) => {
+          setLoading(false);
           console.log(error);
-
-          //   setValidUrl("");
         }
       );
     }
@@ -124,13 +119,19 @@ const ChartControl = ({ validUrl, deviceId, setRunning, running }) => {
     setRunning(intervalRef.current);
   }, [validUrl, getData, setRunning]);
 
+  useEffect(() => {
+    if (invokeGetData.value === true) {
+      setInvokeGetData({ value: false });
+      getData();
+    }
+  }, [getData, invokeGetData, setInvokeGetData]);
+
   const onChangeInterval = (e) => {
     if (validUrl === "") {
       return;
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
-    setRunning(intervalRef.current);
     localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
     console.log(visibleData);
   };
