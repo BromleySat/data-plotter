@@ -1,4 +1,11 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import DataRetention from "../dataRetention/dataRetention";
 import { RefreshRate } from "../refreshRate/refreshRate";
 import { ChartTimeWindow } from "../chartTimeWindow/chartTimeWindow";
@@ -13,14 +20,7 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = ({
-  validUrl,
-  deviceId,
-  setRunning,
-  running,
-  invokeGetData,
-  setInvokeGetData,
-}) => {
+const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -35,7 +35,6 @@ const ChartControl = ({
   const intervalRef = useRef(null);
   const dataFromThePastValue =
     localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
-  const [handleVisibleData, setHandleVisibleData] = useState({ value: false });
 
   const dataFromThePast = useCallback(
     (value) => {
@@ -52,6 +51,38 @@ const ChartControl = ({
     [validUrl, visibleData, data]
   );
 
+  useImperativeHandle(ref, () => ({
+    async getData() {
+      if (validUrl) {
+        if (loading) {
+          return;
+        }
+        setLoading(true);
+        await axios.get(validUrl).then(
+          (res) => {
+            res.data.time = new Date().getTime();
+            res.data.currentTime = new Date().getTime();
+            setData((data) => [...data, res.data]);
+            setVisibleData(dataFromThePast(dataFromThePastValue));
+            if (toggle) {
+              localStorage.setItem(
+                `DATA FOR ${validUrl}`,
+                JSON.stringify(data)
+              );
+            } else {
+              localStorage.removeItem(`DATA FOR ${validUrl}`);
+            }
+            setLoading(false);
+          },
+          (error) => {
+            setLoading(false);
+            console.log(error);
+          }
+        );
+      }
+    },
+  }));
+
   const getData = useCallback(async () => {
     if (validUrl) {
       if (loading) {
@@ -63,15 +94,13 @@ const ChartControl = ({
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
-          setHandleVisibleData({ value: true });
-
-          setLoading(false);
-
+          setVisibleData(dataFromThePast(dataFromThePastValue));
           if (toggle) {
             localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
           } else {
             localStorage.removeItem(`DATA FOR ${validUrl}`);
           }
+          setLoading(false);
         },
         (error) => {
           setLoading(false);
@@ -79,7 +108,7 @@ const ChartControl = ({
         }
       );
     }
-  }, [data, validUrl, toggle, loading]);
+  }, [data, validUrl, toggle, loading, dataFromThePast, dataFromThePastValue]);
 
   const removeData = useCallback(() => {
     if (data.length < 1) {
@@ -126,18 +155,13 @@ const ChartControl = ({
   }, [validUrl, getData, runningIntervals]);
 
   useEffect(() => {
-    if (invokeGetData.value === true) {
-      setInvokeGetData({ value: false });
-      getData();
-    }
-  }, [getData, invokeGetData, setInvokeGetData]);
-
-  useEffect(() => {
-    if (handleVisibleData.value === true) {
-      setHandleVisibleData({ value: false });
-      setVisibleData(dataFromThePast(dataFromThePastValue));
-    }
-  }, [data, dataFromThePast, dataFromThePastValue, handleVisibleData]);
+    const dataFromThePastValue =
+      localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
+    const now = new Date().getTime();
+    const filteredData = now - dataFromThePastValue;
+    const filData = data.filter((dat) => dat.currentTime > filteredData);
+    setVisibleData(filData);
+  }, [data, validUrl]);
 
   const onChangeInterval = (e) => {
     if (validUrl === "") {
@@ -210,6 +234,6 @@ const ChartControl = ({
       </div>
     </div>
   );
-};
+});
 
 export default ChartControl;
