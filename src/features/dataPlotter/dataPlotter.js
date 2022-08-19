@@ -91,7 +91,7 @@ export const DataPlotter = () => {
       return;
     }
     for (const url of urlList) {
-      if (validUrls.indexOf(url) !== -1) {
+      if (validUrls.indexOf(transformUrl(url, "/api/data")) !== -1) {
         continue;
       }
       let transformedUrl = transformUrl(url, "/api/config");

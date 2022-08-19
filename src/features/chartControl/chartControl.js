@@ -20,22 +20,21 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./chartControl.css";
 import ControlledTooltip from "../../components/Tooltip";
 
-const ChartControl = forwardRef((props, ref) => {
+const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
   const [data, setData] = useState(
-    JSON.parse(localStorage.getItem(`DATA FOR ${props.validUrl}`) || "[]")
+    JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
   const [visibleData, setVisibleData] = useState([]);
   // JSON.parse(localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`) || "[]")
   const [toggle, setToggle] = useState(
-    JSON.parse(localStorage.getItem(`TOGGLE FOR ${props.validUrl}`) || false)
+    JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
   );
   const [zoomedOut, setZoomedOut] = useState({ value: false });
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const intervalRef = useRef(null);
   const dataFromThePastValue =
-    localStorage.getItem(`VISIBLE DATA VALUE FOR ${props.validUrl}`) ||
-    `300000`;
+    localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
 
   const dataFromThePast = useCallback(
     (value) => {
@@ -43,23 +42,23 @@ const ChartControl = forwardRef((props, ref) => {
       const filteredData = now - value;
       const filData = data.filter((dat) => dat.currentTime > filteredData);
       localStorage.setItem(
-        `VISIBLE DATA FOR ${props.validUrl}`,
+        `VISIBLE DATA FOR ${validUrl}`,
         JSON.stringify(visibleData)
       );
-      localStorage.setItem(`VISIBLE DATA VALUE FOR ${props.validUrl}`, value);
+      localStorage.setItem(`VISIBLE DATA VALUE FOR ${validUrl}`, value);
       return filData;
     },
-    [props.validUrl, visibleData, data]
+    [validUrl, visibleData, data]
   );
 
   useImperativeHandle(ref, () => ({
     async getData() {
-      if (props.validUrl) {
+      if (validUrl) {
         if (loading) {
           return;
         }
         setLoading(true);
-        await axios.get(props.validUrl).then(
+        await axios.get(validUrl).then(
           (res) => {
             res.data.time = new Date().getTime();
             res.data.currentTime = new Date().getTime();
@@ -67,11 +66,11 @@ const ChartControl = forwardRef((props, ref) => {
             setVisibleData(dataFromThePast(dataFromThePastValue));
             if (toggle) {
               localStorage.setItem(
-                `DATA FOR ${props.validUrl}`,
+                `DATA FOR ${validUrl}`,
                 JSON.stringify(data)
               );
             } else {
-              localStorage.removeItem(`DATA FOR ${props.validUrl}`);
+              localStorage.removeItem(`DATA FOR ${validUrl}`);
             }
             setLoading(false);
           },
@@ -85,24 +84,21 @@ const ChartControl = forwardRef((props, ref) => {
   }));
 
   const getData = useCallback(async () => {
-    if (props.validUrl) {
+    if (validUrl) {
       if (loading) {
         return;
       }
       setLoading(true);
-      await axios.get(props.validUrl).then(
+      await axios.get(validUrl).then(
         (res) => {
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
           setData((data) => [...data, res.data]);
           setVisibleData(dataFromThePast(dataFromThePastValue));
           if (toggle) {
-            localStorage.setItem(
-              `DATA FOR ${props.validUrl}`,
-              JSON.stringify(data)
-            );
+            localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
           } else {
-            localStorage.removeItem(`DATA FOR ${props.validUrl}`);
+            localStorage.removeItem(`DATA FOR ${validUrl}`);
           }
           setLoading(false);
         },
@@ -112,85 +108,75 @@ const ChartControl = forwardRef((props, ref) => {
         }
       );
     }
-  }, [
-    data,
-    props.validUrl,
-    toggle,
-    loading,
-    dataFromThePast,
-    dataFromThePastValue,
-  ]);
+  }, [data, validUrl, toggle, loading, dataFromThePast, dataFromThePastValue]);
 
   const removeData = useCallback(() => {
     if (data.length < 1) {
       return;
     }
     const value =
-      localStorage.getItem(`DATA RETENTION FOR ${props.validUrl}`) ||
-      1814400000;
+      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
     const now = new Date().getTime();
     const cutOff = now - value;
     const oldElementIndex = lastIndexOf(data, cutOff);
     if (oldElementIndex !== -1) {
       setData(data.slice(oldElementIndex));
     }
-  }, [data, props.validUrl]);
+  }, [data, validUrl]);
 
   const onCheckboxChange = (e) => {
     setToggle(e.target.checked);
-    localStorage.setItem(`TOGGLE FOR ${props.validUrl}`, e.target.checked);
+    localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
 
     if (e.target.checked) {
-      localStorage.setItem(`DATA FOR ${props.validUrl}`, JSON.stringify(data));
+      localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
     } else {
       // Hidden Bug, removes data
-      localStorage.removeItem(`DATA FOR ${props.validUrl}`);
+      localStorage.removeItem(`DATA FOR ${validUrl}`);
     }
   };
 
   const runningIntervals = useCallback(
     (interval) => {
-      props.setRunning((intervals) => [...intervals, interval]);
+      setRunning((intervals) => [...intervals, interval]);
     },
-    [props.setRunning]
-  );
-
-  const handleVisibleData = useCallback(
-    (visData) => {
-      setVisibleData(visData(dataFromThePastValue));
-    },
-    [dataFromThePastValue]
+    [setRunning]
   );
 
   useEffect(() => {
-    if (props.validUrl === undefined) {
+    if (validUrl === undefined) {
       return;
     }
-    const interval = localStorage.getItem(`REFRESH RATE FOR ${props.validUrl}`);
+    const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 1000);
     runningIntervals(intervalRef.current);
-  }, [props.validUrl, getData, runningIntervals]);
+  }, [validUrl, getData, runningIntervals]);
 
   useEffect(() => {
-    handleVisibleData(dataFromThePast);
-  }, [data]);
+    const dataFromThePastValue =
+      localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
+    const now = new Date().getTime();
+    const filteredData = now - dataFromThePastValue;
+    const filData = data.filter((dat) => dat.currentTime > filteredData);
+    setVisibleData(filData);
+  }, [data, validUrl]);
 
   const onChangeInterval = (e) => {
-    if (props.validUrl === "") {
+    if (validUrl === "") {
       return;
     }
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
-    localStorage.setItem(`REFRESH RATE FOR ${props.validUrl}`, e.target.value);
+    localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
     console.log(visibleData);
   };
 
   return (
     <div style={{ marginBottom: "4em" }}>
       <div className="flex">
-        <DataRetention validUrl={props.validUrl} removeData={removeData} />
+        <DataRetention validUrl={validUrl} removeData={removeData} />
         <Typography
           variant="h4"
           style={{
@@ -199,15 +185,15 @@ const ChartControl = forwardRef((props, ref) => {
             fontWeight: "700",
           }}
         >
-          {props.deviceId}
+          {deviceId}
         </Typography>
         <div className="split">
           <ControlledTooltip
             title="Zoom Out"
-            data-testid={`zoom-out-tooltip-${props.validUrl}`}
+            data-testid={`zoom-out-tooltip-${validUrl}`}
           >
             <FontAwesomeIcon
-              data-testid={`zoom-out-${props.validUrl}`}
+              data-testid={`zoom-out-${validUrl}`}
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
@@ -217,7 +203,7 @@ const ChartControl = forwardRef((props, ref) => {
 
           <RefreshRate
             onChangeInterval={onChangeInterval}
-            validUrl={props.validUrl}
+            validUrl={validUrl}
           />
         </div>
       </div>
@@ -225,7 +211,7 @@ const ChartControl = forwardRef((props, ref) => {
         zoomedOut={zoomedOut}
         theme={theme}
         visibleData={visibleData}
-        currentUrl={props.validUrl}
+        currentUrl={validUrl}
       />
       <div
         style={{
@@ -236,13 +222,13 @@ const ChartControl = forwardRef((props, ref) => {
         }}
       >
         <BromleySatSwitch
-          currentUrl={props.validUrl}
+          currentUrl={validUrl}
           checked={toggle}
           onChange={onCheckboxChange}
         />
         <ChartTimeWindow
           dataFromThePast={dataFromThePast}
-          validUrl={props.validUrl}
+          validUrl={validUrl}
           setVisibleData={setVisibleData}
         />
       </div>
