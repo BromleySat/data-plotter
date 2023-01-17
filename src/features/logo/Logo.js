@@ -17,7 +17,7 @@ export const Logo = () => {
         borderRadius: 0,
       }}
     >
-      <ButtonBase href="https://bromleysat.com/">
+      <ButtonBase href="/">
         <CardMedia
           component="img"
           src={
