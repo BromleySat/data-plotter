@@ -61,7 +61,7 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
         await axios
           .get(validUrl, {
             headers: {
-              "x-api-key": process.env.API_KEY,
+              "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
             },
           })
           .then(
@@ -98,7 +98,7 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
       await axios
         .get(validUrl, {
           headers: {
-            "x-api-key": process.env.API_KEY,
+            "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
           },
         })
         .then(
