@@ -3,17 +3,18 @@ import { Switch } from "@mui/material";
 import React from "react";
 import ControlledTooltip from "./Tooltip";
 
-export const BromleySatSwitch = styled((props) => (
+const StyledBromleySatSwitch = styled(({ currentUrl, checked, onChange }) => (
   <ControlledTooltip
-    data-testid={`local-storage-tooltip-${props.currentUrl}`}
+    data-testid={`local-storage-tooltip-${currentUrl}`}
     title="Local Storage"
     content="And here's some amazing content It's very engaging. Right?"
   >
     <Switch
-      data-testid={`local-storage-${props.currentUrl}`}
+      data-testid={`local-storage-${currentUrl}`}
       focusVisibleClassName=".Mui-focusVisible"
       disableRipple
-      {...props}
+      checked={checked}
+      onChange={onChange}
     />
   </ControlledTooltip>
 ))(({ theme }) => ({
@@ -64,3 +65,13 @@ export const BromleySatSwitch = styled((props) => (
     }),
   },
 }));
+
+export const BromleySatSwitch = (props) => {
+  return (
+    <StyledBromleySatSwitch
+      checked={props.checked}
+      onChange={props.onChange}
+      currentUrl={props.currentUrl}
+    />
+  );
+};
