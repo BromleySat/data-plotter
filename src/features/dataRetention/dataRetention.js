@@ -76,8 +76,10 @@ const DataRetention = ({ removeData, validUrl }) => {
           data-testid={`data-retention-${validUrl}`}
           id="demo-select-small"
           onChange={onChangeInterval}
-          defaultValue={
-            localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000
+          value={
+            localStorage.getItem(`DATA RETENTION FOR ${validUrl}`)
+              ? localStorage.getItem(`DATA RETENTION FOR ${validUrl}`)
+              : 1814400000
           }
           IconComponent={AutoDeleteSharpIcon}
           sx={{

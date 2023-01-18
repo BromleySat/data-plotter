@@ -58,50 +58,7 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
           return;
         }
         setLoading(true);
-        await axios
-          .get(validUrl, {
-            headers: {
-              "x-api-key": process.env.API_KEY,
-            },
-          })
-          .then(
-            (res) => {
-              res.data.time = new Date().getTime();
-              res.data.currentTime = new Date().getTime();
-              setData((data) => [...data, res.data]);
-              setVisibleData(dataFromThePast(dataFromThePastValue));
-              if (toggle) {
-                localStorage.setItem(
-                  `DATA FOR ${validUrl}`,
-                  JSON.stringify(data)
-                );
-              } else {
-                localStorage.removeItem(`DATA FOR ${validUrl}`);
-              }
-              setLoading(false);
-            },
-            (error) => {
-              setLoading(false);
-              console.log(error);
-            }
-          );
-      }
-    },
-  }));
-
-  const getData = useCallback(async () => {
-    if (validUrl) {
-      if (loading) {
-        return;
-      }
-      setLoading(true);
-      await axios
-        .get(validUrl, {
-          headers: {
-            "x-api-key": process.env.API_KEY,
-          },
-        })
-        .then(
+        await axios.get(validUrl).then(
           (res) => {
             res.data.time = new Date().getTime();
             res.data.currentTime = new Date().getTime();
@@ -122,6 +79,34 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
             console.log(error);
           }
         );
+      }
+    },
+  }));
+
+  const getData = useCallback(async () => {
+    if (validUrl) {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      await axios.get(validUrl).then(
+        (res) => {
+          res.data.time = new Date().getTime();
+          res.data.currentTime = new Date().getTime();
+          setData((data) => [...data, res.data]);
+          setVisibleData(dataFromThePast(dataFromThePastValue));
+          if (toggle) {
+            localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
+          } else {
+            localStorage.removeItem(`DATA FOR ${validUrl}`);
+          }
+          setLoading(false);
+        },
+        (error) => {
+          setLoading(false);
+          console.log(error);
+        }
+      );
     }
   }, [data, validUrl, toggle, loading, dataFromThePast, dataFromThePastValue]);
 
@@ -185,7 +170,6 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
     localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
-    console.log(visibleData);
   };
 
   return (
