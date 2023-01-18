@@ -77,7 +77,11 @@ export default class Chart extends PureComponent {
             width={800}
             height={400}
             data={this.props.visibleData}
-            onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
+            onMouseDown={(e) => {
+              if (e !== null) {
+                this.setState({ refAreaLeft: e.activeLabel });
+              }
+            }}
             onMouseMove={(e) =>
               this.state.refAreaLeft &&
               this.setState({ refAreaRight: e.activeLabel })
