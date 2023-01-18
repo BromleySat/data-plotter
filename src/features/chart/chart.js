@@ -74,8 +74,6 @@ export default class Chart extends PureComponent {
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             data-testid={`line-chart-${currentUrl}`}
-            width={800}
-            height={400}
             data={this.props.visibleData}
             onMouseDown={(e) => {
               if (e !== null) {
@@ -98,12 +96,18 @@ export default class Chart extends PureComponent {
               domain={[left, right]}
               type="number"
             />
-            <YAxis allowDataOverflow type="number" yAxisId="left-axis" />
+            <YAxis
+              allowDataOverflow
+              type="number"
+              yAxisId="left-axis"
+              domain={["dataMin", "dataMax"]}
+            />
             <YAxis
               orientation="right"
               allowDataOverflow
               type="number"
               yAxisId="right-axis"
+              domain={["dataMin", "dataMax"]}
             />
             <Tooltip
               labelFormatter={function (value) {
@@ -111,9 +115,7 @@ export default class Chart extends PureComponent {
                 return `TIME: ${value}`;
               }}
             />
-
             <Legend></Legend>
-
             {RenderLine(this.props.visibleData)}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea
