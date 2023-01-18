@@ -3,21 +3,7 @@ import { Switch } from "@mui/material";
 import React from "react";
 import ControlledTooltip from "./Tooltip";
 
-const StyledBromleySatSwitch = styled(({ currentUrl, checked, onChange }) => (
-  <ControlledTooltip
-    data-testid={`local-storage-tooltip-${currentUrl}`}
-    title="Local Storage"
-    content="And here's some amazing content It's very engaging. Right?"
-  >
-    <Switch
-      data-testid={`local-storage-${currentUrl}`}
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      checked={checked}
-      onChange={onChange}
-    />
-  </ControlledTooltip>
-))(({ theme }) => ({
+const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
   width: 52,
   height: 26,
   padding: 0,
@@ -68,10 +54,18 @@ const StyledBromleySatSwitch = styled(({ currentUrl, checked, onChange }) => (
 
 export const BromleySatSwitch = (props) => {
   return (
-    <StyledBromleySatSwitch
-      checked={props.checked}
-      onChange={props.onChange}
-      currentUrl={props.currentUrl}
-    />
+    <ControlledTooltip
+      data-testid={`local-storage-tooltip-${props.currentUrl}`}
+      title="Local Storage"
+      content="And here's some amazing content It's very engaging. Right?"
+    >
+      <StyledBromleySatSwitch
+        data-testid={`local-storage-${props.currentUrl}`}
+        focusVisibleClassName=".Mui-focusVisible"
+        disableRipple
+        checked={props.checked}
+        onChange={props.onChange}
+      />
+    </ControlledTooltip>
   );
 };
