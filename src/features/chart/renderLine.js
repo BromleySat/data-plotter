@@ -35,10 +35,11 @@ export const RenderLine = (data) => {
   if (columns.length > 5) {
     columns = columns.slice(0, 5);
   }
+
   let i = 0;
   return columns.map((column, index) => {
     const indexValue = values[index];
-    if (indexValue < 5 && column === "TemperatureF") {
+    if (indexValue < 5) {
       return (
         <Line
           yAxisId="right-axis"

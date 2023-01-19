@@ -107,7 +107,7 @@ export default class Chart extends PureComponent {
               allowDataOverflow
               type="number"
               yAxisId="right-axis"
-              domain={["dataMin", "dataMax"]}
+              domain={["dataMin", 3]}
             />
             <Tooltip
               labelFormatter={function (value) {
