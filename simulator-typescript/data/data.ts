@@ -34,6 +34,6 @@ export function getData(): Data {
   return {
     date: getDate(),
     temperatureC: getRandomIntInclusive(300, 900),
-    temperatureF: getRandomIntInclusive(0, 3),
+    temperatureF: getRandomIntInclusive(-100, 3),
   };
 }

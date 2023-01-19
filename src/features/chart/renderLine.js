@@ -17,19 +17,28 @@ export const RenderLine = (data) => {
         column !== "currentTime" &&
         column !== "number"
     );
-  let valArray = [];
+  console.log(columns);
   let numArray = [];
-  Object.entries(data[data.length - 1]).forEach(([key, value]) =>
-    valArray.push(value)
-  );
+  let values = Object.entries(data[data.length - 1])
+    .map(([key, value]) => {
+      if (key === "time" || key === "currentTime" || key === "date") {
+        return false;
+      }
+      return value;
+    })
+    .filter((value) => value !== false);
 
-  for (let value of valArray) {
+  console.log(values);
+
+  for (let value of values) {
     if (Number.isInteger(value)) {
       numArray.push(value);
     }
   }
+
   if (columns.length > 5) {
     columns = columns.slice(0, 5);
+    values = values.slice(0, 5);
   }
   let i = 0;
   return columns.map((column, index) => {
