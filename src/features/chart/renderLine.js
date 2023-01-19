@@ -36,6 +36,9 @@ export const RenderLine = (data) => {
     columns = columns.slice(0, 5);
   }
 
+  // Check in existing data if the value for the given column is greater than 5. If it is do not render line on the right axis.
+  // If the value of the given column is less or equal 5 and the maximum value for that column in all the data is less or equal 5 then render the line on the right axis
+
   let i = 0;
   return columns.map((column, index) => {
     const indexValue = values[index];
