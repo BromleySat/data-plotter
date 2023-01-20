@@ -100,7 +100,7 @@ export default class Chart extends PureComponent {
               allowDataOverflow
               type="number"
               yAxisId="left-axis"
-              domain={["dataMin", "dataMax"]}
+              domain={["dataMin - 10", "dataMax + 10"]}
             />
             <YAxis
               orientation="right"
@@ -114,6 +114,7 @@ export default class Chart extends PureComponent {
                 value = moment(value).format("h:mm:ss");
                 return `TIME: ${value}`;
               }}
+              labelStyle={{ color: "#000" }}
             />
             <Legend></Legend>
             {RenderLine(this.props.visibleData)}
