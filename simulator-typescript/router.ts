@@ -10,10 +10,8 @@ function Routes(app: Application) {
     res.send(config);
   });
   app.get("/api/data", function (req: Request, res: Response) {
-    // const data = getData();
-    // res.send(data);
-    const randomData = getRandomData();
-    res.send(randomData);
+    const data = getData();
+    res.send(data);
   });
 
   app.get("/api/random-data", function (req: Request, res: Response) {

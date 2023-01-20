@@ -28,6 +28,8 @@ interface Data {
   date: string;
   temperatureC: number;
   temperatureF: number;
+  voltage: number;
+  waterLevel: number;
 }
 
 export function getData(): Data {
@@ -35,5 +37,7 @@ export function getData(): Data {
     date: getDate(),
     temperatureC: getRandomIntInclusive(300, 900),
     temperatureF: getRandomIntInclusive(-100, 3),
+    voltage: getRandomIntInclusive(0, 240),
+    waterLevel: getRandomIntInclusive(0, 150),
   };
 }

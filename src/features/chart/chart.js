@@ -100,7 +100,7 @@ export default class Chart extends PureComponent {
               allowDataOverflow
               type="number"
               yAxisId="left-axis"
-              domain={[0, "dataMax"]}
+              domain={["dataMin", "dataMax"]}
             />
             <YAxis
               orientation="right"
