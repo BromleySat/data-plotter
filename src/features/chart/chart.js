@@ -91,7 +91,7 @@ export default class Chart extends PureComponent {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tickFormatter={(unixTime) => moment(unixTime).format("h:mm:ss")}
+              tickFormatter={(unixTime) => moment(unixTime).format("HH:mm:ss")}
               allowDataOverflow={true}
               domain={[left, right]}
               type="number"
@@ -111,7 +111,7 @@ export default class Chart extends PureComponent {
             />
             <Tooltip
               labelFormatter={function (value) {
-                value = moment(value).format("h:mm:ss");
+                value = moment(value).format("HH:mm:ss");
                 return `TIME: ${value}`;
               }}
               labelStyle={{ color: "#000" }}
