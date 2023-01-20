@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from "recharts";
+import { renderYAxis } from "../helpers/renderYAxis";
 
 export const RenderLine = (data) => {
   if (!data || data.length === 0) {
@@ -17,20 +18,6 @@ export const RenderLine = (data) => {
         column !== "currentTime" &&
         column !== "number"
     );
-  let values = Object.entries(data[data.length - 1])
-    .map(([key, value]) => {
-      if (
-        key === "deviceId" ||
-        key === "time" ||
-        key === "date" ||
-        key === "currentTime" ||
-        key === "number"
-      ) {
-        return false;
-      }
-      return value;
-    })
-    .filter((value) => value !== false);
 
   if (columns.length > 5) {
     columns = columns.slice(0, 5);
@@ -41,8 +28,7 @@ export const RenderLine = (data) => {
 
   let i = 0;
   return columns.map((column, index) => {
-    const indexValue = values[index];
-    if (indexValue < 5) {
+    if (renderYAxis(data, column)) {
       return (
         <Line
           yAxisId="right-axis"
