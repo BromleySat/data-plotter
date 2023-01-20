@@ -36,7 +36,7 @@ export function getData(): Data {
   return {
     date: getDate(),
     temperatureC: getRandomIntInclusive(-60, 60),
-    temperatureF: getRandomIntInclusive(0, 3),
+    temperatureF: getRandomIntInclusive(-75, 3),
     voltage: getRandomIntInclusive(0, 240),
     waterLevel: getRandomIntInclusive(0, 150),
   };
