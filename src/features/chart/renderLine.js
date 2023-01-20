@@ -28,6 +28,7 @@ export const RenderLine = (data) => {
 
   let i = 0;
   return columns.map((column, index) => {
+    console.log(renderYAxis(data, column));
     if (renderYAxis(data, column)) {
       return (
         <Line

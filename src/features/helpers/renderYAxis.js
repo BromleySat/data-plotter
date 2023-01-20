@@ -1,11 +1,12 @@
 export const renderYAxis = (data, column) => {
-  let shouldRender = false;
-  for (let i = 0; i < data.length; i++) {
-    if (data[i][column] > 5) {
-      return shouldRender;
-    } else {
-      shouldRender = true;
-    }
+  const value = (element) => element[column] > 5;
+  const negativeValue = (element) => element[column] < 0;
+
+  if (data.some(value) && data.some(negativeValue)) {
+    return false;
+  } else if (data.some(value)) {
+    return false;
+  } else {
+    return true;
   }
-  return shouldRender;
 };
