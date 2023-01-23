@@ -4,18 +4,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 
 export const ControlledTooltip = (props) => {
-  const themee = useTheme();
-  const useStyles = makeStyles((theme) => ({
+  const theme = useTheme();
+  const useStyles = makeStyles((t) => ({
     tooltip: {
-      color: themee.palette.secondary.light,
+      color: theme.palette.secondary.light,
       fontFamily: "Quicksand",
       fontWeight: "700",
       fontSize: ".8rem",
-      backgroundColor: themee.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main,
       maxWidth: "150px",
     },
     arrow: {
-      color: themee.palette.secondary.main,
+      color: theme.palette.secondary.main,
     },
     "@media (max-width: 40em)": {
       tooltip: {

@@ -15,7 +15,6 @@ function App() {
           body: { backgroundColor: theme.palette.background.default },
         }}
       />
-
       <Logo />
       <DataPlotter />
       <DarkThemeToggle />
