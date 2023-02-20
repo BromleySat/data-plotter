@@ -58,7 +58,50 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
           return;
         }
         setLoading(true);
-        await axios.get(validUrl).then(
+        await axios
+          .get(validUrl, {
+            headers: {
+              "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
+            },
+          })
+          .then(
+            (res) => {
+              res.data.time = new Date().getTime();
+              res.data.currentTime = new Date().getTime();
+              setData((data) => [...data, res.data]);
+              setVisibleData(dataFromThePast(dataFromThePastValue));
+              if (toggle) {
+                localStorage.setItem(
+                  `DATA FOR ${validUrl}`,
+                  JSON.stringify(data)
+                );
+              } else {
+                localStorage.removeItem(`DATA FOR ${validUrl}`);
+              }
+              setLoading(false);
+            },
+            (error) => {
+              setLoading(false);
+              console.log(error);
+            }
+          );
+      }
+    },
+  }));
+
+  const getData = useCallback(async () => {
+    if (validUrl) {
+      if (loading) {
+        return;
+      }
+      setLoading(true);
+      await axios
+        .get(validUrl, {
+          headers: {
+            "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
+          },
+        })
+        .then(
           (res) => {
             res.data.time = new Date().getTime();
             res.data.currentTime = new Date().getTime();
@@ -79,34 +122,6 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
             console.log(error);
           }
         );
-      }
-    },
-  }));
-
-  const getData = useCallback(async () => {
-    if (validUrl) {
-      if (loading) {
-        return;
-      }
-      setLoading(true);
-      await axios.get(validUrl).then(
-        (res) => {
-          res.data.time = new Date().getTime();
-          res.data.currentTime = new Date().getTime();
-          setData((data) => [...data, res.data]);
-          setVisibleData(dataFromThePast(dataFromThePastValue));
-          if (toggle) {
-            localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
-          } else {
-            localStorage.removeItem(`DATA FOR ${validUrl}`);
-          }
-          setLoading(false);
-        },
-        (error) => {
-          setLoading(false);
-          console.log(error);
-        }
-      );
     }
   }, [data, validUrl, toggle, loading, dataFromThePast, dataFromThePastValue]);
 
