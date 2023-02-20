@@ -185,7 +185,6 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, e.target.value);
     localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
-    console.log(visibleData);
   };
 
   return (
