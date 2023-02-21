@@ -1,6 +1,6 @@
 import React from "react";
 import { Line } from "recharts";
-import { renderYAxis } from "../helpers/renderYAxis";
+import { renderYAxis } from "./renderYAxis";
 
 export const RenderLine = (data) => {
   if (!data || data.length === 0) {
