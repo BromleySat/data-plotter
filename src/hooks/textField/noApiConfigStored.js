@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { isLocalIp, getApiList } from "../helpers/dataPlotter/validation";
-import { storageSetItem } from "../helpers/storageSetItem";
-import { setUrlList } from "../redux/textFieldSlice";
+import { isLocalIp, getApiList } from "../../helpers/dataPlotter/validation";
+import { storageSetItem } from "../../helpers/storageSetItem";
+import { setUrlList } from "../../redux/textFieldSlice";
 
 export const useNoApiConfigStored = () => {
   const dispatch = useDispatch();

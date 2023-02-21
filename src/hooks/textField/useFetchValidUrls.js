@@ -1,6 +1,6 @@
 import { useEffect, useSelector } from "react";
-import { setDevicesId, setValidUrls } from "../redux/textFieldSlice";
-import { transformUrl } from "../helpers/transformUrl";
+import { setDevicesId, setValidUrls } from "../../redux/textFieldSlice";
+import { transformUrl } from "../../helpers/transformUrl";
 import axios from "axios";
 
 export const useFetchValidUrls = () => {

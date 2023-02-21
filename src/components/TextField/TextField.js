@@ -6,8 +6,8 @@ import {
 } from "../../helpers/dataPlotter/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
-import { useFetchValidUrls } from "../../hooks/useFetchValidUrls";
-import { useNoApiConfigStored } from "../../hooks/noApiConfigStored";
+import { useFetchValidUrls } from "../../hooks/textField/useFetchValidUrls";
+import { useNoApiConfigStored } from "../../hooks/textField/noApiConfigStored";
 import "./TextField.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
