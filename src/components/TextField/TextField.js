@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import {
-  isLocalIp,
   getApiList,
   validateInput,
 } from "../../helpers/dataPlotter/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import { useFetchValidUrls } from "../../hooks/useFetchValidUrls";
+import { useNoApiConfigStored } from "../../hooks/noApiConfigStored";
 import "./TextField.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -54,18 +54,6 @@ export const TextField = () => {
 
   const classes = useStyles();
 
-  const noApiConfigStored = () => {
-    const localIp = isLocalIp(window.location.host);
-    if (localIp) {
-      storageSetItem(
-        "urlList",
-        JSON.stringify(getApiList(window.location.host))
-      );
-      console.log(localStorage.getItem("urlList"));
-      setUrlList(getApiList(window.location.host));
-    }
-  };
-
   const onFormSubmit = (e) => {
     e.preventDefault();
     setError(false);
@@ -81,9 +69,7 @@ export const TextField = () => {
     }
   };
 
-  useEffect(() => {
-    noApiConfigStored();
-  }, []);
+  useNoApiConfigStored();
 
   useFetchValidUrls();
 
