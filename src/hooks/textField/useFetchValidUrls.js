@@ -1,5 +1,5 @@
-import { useEffect, useSelector } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { setDevicesId, setValidUrls } from "../../redux/textFieldSlice";
 import { transformUrl } from "../../helpers/transformUrl";
 import axios from "axios";
