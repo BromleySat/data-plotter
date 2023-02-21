@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import darkThemeReducer from "./darkThemeSlice";
+import textFieldReducer from "./textFieldSlice";
 
 const darkModeMiddleware = (store) => (next) => (action) => {
   const result = next(action);
@@ -14,7 +15,7 @@ const darkModeMiddleware = (store) => (next) => (action) => {
 };
 
 export const store = configureStore({
-  reducer: { darkTheme: darkThemeReducer },
+  reducer: { darkTheme: darkThemeReducer, textField: textFieldReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(darkModeMiddleware),
 });
