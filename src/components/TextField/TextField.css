@@ -1,0 +1,16 @@
+.textfield-container {
+  text-align: center;
+  margin-bottom: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+@media (max-width: 30em) {
+  .textfield-container {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -12,10 +12,7 @@ import { transformUrl } from "../../helpers/transformUrl";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import "./DataPlotter.css";
-
-export const storageSetItem = (key, value) => {
-  localStorage.setItem(key, value);
-};
+import { storageSetItem } from "../../helpers/storageSetItem";
 
 export const DataPlotter = () => {
   const publicApi = "https://api.bromleysat.space";
