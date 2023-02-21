@@ -48,10 +48,6 @@ export function validateInput(input) {
   const specialChars = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
   const validDomain =
     /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
-  if (specialChars.test(input)) {
-    console.log("special chars");
-    return false;
-  }
 
   const inputIntoArray = input.split(",");
 
@@ -72,6 +68,11 @@ export function validateInput(input) {
       console.log("slash 2");
       return false;
     }
+  }
+
+  if (specialChars.test(input)) {
+    console.log("special chars");
+    return false;
   }
 
   if (input.length > 100) {

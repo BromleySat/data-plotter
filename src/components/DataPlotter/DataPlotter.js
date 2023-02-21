@@ -117,10 +117,10 @@ export const DataPlotter = () => {
   }, [urlList, validUrls, loading]);
 
   useEffect(() => {
-    clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       fetchingValidUrl();
     }, 5000);
+    return () => clearInterval(intervalRef.current);
   }, [fetchingValidUrl]);
 
   useEffect(() => {
