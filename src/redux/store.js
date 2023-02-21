@@ -15,7 +15,7 @@ const darkModeMiddleware = (store) => (next) => (action) => {
 };
 
 export const store = configureStore({
-  reducer: { darkTheme: darkThemeReducer, textField: textFieldReducer },
+  reducer: { darkTheme: darkThemeReducer, textfield: textFieldReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(darkModeMiddleware),
 });
