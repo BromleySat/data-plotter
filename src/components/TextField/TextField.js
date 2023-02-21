@@ -115,15 +115,15 @@ const TextField = () => {
   };
 
   useEffect(() => {
+    noApiConfigStored();
+  }, []);
+
+  useEffect(() => {
     intervalRef.current = setInterval(() => {
       fetchingValidUrl();
     }, 5000);
     return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    noApiConfigStored();
   }, []);
 
   return (
