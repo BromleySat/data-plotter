@@ -1,14 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   isLocalIp,
   getApiList,
   validateInput,
 } from "../../helpers/dataPlotter/validation";
-import { transformUrl } from "../../helpers/transformUrl";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
-import axios from "axios";
+import { useFetchValidUrls } from "../../hooks/useFetchValidUrls";
 import "./TextField.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,7 +21,7 @@ import {
 } from "../../redux/textFieldSlice";
 
 export const TextField = () => {
-  const { urlList, textBoxValue, error, validUrls } = useSelector(
+  const { urlList, textBoxValue, error } = useSelector(
     (state) => state.textfield
   );
   const theme = useTheme();
@@ -86,9 +85,7 @@ export const TextField = () => {
     noApiConfigStored();
   }, []);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useFetchValidUrls();
 
   return (
     <div className="textfield-container">
