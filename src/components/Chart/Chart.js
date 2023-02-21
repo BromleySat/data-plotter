@@ -74,10 +74,12 @@ export default class Chart extends PureComponent {
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             data-testid={`line-chart-${currentUrl}`}
-            width={800}
-            height={400}
             data={this.props.visibleData}
-            onMouseDown={(e) => this.setState({ refAreaLeft: e.activeLabel })}
+            onMouseDown={(e) => {
+              if (e !== null) {
+                this.setState({ refAreaLeft: e.activeLabel });
+              }
+            }}
             onMouseMove={(e) =>
               this.state.refAreaLeft &&
               this.setState({ refAreaRight: e.activeLabel })
@@ -89,27 +91,32 @@ export default class Chart extends PureComponent {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="time"
-              tickFormatter={(unixTime) => moment(unixTime).format("h:mm:ss")}
+              tickFormatter={(unixTime) => moment(unixTime).format("HH:mm:ss")}
               allowDataOverflow={true}
               domain={[left, right]}
               type="number"
             />
-            <YAxis allowDataOverflow type="number" yAxisId="left-axis" />
+            <YAxis
+              allowDataOverflow
+              type="number"
+              yAxisId="left-axis"
+              domain={["dataMin - 10", "dataMax + 10"]}
+            />
             <YAxis
               orientation="right"
               allowDataOverflow
               type="number"
               yAxisId="right-axis"
+              domain={["dataMin", 5]}
             />
             <Tooltip
               labelFormatter={function (value) {
-                value = moment(value).format("h:mm:ss");
+                value = moment(value).format("HH:mm:ss");
                 return `TIME: ${value}`;
               }}
+              labelStyle={{ color: "#000" }}
             />
-
             <Legend></Legend>
-
             {RenderLine(this.props.visibleData)}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea

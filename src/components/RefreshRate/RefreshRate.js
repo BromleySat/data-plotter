@@ -60,8 +60,13 @@ export const RefreshRate = ({ validUrl, onChangeInterval }) => {
           labelId="demo-select-small"
           data-testid={`refresh-rate-${validUrl}`}
           id="demo-select-small"
-          defaultValue={
-            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "1000"
+          // key={`select-${
+          //   localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "1000"
+          // }`}
+          value={
+            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
+              ? localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
+              : "1000"
           }
           onChange={onChangeInterval}
           sx={{

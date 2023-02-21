@@ -61,8 +61,9 @@ export const ChartTimeWindow = ({
           data-testid={`chart-time-window-${validUrl}`}
           id="demo-select-small"
           value={
-            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) ||
-            `300000`
+            localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`)
+              ? localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`)
+              : `300000`
           }
           onChange={(e) => setVisibleData(dataFromThePast(e.target.value))}
           IconComponent={EqualizerIcon}
