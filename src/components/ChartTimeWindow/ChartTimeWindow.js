@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
-import ControlledTooltip from "../../components/Tooltip";
+import ControlledTooltip from "../Tooltip/Tooltip";
 
 export const ChartTimeWindow = ({
   dataFromThePast,

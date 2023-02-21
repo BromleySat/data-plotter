@@ -1,4 +1,4 @@
-import { RenderLine } from "./renderLine";
+import { RenderLine } from "../../helpers/chart/renderLine";
 
 describe("Testing Displaying Of The Chart", () => {
   const initialData = [

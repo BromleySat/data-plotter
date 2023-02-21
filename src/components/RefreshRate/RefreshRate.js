@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
-import ControlledTooltip from "../../components/Tooltip";
+import ControlledTooltip from "../Tooltip/Tooltip";
 
 export const RefreshRate = ({ validUrl, onChangeInterval }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);

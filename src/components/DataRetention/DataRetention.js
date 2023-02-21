@@ -5,7 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import AutoDeleteSharpIcon from "@mui/icons-material/AutoDeleteSharp";
-import ControlledTooltip from "../../components/Tooltip";
+import ControlledTooltip from "../Tooltip/Tooltip";
 
 const DataRetention = ({ removeData, validUrl }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);

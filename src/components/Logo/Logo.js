@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { useTheme } from "@material-ui/core/styles";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import "./logo.css";
+import "./Logo.css";
 
 export const Logo = () => {
   const theme = useTheme();

@@ -6,19 +6,19 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import DataRetention from "../dataRetention/dataRetention";
-import { RefreshRate } from "../refreshRate/refreshRate";
-import { ChartTimeWindow } from "../chartTimeWindow/chartTimeWindow";
-import { BromleySatSwitch } from "../../components/switch";
-import { lastIndexOf } from "../helpers/lastIndexOf";
+import DataRetention from "../DataRetention/DataRetention";
+import { RefreshRate } from "../RefreshRate/RefreshRate";
+import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
+import { BromleySatSwitch } from "../Switch/Switch";
+import { lastIndexOf } from "../../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import axios from "axios";
-import Chart from "../chart/chart";
+import Chart from "../Chart/Chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
-import "./chartControl.css";
-import ControlledTooltip from "../../components/Tooltip";
+import "./ChartControl.css";
+import ControlledTooltip from "../Tooltip/Tooltip";
 
 const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
   const [data, setData] = useState(

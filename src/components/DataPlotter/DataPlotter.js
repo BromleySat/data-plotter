@@ -1,17 +1,17 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import ChartControl from "../chartControl/chartControl";
+import ChartControl from "../ChartControl/ChartControl";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useTheme } from "@material-ui/core/styles";
 import { Container } from "@mui/material";
-import { validateInput } from "./validation";
-import { getApiList } from "./validation";
-import { trimHttp } from "../helpers/trimHttp";
-import { isLocalIp } from "./validation";
-import { transformUrl } from "../helpers/transformUrl";
+import { validateInput } from "../../helpers/dataPlotter/validation";
+import { getApiList } from "../../helpers/dataPlotter/validation";
+import { trimHttp } from "../../helpers/trimHttp";
+import { isLocalIp } from "../../helpers/dataPlotter/validation";
+import { transformUrl } from "../../helpers/transformUrl";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import "./dataPlotter.css";
+import "./DataPlotter.css";
 
 export const storageSetItem = (key, value) => {
   localStorage.setItem(key, value);

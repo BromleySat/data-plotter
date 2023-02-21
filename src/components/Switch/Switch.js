@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
 import React from "react";
-import ControlledTooltip from "./Tooltip";
+import ControlledTooltip from "../Tooltip/Tooltip";
 
 export const BromleySatSwitch = styled((props) => (
   <ControlledTooltip

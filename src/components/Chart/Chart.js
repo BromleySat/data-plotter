@@ -9,9 +9,9 @@ import {
   ReferenceArea,
   ResponsiveContainer,
 } from "recharts";
-import { RenderLine } from "./renderLine";
+import { RenderLine } from "../../helpers/chart/renderLine";
 import moment from "moment";
-import "./chart.css";
+import "./Chart.css";
 
 export default class Chart extends PureComponent {
   constructor(props) {
