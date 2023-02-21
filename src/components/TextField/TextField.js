@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   isLocalIp,
@@ -54,7 +54,9 @@ const TextField = () => {
     notchedOutline: {},
   });
 
-  const noApiConfigStored = useCallback(() => {
+  const classes = useStyles();
+
+  const noApiConfigStored = () => {
     const localIp = isLocalIp(window.location.host);
     if (localIp) {
       storageSetItem(
@@ -64,9 +66,9 @@ const TextField = () => {
       console.log(localStorage.getItem("urlList"));
       setUrlList(getApiList(window.location.host));
     }
-  }, [setUrlList]);
+  };
 
-  const fetchingValidUrl = useCallback(async () => {
+  const fetchingValidUrl = async () => {
     if (!urlList) {
       return;
     }
@@ -94,18 +96,7 @@ const TextField = () => {
         }
       );
     }
-  }, [urlList, validUrls]);
-
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      fetchingValidUrl();
-    }, 5000);
-    return () => clearInterval(intervalRef.current);
-  }, [fetchingValidUrl]);
-
-  useEffect(() => {
-    noApiConfigStored();
-  }, [noApiConfigStored]);
+  };
 
   const onFormSubmit = (e) => {
     e.preventDefault();
@@ -123,7 +114,18 @@ const TextField = () => {
     }
   };
 
-  const classes = useStyles();
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      fetchingValidUrl();
+    }, 5000);
+    return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    noApiConfigStored();
+  }, []);
+
   return (
     <div className="textfield-container">
       <TextField
