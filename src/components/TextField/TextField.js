@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getApiList,
   validateInput,
@@ -24,6 +24,7 @@ export const TextField = () => {
   const { urlList, textBoxValue, error } = useSelector(
     (state) => state.textfield
   );
+  const dispatch = useDispatch();
   const theme = useTheme();
   const useStyles = makeStyles({
     root: {
@@ -56,16 +57,16 @@ export const TextField = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    setError(false);
+    dispatch(setError(false));
     const validate = validateInput(textBoxValue);
     if (validate) {
-      setError(false);
+      dispatch(setError(false));
       storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
-      setUrlList(getApiList(textBoxValue));
-      setValidUrls([]);
-      setDevicesId([]);
+      dispatch(setUrlList(getApiList(textBoxValue)));
+      dispatch(setValidUrls([]));
+      dispatch(setDevicesId([]));
     } else {
-      setError(true);
+      dispatch(setError(true));
     }
   };
 
@@ -80,7 +81,7 @@ export const TextField = () => {
         variant="standard"
         defaultValue={trimHttp(urlList)}
         multiline={true}
-        onChange={(e) => setTextBoxValue(e.target.value)}
+        onChange={(e) => dispatch(setTextBoxValue(e.target.value))}
         inputProps={{
           "data-testid": "text-area",
         }}
