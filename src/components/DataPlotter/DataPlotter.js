@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ChartControl from "../ChartControl/ChartControl";
-import { Textfield } from "../TextField/TextField";
+import { TextBox } from "../TextBox/TextBox";
 import { Container } from "@mui/material";
 
 export const DataPlotter = () => {
@@ -10,7 +10,7 @@ export const DataPlotter = () => {
 
   return (
     <Container>
-      <Textfield />
+      <TextBox />
       {validUrls.map((validUrl, index) => {
         const deviceIdIndex = devicesId[index];
         return (

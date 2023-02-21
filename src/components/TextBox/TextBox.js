@@ -6,9 +6,9 @@ import {
 } from "../../helpers/dataPlotter/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
-import { useFetchValidUrls } from "../../hooks/textField/useFetchValidUrls";
-import { useNoApiConfigStored } from "../../hooks/textField/noApiConfigStored";
-import "./TextField.css";
+import { useFetchValidUrls } from "../../hooks/textBox/useFetchValidUrls";
+import { useNoApiConfigStored } from "../../hooks/textBox/noApiConfigStored";
+import "./TextBox.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
@@ -21,7 +21,7 @@ import {
   setDevicesId,
 } from "../../redux/textFieldSlice";
 
-export const Textfield = () => {
+export const TextBox = () => {
   const { urlList, textBoxValue, error } = useSelector(
     (state) => state.textfield
   );
