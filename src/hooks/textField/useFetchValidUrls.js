@@ -1,10 +1,12 @@
 import { useEffect, useSelector } from "react";
+import { useDispatch } from "react-redux";
 import { setDevicesId, setValidUrls } from "../../redux/textFieldSlice";
 import { transformUrl } from "../../helpers/transformUrl";
 import axios from "axios";
 
 export const useFetchValidUrls = () => {
   const { urlList, validUrls } = useSelector((state) => state.textfield);
+  const dispatch = useDispatch();
 
   const fetchValidUrls = async () => {
     if (!urlList) {
@@ -22,8 +24,8 @@ export const useFetchValidUrls = () => {
       await axios.get(transformedUrl).then(
         (res) => {
           if (res.data.deviceId) {
-            setDevicesId(res.data.deviceId);
-            setValidUrls(transformUrl(url, "/api/data"));
+            dispatch(setDevicesId(res.data.deviceId));
+            dispatch(setValidUrls(transformUrl(url, "/api/data")));
           }
         },
         (error) => {
