@@ -19,11 +19,11 @@ import {
   setError,
   setValidUrls,
   setDevicesId,
-} from "../../redux/textFieldSlice";
+} from "../../redux/textBox/textBoxSlice";
 
 export const TextBox = () => {
   const { urlList, textBoxValue, error } = useSelector(
-    (state) => state.textfield
+    (state) => state.textBox
   );
   const dispatch = useDispatch();
   const theme = useTheme();

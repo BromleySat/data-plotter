@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import darkThemeReducer from "./darkThemeSlice";
-import textFieldReducer from "./textFieldSlice";
+import darkThemeReducer from "./darkTheme/darkThemeSlice";
+import textBoxReducer from "./textBox/textBoxSlice";
+import dataLocalStorageToggleReducer from "./dataLocalStorageToggle/dataLocalStorageToggleSlice";
+import dataReducer from "./dataSlice";
 
 const darkModeMiddleware = (store) => (next) => (action) => {
   const result = next(action);
@@ -15,7 +17,12 @@ const darkModeMiddleware = (store) => (next) => (action) => {
 };
 
 export const store = configureStore({
-  reducer: { darkTheme: darkThemeReducer, textfield: textFieldReducer },
+  reducer: {
+    darkTheme: darkThemeReducer,
+    textBox: textBoxReducer,
+    dataLocalStorageToggle: dataLocalStorageToggleReducer,
+    data: dataReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(darkModeMiddleware),
 });

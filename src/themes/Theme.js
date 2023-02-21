@@ -3,7 +3,7 @@ import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { selectIsDark } from "../redux/darkThemeSlice";
+import { selectIsDark } from "../redux/darkTheme/darkThemeSlice";
 
 const bromleySatDark = createTheme({
   palette: {

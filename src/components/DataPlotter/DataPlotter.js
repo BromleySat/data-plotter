@@ -5,8 +5,7 @@ import { TextBox } from "../TextBox/TextBox";
 import { Container } from "@mui/material";
 
 export const DataPlotter = () => {
-  const { validUrls, devicesId } = useSelector((state) => state.textfield);
-  console.log(validUrls);
+  const { validUrls, devicesId } = useSelector((state) => state.textBox);
 
   return (
     <Container>

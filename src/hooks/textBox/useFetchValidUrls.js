@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setDevicesId, setValidUrls } from "../../redux/textFieldSlice";
+import { setDevicesId, setValidUrls } from "../../redux/textBox/textBoxSlice";
 import { transformUrl } from "../../helpers/transformUrl";
 import axios from "axios";
 
 export const useFetchValidUrls = () => {
-  const { urlList, validUrls } = useSelector((state) => state.textfield);
+  const { urlList, validUrls } = useSelector((state) => state.textBox);
   const dispatch = useDispatch();
 
   const fetchValidUrls = async () => {

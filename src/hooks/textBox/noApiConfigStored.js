@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { isLocalIp, getApiList } from "../../helpers/dataPlotter/validation";
 import { storageSetItem } from "../../helpers/storageSetItem";
-import { setUrlList } from "../../redux/textFieldSlice";
+import { setUrlList } from "../../redux/textBox/textBoxSlice";
 
 export const useNoApiConfigStored = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,6 @@ export const useNoApiConfigStored = () => {
         "urlList",
         JSON.stringify(getApiList(window.location.host))
       );
-      console.log(localStorage.getItem("urlList"));
       dispatch(setUrlList(getApiList(window.location.host)));
     }
   };

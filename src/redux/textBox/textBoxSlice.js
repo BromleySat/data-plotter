@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { trimHttp } from "../helpers/trimHttp";
+import { trimHttp } from "../../helpers/trimHttp";
 
-export const textFieldSlice = createSlice({
-  name: "textfield",
+export const textBoxSlice = createSlice({
+  name: "textbox",
   initialState: {
     urlList: JSON.parse(localStorage.getItem("urlList")) || [
       "https://api.bromleysat.space",
@@ -47,6 +47,6 @@ export const {
   resetValidUrls,
   setDevicesId,
   resetDevicesId,
-} = textFieldSlice.actions;
+} = textBoxSlice.actions;
 
-export default textFieldSlice.reducer;
+export default textBoxSlice.reducer;
