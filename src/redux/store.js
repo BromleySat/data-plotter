@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import darkThemeReducer from "../features/darkTheme/darkThemeSlice";
+import darkThemeReducer from "./darkThemeSlice";
 
 const darkModeMiddleware = (store) => (next) => (action) => {
   const result = next(action);

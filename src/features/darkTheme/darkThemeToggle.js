@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toggle, selectIsDark } from "./darkThemeSlice";
+import { toggle, selectIsDark } from "../../redux/darkThemeSlice";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import Checkbox from "@material-ui/core/Checkbox";
