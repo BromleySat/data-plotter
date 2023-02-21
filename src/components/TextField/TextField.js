@@ -12,6 +12,7 @@ import "./TextField.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@mui/material/Button";
+import { TextField } from "@mui/material";
 import {
   setUrlList,
   setTextBoxValue,
@@ -20,7 +21,7 @@ import {
   setDevicesId,
 } from "../../redux/textFieldSlice";
 
-export const TextField = () => {
+export const Textfield = () => {
   const { urlList, textBoxValue, error } = useSelector(
     (state) => state.textfield
   );
