@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { storageSetItem } from "../helpers/storageSetItem";
 import axios from "axios";
+import { setDataLocalStorageToggle } from "../redux/dataLocalStorageToggle/dataLocalStorageToggleSlice";
 import { setData } from "../redux/dataSlice";
 
 export const useFetchData = (validUrl) => {
@@ -10,6 +11,16 @@ export const useFetchData = (validUrl) => {
   );
   const { data } = useSelector((state) => state.data);
   const dispatch = useDispatch();
+  if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== undefined) {
+    dispatch(
+      setDataLocalStorageToggle(
+        JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
+      )
+    );
+  }
+  if (localStorage.getItem(`DATA FOR ${validUrl}`) !== undefined) {
+    dispatch(setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`))));
+  }
   const getData = async () => {
     if (validUrl) {
       await axios.get(validUrl).then(
