@@ -12,51 +12,37 @@ import {
 import { RenderLine } from "../../helpers/chart/renderLine";
 import moment from "moment";
 import "./Chart.css";
+import { connect } from "react-redux";
+import {
+  setLeft,
+  setRight,
+  setRefAreaLeft,
+  setRefAreaRight,
+  animation,
+} from "../../redux/chart/chartSlice";
 
-export default class Chart extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      left: "dataMin",
-      right: "dataMax",
-      refAreaLeft: "",
-      refAreaRight: "",
-      animation: true,
-    };
-  }
-
-  componentDidUpdate() {
-    if (this.props.zoomedOut.value === true) {
-      this.props.zoomedOut.value = false;
-      this.zoomOut();
-    }
-  }
-
+class Chart extends PureComponent {
   zoom() {
-    let { refAreaLeft, refAreaRight } = this.state;
+    let { refAreaLeft, refAreaRight } = this.props;
 
     if (refAreaLeft === refAreaRight || refAreaRight === "") {
-      this.setState(() => ({
-        refAreaLeft: "",
-        refAreaRight: "",
-      }));
+      this.props.setRefAreaLeft("");
+      this.props.setRefAreaRight("");
       return;
     }
 
     // xAxis domain
     if (refAreaLeft > refAreaRight)
       [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-    this.props.visibleData.slice();
-    this.setState(() => ({
-      refAreaLeft: "",
-      refAreaRight: "",
-      left: refAreaLeft,
-      right: refAreaRight,
-    }));
+    // this.props.visibleData.slice();
+    this.props.setRefAreaLeft("");
+    this.props.setRefAreaRight("");
+    this.props.setLeft(refAreaLeft);
+    this.props.setRight(refAreaRight);
   }
 
   zoomOut() {
-    this.props.visibleData.slice();
+    // this.props.visibleData.slice();
     this.setState(() => ({
       refAreaLeft: "",
       refAreaRight: "",
@@ -66,7 +52,7 @@ export default class Chart extends PureComponent {
   }
 
   render() {
-    const { left, right, refAreaLeft, refAreaRight } = this.state;
+    const { left, right, refAreaLeft, refAreaRight } = this.props;
     const validUrl = this.props.validUrl;
 
     return (
@@ -74,15 +60,14 @@ export default class Chart extends PureComponent {
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             data-testid={`line-chart-${validUrl}`}
-            data={this.props.visibleData}
+            // data={this.props.visibleData}
             onMouseDown={(e) => {
               if (e !== null) {
-                this.setState({ refAreaLeft: e.activeLabel });
+                this.props.setRefAreaLeft(e.activeLabel);
               }
             }}
             onMouseMove={(e) =>
-              this.state.refAreaLeft &&
-              this.setState({ refAreaRight: e.activeLabel })
+              refAreaLeft && this.props.setRefAreaRight(e.activeLabel)
             }
             // eslint-disable-next-line react/jsx-no-bind
             onMouseUp={this.zoom.bind(this)}
@@ -117,7 +102,7 @@ export default class Chart extends PureComponent {
               labelStyle={{ color: "#000" }}
             />
             <Legend></Legend>
-            {RenderLine(this.props.visibleData)}
+            {/* {RenderLine(this.props.visibleData)} */}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea
                 yAxisId="left-axis"
@@ -132,3 +117,21 @@ export default class Chart extends PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  left: state.chart.left,
+  right: state.chart.right,
+  refAreaLeft: state.chart.refAreaLeft,
+  refAreaRight: state.chart.refAreaRight,
+  animation: state.chart.animation,
+});
+
+const mapDispatchToProps = {
+  setLeft,
+  setRight,
+  setRefAreaLeft,
+  setRefAreaRight,
+  animation,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
