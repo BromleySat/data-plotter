@@ -1,188 +1,23 @@
-import React, {
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React from "react";
 import DataRetention from "../DataRetention/DataRetention";
 import { RefreshRate } from "../RefreshRate/RefreshRate";
 import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
 import { BromleySatSwitch } from "../Switch/Switch";
-import { lastIndexOf } from "../../helpers/lastIndexOf";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
-import axios from "axios";
 import Chart from "../Chart/Chart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./ChartControl.css";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
-const ChartControl = forwardRef(({ validUrl, deviceId }, ref) => {
-  const [data, setData] = useState(
-    JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
-  );
-  const [visibleData, setVisibleData] = useState([]);
-  // JSON.parse(localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`) || "[]")
-  const [toggle, setToggle] = useState(
-    JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`) || false)
-  );
-  const [zoomedOut, setZoomedOut] = useState({ value: false });
-  const [loading, setLoading] = useState(false);
+const ChartControl = ({ validUrl, deviceId }, ref) => {
   const theme = useTheme();
-  const intervalRef = useRef(null);
-  const dataFromThePastValue =
-    localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
-
-  const dataFromThePast = useCallback(
-    (value) => {
-      const now = new Date().getTime();
-      const filteredData = now - value;
-      const filData = data.filter((dat) => dat.currentTime > filteredData);
-      localStorage.setItem(
-        `VISIBLE DATA FOR ${validUrl}`,
-        JSON.stringify(visibleData)
-      );
-      localStorage.setItem(`VISIBLE DATA VALUE FOR ${validUrl}`, value);
-      return filData;
-    },
-    [validUrl, visibleData, data]
-  );
-
-  useImperativeHandle(ref, () => ({
-    async getData() {
-      if (validUrl) {
-        if (loading) {
-          return;
-        }
-        setLoading(true);
-        await axios
-          .get(validUrl, {
-            headers: {
-              "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
-            },
-          })
-          .then(
-            (res) => {
-              res.data.time = new Date().getTime();
-              res.data.currentTime = new Date().getTime();
-              setData((data) => [...data, res.data]);
-              setVisibleData(dataFromThePast(dataFromThePastValue));
-              if (toggle) {
-                localStorage.setItem(
-                  `DATA FOR ${validUrl}`,
-                  JSON.stringify(data)
-                );
-              } else {
-                localStorage.removeItem(`DATA FOR ${validUrl}`);
-              }
-              setLoading(false);
-            },
-            (error) => {
-              setLoading(false);
-              console.log(error);
-            }
-          );
-      }
-    },
-  }));
-
-  const getData = useCallback(async () => {
-    if (validUrl) {
-      if (loading) {
-        return;
-      }
-      setLoading(true);
-      await axios
-        .get(validUrl, {
-          headers: {
-            "x-api-key": "JnKoYwuNX07I9De6nxueM5fER5I5akaf9WK9xmPB",
-          },
-        })
-        .then(
-          (res) => {
-            res.data.time = new Date().getTime();
-            res.data.currentTime = new Date().getTime();
-            setData((data) => [...data, res.data]);
-            setVisibleData(dataFromThePast(dataFromThePastValue));
-            if (toggle) {
-              localStorage.setItem(
-                `DATA FOR ${validUrl}`,
-                JSON.stringify(data)
-              );
-            } else {
-              localStorage.removeItem(`DATA FOR ${validUrl}`);
-            }
-            setLoading(false);
-          },
-          (error) => {
-            setLoading(false);
-            console.log(error);
-          }
-        );
-    }
-  }, [data, validUrl, toggle, loading, dataFromThePast, dataFromThePastValue]);
-
-  const removeData = useCallback(() => {
-    if (data.length < 1) {
-      return;
-    }
-    const value =
-      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
-    const now = new Date().getTime();
-    const cutOff = now - value;
-    const oldElementIndex = lastIndexOf(data, cutOff);
-    if (oldElementIndex !== -1) {
-      setData(data.slice(oldElementIndex));
-    }
-  }, [data, validUrl]);
-
-  const onCheckboxChange = (e) => {
-    setToggle(e.target.checked);
-    localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
-
-    if (e.target.checked) {
-      localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
-    } else {
-      // Hidden Bug, removes data
-      localStorage.removeItem(`DATA FOR ${validUrl}`);
-    }
-  };
-
-  useEffect(() => {
-    if (validUrl === undefined) {
-      return;
-    }
-    const interval = localStorage.getItem(`REFRESH RATE FOR ${validUrl}`);
-    // TODO: Interval resets every time we get data
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(getData, interval ?? 1000);
-  }, [validUrl, getData]);
-
-  useEffect(() => {
-    const dataFromThePastValue =
-      localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`) || `300000`;
-    const now = new Date().getTime();
-    const filteredData = now - dataFromThePastValue;
-    const filData = data.filter((dat) => dat.currentTime > filteredData);
-    setVisibleData(filData);
-  }, [data, validUrl]);
-
-  const onChangeInterval = (e) => {
-    if (validUrl === "") {
-      return;
-    }
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(getData, e.target.value);
-    localStorage.setItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
-  };
 
   return (
     <div style={{ marginBottom: "4em" }}>
       <div className="flex">
-        <DataRetention validUrl={validUrl} removeData={removeData} />
+        <DataRetention validUrl={validUrl} />
         <Typography
           variant="h4"
           style={{
@@ -207,18 +42,10 @@ const ChartControl = forwardRef(({ validUrl, deviceId }, ref) => {
             />
           </ControlledTooltip>
 
-          <RefreshRate
-            onChangeInterval={onChangeInterval}
-            validUrl={validUrl}
-          />
+          <RefreshRate validUrl={validUrl} />
         </div>
       </div>
-      <Chart
-        zoomedOut={zoomedOut}
-        theme={theme}
-        visibleData={visibleData}
-        currentUrl={validUrl}
-      />
+      <Chart zoomedOut={zoomedOut} theme={theme} currentUrl={validUrl} />
       <div
         style={{
           display: "flex",
@@ -227,19 +54,11 @@ const ChartControl = forwardRef(({ validUrl, deviceId }, ref) => {
           justifyContent: "space-between",
         }}
       >
-        <BromleySatSwitch
-          currentUrl={validUrl}
-          checked={toggle}
-          onChange={onCheckboxChange}
-        />
-        <ChartTimeWindow
-          dataFromThePast={dataFromThePast}
-          validUrl={validUrl}
-          setVisibleData={setVisibleData}
-        />
+        <BromleySatSwitch validUrl={validUrl} />
+        <ChartTimeWindow validUrl={validUrl} />
       </div>
     </div>
   );
-});
+};
 
 export default ChartControl;
