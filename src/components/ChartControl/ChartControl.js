@@ -54,7 +54,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={zoomOut()}
+              onClick={zoomOut}
             />
           </ControlledTooltip>
 
