@@ -67,13 +67,13 @@ export default class Chart extends PureComponent {
 
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.state;
-    const currentUrl = this.props.currentUrl;
+    const validUrl = this.props.validUrl;
 
     return (
       <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
-            data-testid={`line-chart-${currentUrl}`}
+            data-testid={`line-chart-${validUrl}`}
             data={this.props.visibleData}
             onMouseDown={(e) => {
               if (e !== null) {

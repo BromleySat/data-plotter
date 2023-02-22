@@ -44,7 +44,7 @@ const ChartControl = ({ validUrl, deviceId }, ref) => {
           <RefreshRate validUrl={validUrl} />
         </div>
       </div>
-      <Chart theme={theme} currentUrl={validUrl} />
+      <Chart validUrl={validUrl} />
       <div
         style={{
           display: "flex",
