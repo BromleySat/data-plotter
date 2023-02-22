@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -7,42 +7,12 @@ import { useTheme } from "@material-ui/core/styles";
 import AutoDeleteSharpIcon from "@mui/icons-material/AutoDeleteSharp";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
-const DataRetention = ({ removeData, validUrl }) => {
+const DataRetention = ({ validUrl }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [counter, setCounter] = useState(0);
   const theme = useTheme();
-  const intervalRef = useRef(null);
-  const intervalRefreshRate = useRef(null);
-  useEffect(() => {
-    // if (intervalRef.current !== null) {
-    //   return;
-    // }
-    clearInterval(intervalRef.current);
-    // TODO: Interval resets every time we get data
-    intervalRef.current = setInterval(removeData, 5000);
-  }, [removeData, intervalRef]);
-
-  const onChangeInterval = (e) => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(removeData, e.target.value);
-    localStorage.setItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
-  };
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
-  };
-
-  const handleTooltipClose = () => {
-    clearInterval(intervalRefreshRate.current);
-    localStorage.setItem("dataRetentionTooltip", counter);
-    if (localStorage.getItem("dataRetentionTooltip") <= 4) {
-      intervalRefreshRate.current = setInterval(() => {
-        setTooltipOpen(false);
-      }, 5000);
-    } else {
-      setTooltipOpen(false);
-    }
-    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -71,11 +41,9 @@ const DataRetention = ({ removeData, validUrl }) => {
           onOpen={() => {
             handleTooltip(false);
           }}
-          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           data-testid={`data-retention-${validUrl}`}
           id="demo-select-small"
-          onChange={onChangeInterval}
           value={
             localStorage.getItem(`DATA RETENTION FOR ${validUrl}`)
               ? localStorage.getItem(`DATA RETENTION FOR ${validUrl}`)

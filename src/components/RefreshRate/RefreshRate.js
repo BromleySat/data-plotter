@@ -7,7 +7,7 @@ import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
-export const RefreshRate = ({ validUrl, onChangeInterval }) => {
+export const RefreshRate = ({ validUrl }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
 
@@ -52,7 +52,6 @@ export const RefreshRate = ({ validUrl, onChangeInterval }) => {
               ? localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
               : "1000"
           }
-          onChange={onChangeInterval}
           sx={{
             color: theme.palette.text.primary,
             fontFamily: "Quicksand",
