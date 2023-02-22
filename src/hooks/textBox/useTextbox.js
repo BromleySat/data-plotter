@@ -1,12 +1,25 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setDevicesId, setValidUrls } from "../../redux/textBox/textBoxSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { isLocalIp, getApiList } from "../../helpers/dataPlotter/validation";
+import { storageSetItem } from "../../helpers/storageSetItem";
+import { setUrlList } from "../../redux/textBox/textBoxSlice";
 import { transformUrl } from "../../helpers/transformUrl";
+import { setDevicesId, setValidUrls } from "../../redux/textBox/textBoxSlice";
 import axios from "axios";
 
-export const useFetchValidUrls = () => {
+export const useTextbox = () => {
   const { urlList, validUrls } = useSelector((state) => state.textBox);
   const dispatch = useDispatch();
+  const localIp = isLocalIp(window.location.host);
+  const noApiConfigStored = () => {
+    if (localIp) {
+      storageSetItem(
+        "urlList",
+        JSON.stringify(getApiList(window.location.host))
+      );
+      dispatch(setUrlList(getApiList(window.location.host)));
+    }
+  };
 
   const fetchValidUrls = async () => {
     if (!urlList) {
@@ -34,8 +47,8 @@ export const useFetchValidUrls = () => {
       );
     }
   };
-
   useEffect(() => {
+    noApiConfigStored();
     fetchValidUrls();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

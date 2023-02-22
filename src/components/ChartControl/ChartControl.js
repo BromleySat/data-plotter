@@ -1,16 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { Typography } from "@mui/material";
+import { useTheme } from "@material-ui/core/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
+import "./ChartControl.css";
+import Chart from "../Chart/Chart";
+import ControlledTooltip from "../Tooltip/Tooltip";
 import DataRetention from "../DataRetention/DataRetention";
 import { RefreshRate } from "../RefreshRate/RefreshRate";
 import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
 import { BromleySatSwitch } from "../Switch/Switch";
-import { Typography } from "@mui/material";
-import { useTheme } from "@material-ui/core/styles";
-import Chart from "../Chart/Chart";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
-import "./ChartControl.css";
-import ControlledTooltip from "../Tooltip/Tooltip";
+import { useFetchData } from "../../hooks/useFetchData";
 import {
   setLeft,
   setRight,
@@ -21,6 +22,7 @@ import {
 const ChartControl = ({ validUrl, deviceId }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  useFetchData(validUrl);
 
   const zoomOut = () => {
     // this.props.visibleData.slice();
@@ -54,7 +56,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={zoomOut}
+              onClick={() => zoomOut()}
             />
           </ControlledTooltip>
 

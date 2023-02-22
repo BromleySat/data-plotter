@@ -41,16 +41,6 @@ class Chart extends PureComponent {
     this.props.setRight(refAreaRight);
   }
 
-  zoomOut() {
-    // this.props.visibleData.slice();
-    this.setState(() => ({
-      refAreaLeft: "",
-      refAreaRight: "",
-      left: "dataMin",
-      right: "dataMax",
-    }));
-  }
-
   render() {
     const { left, right, refAreaLeft, refAreaRight } = this.props;
     const validUrl = this.props.validUrl;

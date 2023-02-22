@@ -11,16 +11,22 @@ export const useFetchData = (validUrl) => {
   );
   const { data } = useSelector((state) => state.data);
   const dispatch = useDispatch();
-  if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== undefined) {
-    dispatch(
-      setDataLocalStorageToggle(
-        JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
-      )
-    );
-  }
-  if (localStorage.getItem(`DATA FOR ${validUrl}`) !== undefined) {
-    dispatch(setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`))));
-  }
+
+  const applyLocalStorageValues = () => {
+    if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== undefined) {
+      dispatch(
+        setDataLocalStorageToggle(
+          JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
+        )
+      );
+    }
+    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== undefined) {
+      dispatch(
+        setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)))
+      );
+    }
+  };
+
   const getData = async () => {
     if (validUrl) {
       await axios.get(validUrl).then(
@@ -42,6 +48,7 @@ export const useFetchData = (validUrl) => {
   };
 
   useEffect(() => {
+    applyLocalStorageValues();
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

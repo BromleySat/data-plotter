@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getApiList,
@@ -6,8 +6,7 @@ import {
 } from "../../helpers/dataPlotter/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
-import { useFetchValidUrls } from "../../hooks/textBox/useFetchValidUrls";
-import { useNoApiConfigStored } from "../../hooks/textBox/noApiConfigStored";
+import { useTextbox } from "../../hooks/textBox/useTextbox";
 import "./TextBox.css";
 import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,6 +26,7 @@ export const TextBox = () => {
   );
   const dispatch = useDispatch();
   const theme = useTheme();
+  useTextbox();
   const useStyles = makeStyles({
     root: {
       "&::before": {
@@ -70,10 +70,6 @@ export const TextBox = () => {
       dispatch(setError(true));
     }
   };
-
-  useNoApiConfigStored();
-
-  useFetchValidUrls();
 
   return (
     <div className="textfield-container">
