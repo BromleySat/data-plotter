@@ -38,14 +38,13 @@ const ChartControl = ({ validUrl, deviceId }, ref) => {
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={() => setZoomedOut({ value: true })}
             />
           </ControlledTooltip>
 
           <RefreshRate validUrl={validUrl} />
         </div>
       </div>
-      <Chart zoomedOut={zoomedOut} theme={theme} currentUrl={validUrl} />
+      <Chart theme={theme} currentUrl={validUrl} />
       <div
         style={{
           display: "flex",
