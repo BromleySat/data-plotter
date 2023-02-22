@@ -5,16 +5,22 @@ const useChartControl = () => {
   const [right, setRight] = useState("dataMax");
   const [refAreaLeft, setRefAreaLeft] = useState("");
   const [refAreaRight, setRefAreaRight] = useState("");
+  const [dataLocalStorageToggle, setDataLocalStorageToggle] = useState(false);
+  const [data, setData] = [];
 
   return {
     left,
-    setLeft: (left) => setLeft(left),
+    setLeft: (payload) => setLeft(payload),
     right,
-    setRight: (right) => setRight(right),
+    setRight: (payload) => setRight(payload),
     refAreaLeft,
-    setRefAreaLeft: (refAreaLeft) => setRefAreaLeft(refAreaLeft),
+    setRefAreaLeft: (payload) => setRefAreaLeft(payload),
     refAreaRight,
-    setRefAreaRight: (refAreaRight) => setRefAreaRight(refAreaRight),
+    setRefAreaRight: (payload) => setRefAreaRight(payload),
+    dataLocalStorageToggle,
+    setDataLocalStorageToggle: (payload) => setDataLocalStorageToggle(payload),
+    data,
+    setData: (payload) => setData([...data, payload]),
   };
 };
 
@@ -37,3 +43,9 @@ export const useRefAreaRight = () =>
   useContext(ChartControlContext).refAreaRight;
 export const useSetRefAreaRight = () =>
   useContext(ChartControlContext).setRefAreaRight;
+export const useDataLocalStorageToggle = () =>
+  useContext(ChartControlContext).dataLocalStorageToggle;
+export const useSetDataLocalStorageToggle = () =>
+  useContext(ChartControlContext).setDataLocalStorageToggle;
+export const useData = () => useContext(ChartControlContext).data;
+export const useSetData = () => useContext(ChartControlContext).setData;
