@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ControlledTooltip from "../Tooltip/Tooltip";
 import {
   useData,
@@ -61,6 +61,11 @@ export const BromleySatSwitch = ({ validUrl }) => {
   const data = useData();
   const dataLocalStorageToggle = useDataLocalStorageToggle();
   const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
+  };
 
   const onCheckboxChange = (e) => {
     setDataLocalStorageToggle(e.target.checked);
@@ -77,6 +82,7 @@ export const BromleySatSwitch = ({ validUrl }) => {
       data-testid={`local-storage-tooltip-${validUrl}`}
       title="Local Storage"
       content="And here's some amazing content It's very engaging. Right?"
+      open={tooltipOpen}
     >
       <StyledBromleySatSwitch
         data-testid={`local-storage-${validUrl}`}
@@ -84,6 +90,9 @@ export const BromleySatSwitch = ({ validUrl }) => {
         disableRipple
         checked={dataLocalStorageToggle}
         onChange={(e) => onCheckboxChange(e)}
+        onMouseEnter={() => handleTooltip(true)}
+        onMouseLeave={() => handleTooltip(false)}
+        onClick={() => handleTooltip(false)}
       />
     </ControlledTooltip>
   );
