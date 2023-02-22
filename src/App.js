@@ -1,9 +1,9 @@
 import React from "react";
-import { DataPlotter } from "./features/dataPlotter/dataPlotter";
+import { DataPlotter } from "./components/DataPlotter/DataPlotter";
 import { useTheme } from "@material-ui/core/styles";
 import { withTheme } from "./themes/Theme";
-import { DarkThemeToggle } from "./features/darkTheme/darkThemeToggle";
-import { Logo } from "./features/logo/Logo";
+import { DarkThemeToggle } from "./components/DarkTheme/DarkThemeToggle";
+import { Logo } from "./components/Logo/Logo";
 import GlobalStyles from "@mui/material/GlobalStyles";
 
 function App() {
