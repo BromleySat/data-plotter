@@ -35,8 +35,6 @@ const Chart = ({ validUrl }) => {
   const setRefAreaRight = useSetRefAreaRight();
   const data = useData();
 
-  console.log(data);
-
   const zoom = () => {
     if (refAreaLeft === refAreaRight || refAreaRight === "") {
       setRefAreaLeft("");
