@@ -6,7 +6,7 @@ const useChartControl = () => {
   const [refAreaLeft, setRefAreaLeft] = useState("");
   const [refAreaRight, setRefAreaRight] = useState("");
   const [dataLocalStorageToggle, setDataLocalStorageToggle] = useState(false);
-  const [data, setData] = [];
+  const [data, setData] = useState([]);
 
   return {
     left,

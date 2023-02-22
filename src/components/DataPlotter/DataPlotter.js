@@ -14,12 +14,8 @@ export const DataPlotter = () => {
       {validUrls.map((validUrl, index) => {
         const deviceIdIndex = devicesId[index];
         return (
-          <ChartControlProvider>
-            <ChartControl
-              key={`chart_${index}`}
-              validUrl={validUrl}
-              deviceId={deviceIdIndex}
-            />
+          <ChartControlProvider key={`chart_${index}`}>
+            <ChartControl validUrl={validUrl} deviceId={deviceIdIndex} />
           </ChartControlProvider>
         );
       })}

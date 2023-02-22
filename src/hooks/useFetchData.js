@@ -9,6 +9,7 @@ export const useFetchData = (
   data,
   setData
 ) => {
+  console.log(data);
   const applyLocalStorageValues = () => {
     if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
       setDataLocalStorageToggle(

@@ -32,6 +32,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const setLeft = useSetLeft();
   const setRight = useSetRight();
   const theme = useTheme();
+
   useFetchData(
     validUrl,
     dataLocalStorageToggle,
