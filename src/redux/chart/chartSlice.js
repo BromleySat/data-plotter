@@ -25,6 +25,7 @@ export const chartSlice = createSlice({
   },
 });
 
-export const { setData } = chartSlice.actions;
+export const { setLeft, setRight, setRefAreaLeft, setRefAreaRight, animation } =
+  chartSlice.actions;
 
 export default chartSlice.reducer;
