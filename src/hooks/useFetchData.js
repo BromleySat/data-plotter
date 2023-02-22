@@ -1,29 +1,22 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { storageSetItem } from "../helpers/storageSetItem";
 import axios from "axios";
-import { setDataLocalStorageToggle } from "../redux/dataLocalStorageToggle/dataLocalStorageToggleSlice";
-import { setData } from "../redux/dataSlice";
 
-export const useFetchData = (validUrl) => {
-  const { dataLocalStorageToggle } = useSelector(
-    (state) => state.dataLocalStorageToggle
-  );
-  const { data } = useSelector((state) => state.data);
-  const dispatch = useDispatch();
-
+export const useFetchData = (
+  validUrl,
+  dataLocalStorageToggle,
+  setDataLocalStorageToggle,
+  data,
+  setData
+) => {
   const applyLocalStorageValues = () => {
     if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
-      dispatch(
-        setDataLocalStorageToggle(
-          JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
-        )
+      setDataLocalStorageToggle(
+        JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
       );
     }
     if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
-      dispatch(
-        setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)))
-      );
+      setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)));
     }
   };
 
@@ -33,7 +26,7 @@ export const useFetchData = (validUrl) => {
         (res) => {
           res.data.time = new Date().getTime();
           res.data.currentTime = new Date().getTime();
-          dispatch(setData(res.data));
+          setData(res.data);
           if (dataLocalStorageToggle) {
             storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
           } else {

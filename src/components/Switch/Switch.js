@@ -1,9 +1,12 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setDataLocalStorageToggle } from "../../redux/dataLocalStorageToggle/dataLocalStorageToggleSlice";
 import ControlledTooltip from "../Tooltip/Tooltip";
+import {
+  useData,
+  useDataLocalStorageToggle,
+  useSetDataLocalStorageToggle,
+} from "../../context/chartContext/chartControlContext";
 
 const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
   width: 52,
@@ -55,14 +58,12 @@ const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const BromleySatSwitch = ({ validUrl }) => {
-  const { data } = useSelector((state) => state.data);
-  const { dataLocalStorageToggle } = useSelector(
-    (state) => state.dataLocalStorageToggle
-  );
-  const dispatch = useDispatch();
+  const data = useData();
+  const dataLocalStorageToggle = useDataLocalStorageToggle();
+  const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
 
   const onCheckboxChange = (e) => {
-    dispatch(setDataLocalStorageToggle(e.target.checked));
+    setDataLocalStorageToggle(e.target.checked);
     localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
 
     if (e.target.checked) {

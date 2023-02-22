@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,25 +10,41 @@ import DataRetention from "../DataRetention/DataRetention";
 import { RefreshRate } from "../RefreshRate/RefreshRate";
 import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
 import { BromleySatSwitch } from "../Switch/Switch";
-import { useFetchData } from "../../hooks/useFetchData";
 import {
-  setLeft,
-  setRight,
-  setRefAreaLeft,
-  setRefAreaRight,
-} from "../../redux/chart/chartSlice";
+  useSetLeft,
+  useSetRight,
+  useSetRefAreaLeft,
+  useSetRefAreaRight,
+  useDataLocalStorageToggle,
+  useSetDataLocalStorageToggle,
+  useData,
+  useSetData,
+} from "../../context/chartContext/chartControlContext";
+import { useFetchData } from "../../hooks/useFetchData";
 
 const ChartControl = ({ validUrl, deviceId }) => {
-  const dispatch = useDispatch();
+  const dataLocalStorageToggle = useDataLocalStorageToggle();
+  const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
+  const data = useData();
+  const setData = useSetData();
+  const setRefAreaLeft = useSetRefAreaLeft();
+  const setRefAreaRight = useSetRefAreaRight();
+  const setLeft = useSetLeft();
+  const setRight = useSetRight();
   const theme = useTheme();
-  useFetchData(validUrl);
+  useFetchData(
+    validUrl,
+    dataLocalStorageToggle,
+    setDataLocalStorageToggle,
+    data,
+    setData
+  );
 
   const zoomOut = () => {
-    // this.props.visibleData.slice();
-    dispatch(setRefAreaLeft(""));
-    dispatch(setRefAreaRight(""));
-    dispatch(setLeft("dataMin"));
-    dispatch(setRight("dataMax"));
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    setLeft("dataMin");
+    setRight("dataMax");
   };
 
   return (
@@ -56,7 +71,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={() => zoomOut()}
+              onClick={zoomOut}
             />
           </ControlledTooltip>
 
