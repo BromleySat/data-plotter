@@ -20,7 +20,7 @@ import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./ChartControl.css";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
-const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
+const ChartControl = forwardRef(({ validUrl, deviceId }, ref) => {
   const [data, setData] = useState(
     JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`) || "[]")
   );
@@ -151,13 +151,6 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
     }
   };
 
-  const runningIntervals = useCallback(
-    (interval) => {
-      setRunning((intervals) => [...intervals, interval]);
-    },
-    [setRunning]
-  );
-
   useEffect(() => {
     if (validUrl === undefined) {
       return;
@@ -166,8 +159,7 @@ const ChartControl = forwardRef(({ validUrl, setRunning, deviceId }, ref) => {
     // TODO: Interval resets every time we get data
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(getData, interval ?? 1000);
-    runningIntervals(intervalRef.current);
-  }, [validUrl, getData, runningIntervals]);
+  }, [validUrl, getData]);
 
   useEffect(() => {
     const dataFromThePastValue =

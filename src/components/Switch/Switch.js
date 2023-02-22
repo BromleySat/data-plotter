@@ -1,6 +1,8 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setDataLocalStorageToggle } from "../../redux/dataLocalStorageToggle/dataLocalStorageToggleSlice";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
 const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
@@ -52,19 +54,35 @@ const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export const BromleySatSwitch = (props) => {
+export const BromleySatSwitch = ({ validUrl }) => {
+  const { data } = useSelector((state) => state.data);
+  const { dataLocalStorageToggle } = useSelector(
+    (state) => state.dataLocalStorageToggle
+  );
+  const dispatch = useDispatch();
+
+  const onCheckboxChange = (e) => {
+    dispatch(setDataLocalStorageToggle(e.target.checked));
+    localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
+
+    if (e.target.checked) {
+      localStorage.setItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
+    } else {
+      localStorage.removeItem(`DATA FOR ${validUrl}`);
+    }
+  };
   return (
     <ControlledTooltip
-      data-testid={`local-storage-tooltip-${props.currentUrl}`}
+      data-testid={`local-storage-tooltip-${validUrl}`}
       title="Local Storage"
       content="And here's some amazing content It's very engaging. Right?"
     >
       <StyledBromleySatSwitch
-        data-testid={`local-storage-${props.currentUrl}`}
+        data-testid={`local-storage-${validUrl}`}
         focusVisibleClassName=".Mui-focusVisible"
         disableRipple
-        checked={props.checked}
-        onChange={props.onChange}
+        checked={dataLocalStorageToggle}
+        onChange={onCheckboxChange}
       />
     </ControlledTooltip>
   );
