@@ -6,7 +6,6 @@ import { setDataLocalStorageToggle } from "../redux/dataLocalStorageToggle/dataL
 import { setData } from "../redux/dataSlice";
 
 export const useFetchData = (validUrl) => {
-  console.log(localStorage.getItem(`DATA FOR ${validUrl}`));
   const { dataLocalStorageToggle } = useSelector(
     (state) => state.dataLocalStorageToggle
   );
@@ -53,4 +52,12 @@ export const useFetchData = (validUrl) => {
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const dataInterval = setInterval(() => {
+      getData();
+    }, 5000);
+    return () => clearInterval(dataInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 };

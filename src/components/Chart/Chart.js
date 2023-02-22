@@ -42,10 +42,8 @@ class Chart extends PureComponent {
   }
 
   render() {
-    console.log(this.props.data);
     const { left, right, refAreaLeft, refAreaRight } = this.props;
     const validUrl = this.props.validUrl;
-
     return (
       <div className="chart">
         <ResponsiveContainer width="100%" height={350}>
