@@ -16,8 +16,8 @@ import {
   setUrlList,
   setTextBoxValue,
   setError,
-  setValidUrls,
-  setDevicesId,
+  resetValidUrls,
+  resetDevicesId,
 } from "../../redux/textBox/textBoxSlice";
 
 export const TextBox = () => {
@@ -64,8 +64,8 @@ export const TextBox = () => {
       dispatch(setError(false));
       storageSetItem("urlList", JSON.stringify(getApiList(textBoxValue)));
       dispatch(setUrlList(getApiList(textBoxValue)));
-      dispatch(setValidUrls([]));
-      dispatch(setDevicesId([]));
+      dispatch(resetValidUrls());
+      dispatch(resetDevicesId());
     } else {
       dispatch(setError(true));
     }
