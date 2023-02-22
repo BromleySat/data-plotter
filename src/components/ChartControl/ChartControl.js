@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import DataRetention from "../DataRetention/DataRetention";
 import { RefreshRate } from "../RefreshRate/RefreshRate";
 import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
@@ -10,9 +11,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import "./ChartControl.css";
 import ControlledTooltip from "../Tooltip/Tooltip";
+import {
+  setLeft,
+  setRight,
+  setRefAreaLeft,
+  setRefAreaRight,
+} from "../../redux/chart/chartSlice";
 
-const ChartControl = ({ validUrl, deviceId }, ref) => {
+const ChartControl = ({ validUrl, deviceId }) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+
+  const zoomOut = () => {
+    // this.props.visibleData.slice();
+    dispatch(setRefAreaLeft(""));
+    dispatch(setRefAreaRight(""));
+    dispatch(setLeft("dataMin"));
+    dispatch(setRight("dataMax"));
+  };
 
   return (
     <div style={{ marginBottom: "4em" }}>
@@ -38,6 +54,7 @@ const ChartControl = ({ validUrl, deviceId }, ref) => {
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
+              onClick={zoomOut()}
             />
           </ControlledTooltip>
 
