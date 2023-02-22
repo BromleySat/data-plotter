@@ -6,6 +6,7 @@ import { setDataLocalStorageToggle } from "../redux/dataLocalStorageToggle/dataL
 import { setData } from "../redux/dataSlice";
 
 export const useFetchData = (validUrl) => {
+  console.log(localStorage.getItem(`DATA FOR ${validUrl}`));
   const { dataLocalStorageToggle } = useSelector(
     (state) => state.dataLocalStorageToggle
   );
@@ -13,14 +14,14 @@ export const useFetchData = (validUrl) => {
   const dispatch = useDispatch();
 
   const applyLocalStorageValues = () => {
-    if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== undefined) {
+    if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
       dispatch(
         setDataLocalStorageToggle(
           JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
         )
       );
     }
-    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== undefined) {
+    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
       dispatch(
         setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)))
       );

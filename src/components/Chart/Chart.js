@@ -42,6 +42,7 @@ class Chart extends PureComponent {
   }
 
   render() {
+    console.log(this.props.data);
     const { left, right, refAreaLeft, refAreaRight } = this.props;
     const validUrl = this.props.validUrl;
 
@@ -50,7 +51,7 @@ class Chart extends PureComponent {
         <ResponsiveContainer width="100%" height={350}>
           <LineChart
             data-testid={`line-chart-${validUrl}`}
-            // data={this.props.visibleData}
+            data={this.props.data}
             onMouseDown={(e) => {
               if (e !== null) {
                 this.props.setRefAreaLeft(e.activeLabel);
@@ -92,7 +93,7 @@ class Chart extends PureComponent {
               labelStyle={{ color: "#000" }}
             />
             <Legend></Legend>
-            {/* {RenderLine(this.props.visibleData)} */}
+            {RenderLine(this.props.data)}
             {refAreaLeft && refAreaRight ? (
               <ReferenceArea
                 yAxisId="left-axis"
@@ -114,6 +115,7 @@ const mapStateToProps = (state) => ({
   refAreaLeft: state.chart.refAreaLeft,
   refAreaRight: state.chart.refAreaRight,
   animation: state.chart.animation,
+  data: state.data.data,
 });
 
 const mapDispatchToProps = {
