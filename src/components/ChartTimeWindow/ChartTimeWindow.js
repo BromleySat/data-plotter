@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -7,31 +7,12 @@ import { useTheme } from "@material-ui/core/styles";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import ControlledTooltip from "../Tooltip/Tooltip";
 
-export const ChartTimeWindow = ({
-  dataFromThePast,
-  setVisibleData,
-  validUrl,
-}) => {
+export const ChartTimeWindow = ({ validUrl }) => {
   const theme = useTheme();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [counter, setCounter] = useState(0);
-  const intervalRef = useRef(null);
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
-  };
-
-  const handleTooltipClose = () => {
-    clearInterval(intervalRef.current);
-    localStorage.setItem("chartTimeWindowTooltip", counter);
-    if (localStorage.getItem("chartTimeWindowTooltip") <= 4) {
-      intervalRef.current = setInterval(() => {
-        setTooltipOpen(false);
-      }, 5000);
-    } else {
-      setTooltipOpen(false);
-    }
-    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -54,9 +35,6 @@ export const ChartTimeWindow = ({
           onMouseEnter={() => handleTooltip(true)}
           onMouseLeave={() => handleTooltip(false)}
           onOpen={() => handleTooltip(false)}
-          onClose={() => {
-            handleTooltipClose();
-          }}
           labelId="demo-select-small"
           data-testid={`chart-time-window-${validUrl}`}
           id="demo-select-small"
@@ -65,7 +43,6 @@ export const ChartTimeWindow = ({
               ? localStorage.getItem(`VISIBLE DATA VALUE FOR ${validUrl}`)
               : `300000`
           }
-          onChange={(e) => setVisibleData(dataFromThePast(e.target.value))}
           IconComponent={EqualizerIcon}
           sx={{
             color: theme.palette.text.primary,

@@ -83,7 +83,7 @@ export const BromleySatSwitch = ({ validUrl }) => {
         focusVisibleClassName=".Mui-focusVisible"
         disableRipple
         checked={dataLocalStorageToggle}
-        onChange={onCheckboxChange}
+        onChange={(e) => onCheckboxChange(e)}
       />
     </ControlledTooltip>
   );

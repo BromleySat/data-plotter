@@ -8,8 +8,9 @@ export const textBoxSlice = createSlice({
       "https://api.bromleysat.space",
     ],
     textBoxValue:
-      trimHttp(JSON.parse(localStorage.getItem("urlList"))).join(",") ||
-      ["https://api.bromleysat.space"].join(","),
+      localStorage.getItem("urlList") !== null
+        ? trimHttp(JSON.parse(localStorage.getItem("urlList"))).join(",")
+        : trimHttp(["https://api.bromleysat.space"]).join(","),
     error: false,
     validUrls: [],
     devicesId: [],
