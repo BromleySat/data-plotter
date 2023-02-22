@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -9,25 +9,10 @@ import ControlledTooltip from "../Tooltip/Tooltip";
 
 export const RefreshRate = ({ validUrl, onChangeInterval }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [counter, setCounter] = useState(0);
   const theme = useTheme();
-  const intervalRefreshRate = useRef(null);
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
-  };
-
-  const handleTooltipClose = () => {
-    clearInterval(intervalRefreshRate.current);
-    localStorage.setItem("refreshRateTooltip", counter);
-    if (localStorage.getItem("refreshRateTooltip") <= 4) {
-      intervalRefreshRate.current = setInterval(() => {
-        setTooltipOpen(false);
-      }, 5000);
-    } else {
-      setTooltipOpen(false);
-    }
-    setCounter((counter) => counter + 1);
   };
 
   return (
@@ -56,7 +41,6 @@ export const RefreshRate = ({ validUrl, onChangeInterval }) => {
           onOpen={() => {
             handleTooltip(false);
           }}
-          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           data-testid={`refresh-rate-${validUrl}`}
           id="demo-select-small"
