@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,6 +31,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const setRefAreaRight = useSetRefAreaRight();
   const setLeft = useSetLeft();
   const setRight = useSetRight();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
 
   useFetchData(
@@ -46,6 +47,10 @@ const ChartControl = ({ validUrl, deviceId }) => {
     setRefAreaRight("");
     setLeft("dataMin");
     setRight("dataMax");
+  };
+
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
   };
 
   return (
@@ -66,13 +71,19 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <ControlledTooltip
             title="Zoom Out"
             data-testid={`zoom-out-tooltip-${validUrl}`}
+            open={tooltipOpen}
           >
             <FontAwesomeIcon
               data-testid={`zoom-out-${validUrl}`}
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={zoomOut}
+              onMouseEnter={() => handleTooltip(true)}
+              onMouseLeave={() => handleTooltip(false)}
+              onClick={() => {
+                handleTooltip(false);
+                zoomOut();
+              }}
             />
           </ControlledTooltip>
 
