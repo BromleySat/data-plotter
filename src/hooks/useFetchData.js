@@ -8,7 +8,9 @@ export const useFetchData = (
   setDataLocalStorageToggle,
   data,
   setData,
-  refreshRate
+  refreshRate,
+  dataRetention,
+  chartTimeWindow
 ) => {
   let isRequestInProgress = false;
   const applyLocalStorageValues = () => {

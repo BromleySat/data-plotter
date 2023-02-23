@@ -20,6 +20,8 @@ import {
   useData,
   useSetData,
   useRefreshRate,
+  useDataRetention,
+  useChartTimeWindow,
 } from "../../context/chartContext/chartControlContext";
 import { useFetchData } from "../../hooks/useFetchData";
 
@@ -29,6 +31,8 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const data = useData();
   const setData = useSetData();
   const refreshRate = useRefreshRate();
+  const dataRetention = useDataRetention();
+  const chartTimeWindow = useChartTimeWindow();
   const setRefAreaLeft = useSetRefAreaLeft();
   const setRefAreaRight = useSetRefAreaRight();
   const setLeft = useSetLeft();
@@ -42,7 +46,9 @@ const ChartControl = ({ validUrl, deviceId }) => {
     setDataLocalStorageToggle,
     data,
     setData,
-    refreshRate
+    refreshRate,
+    dataRetention,
+    chartTimeWindow
   );
 
   const zoomOut = () => {
