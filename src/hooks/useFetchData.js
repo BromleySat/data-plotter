@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import axios from "axios";
+import moment from "moment";
 
 export const useFetchData = (
   validUrl,
@@ -33,7 +34,7 @@ export const useFetchData = (
         .get(validUrl)
         .then(
           (res) => {
-            const time = new Date().getTime();
+            const time = Number(BigInt(moment().valueOf()));
             res.data.time = time;
             const prevData = dataRetention(data, dataRetentionValue, time);
             setData(prevData, res.data);

@@ -43,7 +43,10 @@
     "extends": [
       "react-app",
       "plugin:cypress/recommended"
-    ]
+    ],
+    "env": {
+      "es2020": true
+    }
   },
   "browserslist": {
     "production": [
