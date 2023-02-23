@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,14 +7,27 @@ import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
 import ControlledTooltip from "../Tooltip/Tooltip";
+import {
+  useRefreshRate,
+  useSetRefreshRate,
+} from "../../context/chartContext/chartControlContext";
 
 export const RefreshRate = ({ validUrl }) => {
+  const refreshRate = useRefreshRate();
+  const setRefreshRate = useSetRefreshRate();
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) !== null) {
+      setRefreshRate(localStorage.getItem(`REFRESH RATE FOR ${validUrl}`));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ControlledTooltip
@@ -48,12 +61,11 @@ export const RefreshRate = ({ validUrl }) => {
           // key={`select-${
           //   localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "1000"
           // }`}
-          value={
-            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
-              ? localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
-              : "1000"
-          }
-          onChange={(e) => console.log(e.target.value)}
+          value={refreshRate}
+          onChange={(e) => {
+            storageSetItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
+            setRefreshRate(e.target.value);
+          }}
           sx={{
             color: theme.palette.text.primary,
             fontFamily: "Quicksand",

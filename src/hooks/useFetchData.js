@@ -7,7 +7,8 @@ export const useFetchData = (
   dataLocalStorageToggle,
   setDataLocalStorageToggle,
   data,
-  setData
+  setData,
+  refreshRate
 ) => {
   let isRequestInProgress = false;
   const applyLocalStorageValues = () => {
@@ -57,7 +58,7 @@ export const useFetchData = (
   useEffect(() => {
     const dataInterval = setInterval(() => {
       getData();
-    }, 25000);
+    }, refreshRate);
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
