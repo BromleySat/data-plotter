@@ -32,7 +32,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
   const data = useData();
   const setData = useSetData();
-  const visibleData = useVisibleData();
   const setVisibleData = useSetVisibleData();
   const refreshRate = useRefreshRate();
   const dataRetention = useDataRetention();
@@ -50,7 +49,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
     setDataLocalStorageToggle,
     data,
     setData,
-    visibleData,
     setVisibleData,
     refreshRate,
     dataRetention,

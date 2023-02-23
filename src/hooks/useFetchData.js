@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
-import { chartTimeWindow } from "../helpers/chartWindow/chartWindow";
+import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
 import axios from "axios";
 import moment from "moment";
 
@@ -13,7 +13,6 @@ export const useFetchData = (
   setDataLocalStorageToggle,
   data,
   setData,
-  visibleData,
   setVisibleData,
   refreshRate,
   dataRetentionValue,
@@ -52,7 +51,7 @@ export const useFetchData = (
             );
             setData(dataRetentionData, res.data);
             const chartTimeWindowData = chartTimeWindow(
-              visibleData,
+              data,
               chartTimeWindowValue,
               time
             );
