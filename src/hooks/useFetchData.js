@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
+import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import axios from "axios";
 
 export const useFetchData = (
@@ -9,8 +10,8 @@ export const useFetchData = (
   data,
   setData,
   refreshRate,
-  dataRetention,
-  chartTimeWindow
+  dataRetentionValue,
+  chartTimeWindowValue
 ) => {
   let isRequestInProgress = false;
   const applyLocalStorageValues = () => {
@@ -32,9 +33,10 @@ export const useFetchData = (
         .get(validUrl)
         .then(
           (res) => {
-            res.data.time = new Date().getTime();
-            res.data.currentTime = new Date().getTime();
-            setData(res.data);
+            const time = new Date().getTime();
+            res.data.time = time;
+            const prevData = dataRetention(data, dataRetentionValue, time);
+            setData(prevData, res.data);
             if (dataLocalStorageToggle) {
               storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
             } else {
@@ -63,5 +65,5 @@ export const useFetchData = (
     }, refreshRate);
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
 };
