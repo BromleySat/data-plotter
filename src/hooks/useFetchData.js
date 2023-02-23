@@ -5,18 +5,20 @@ import { chartTimeWindow } from "../helpers/chartWindow/chartWindow";
 import axios from "axios";
 import moment from "moment";
 
+let isRequestInProgress = false;
+
 export const useFetchData = (
   validUrl,
   dataLocalStorageToggle,
   setDataLocalStorageToggle,
   data,
   setData,
+  visibleData,
   setVisibleData,
   refreshRate,
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
-  let isRequestInProgress = false;
   const applyLocalStorageValues = () => {
     if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
       setDataLocalStorageToggle(
@@ -25,6 +27,11 @@ export const useFetchData = (
     }
     if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
       setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)));
+    }
+    if (localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`) !== null) {
+      setVisibleData(
+        JSON.parse(localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`))
+      );
     }
   };
 
@@ -38,14 +45,18 @@ export const useFetchData = (
           (res) => {
             const time = Number(BigInt(moment().valueOf()));
             res.data.time = time;
-            const prevData = dataRetention(data, dataRetentionValue, time);
-            setData(prevData, res.data);
-            const visibleData = chartTimeWindow(
+            const dataRetentionData = dataRetention(
               data,
+              dataRetentionValue,
+              time
+            );
+            setData(dataRetentionData, res.data);
+            const chartTimeWindowData = chartTimeWindow(
+              visibleData,
               chartTimeWindowValue,
               time
             );
-            setVisibleData(visibleData, res.data);
+            setVisibleData(chartTimeWindowData, res.data);
             if (dataLocalStorageToggle) {
               storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
             } else {
