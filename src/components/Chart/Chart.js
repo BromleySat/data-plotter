@@ -42,10 +42,9 @@ const Chart = ({ validUrl }) => {
       return;
     }
 
-    // xAxis domain
     if (refAreaLeft > refAreaRight)
       [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-    // this.props.visibleData.slice();
+
     setRefAreaLeft("");
     setRefAreaRight("");
     setLeft(refAreaLeft);
@@ -64,7 +63,6 @@ const Chart = ({ validUrl }) => {
             }
           }}
           onMouseMove={(e) => refAreaLeft && setRefAreaRight(e.activeLabel)}
-          // eslint-disable-next-line react/jsx-no-bind
           onMouseUp={zoom}
           margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
         >

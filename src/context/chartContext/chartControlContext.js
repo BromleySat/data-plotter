@@ -7,6 +7,7 @@ const useChartControl = () => {
   const [refAreaRight, setRefAreaRight] = useState("");
   const [dataLocalStorageToggle, setDataLocalStorageToggle] = useState(false);
   const [data, setData] = useState([]);
+  const [visibleData, setVisibleData] = useState([]);
   const [refreshRate, setRefreshRate] = useState(5000);
   const [dataRetention, setDataRentention] = useState(1814400000);
   const [chartTimeWindow, setChartTimeWindow] = useState(30000);
@@ -24,6 +25,8 @@ const useChartControl = () => {
     setDataLocalStorageToggle: (payload) => setDataLocalStorageToggle(payload),
     data,
     setData: (payload) => setData([...data, payload]),
+    visibleData,
+    setVisibleData: (payload) => setVisibleData([...visibleData, payload]),
     refreshRate,
     setRefreshRate: (payload) => setRefreshRate(payload),
     dataRetention,
@@ -58,6 +61,9 @@ export const useSetDataLocalStorageToggle = () =>
   useContext(ChartControlContext).setDataLocalStorageToggle;
 export const useData = () => useContext(ChartControlContext).data;
 export const useSetData = () => useContext(ChartControlContext).setData;
+export const useVisibleData = () => useContext(ChartControlContext).visibleData;
+export const useSetVisibleData = () =>
+  useContext(ChartControlContext).setVisibleData;
 export const useRefreshRate = () => useContext(ChartControlContext).refreshRate;
 export const useSetRefreshRate = () =>
   useContext(ChartControlContext).setRefreshRate;
