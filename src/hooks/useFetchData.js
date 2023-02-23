@@ -57,7 +57,7 @@ export const useFetchData = (
   useEffect(() => {
     const dataInterval = setInterval(() => {
       getData();
-    }, 5000);
+    }, 25000);
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

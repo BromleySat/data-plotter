@@ -7,6 +7,9 @@ const useChartControl = () => {
   const [refAreaRight, setRefAreaRight] = useState("");
   const [dataLocalStorageToggle, setDataLocalStorageToggle] = useState(false);
   const [data, setData] = useState([]);
+  const [refreshRate, setRefreshRate] = useState(5000);
+  const [dataRetention, setDataRentention] = useState(1814400000);
+  const [chartTimeWindow, setChartTimeWindow] = useState(30000);
 
   return {
     left,
@@ -21,6 +24,12 @@ const useChartControl = () => {
     setDataLocalStorageToggle: (payload) => setDataLocalStorageToggle(payload),
     data,
     setData: (payload) => setData([...data, payload]),
+    refreshRate,
+    setRefreshRate: (payload) => setRefreshRate(payload),
+    dataRetention,
+    setDataRetention: (payload) => setDataRentention(payload),
+    chartTimeWindow,
+    setChartTimeWindow: (payload) => setChartTimeWindow(payload),
   };
 };
 
@@ -49,3 +58,14 @@ export const useSetDataLocalStorageToggle = () =>
   useContext(ChartControlContext).setDataLocalStorageToggle;
 export const useData = () => useContext(ChartControlContext).data;
 export const useSetData = () => useContext(ChartControlContext).setData;
+export const useRefreshRate = () => useContext(ChartControlContext).refreshRate;
+export const useSetRefreshRate = () =>
+  useContext(ChartControlContext).setRefreshRate;
+export const useDataRetention = () =>
+  useContext(ChartControlContext).dataRetention;
+export const useSetDataRetention = () =>
+  useContext(ChartControlContext).setDataRetention;
+export const useChartTimeWindow = () =>
+  useContext(ChartControlContext).chartTimeWindow;
+export const useSetChartTimeWindow = () =>
+  useContext(ChartControlContext).setChartTimeWindow;

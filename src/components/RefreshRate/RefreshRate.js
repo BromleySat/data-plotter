@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { storageSetItem } from "../../helpers/storageSetItem";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -52,6 +53,7 @@ export const RefreshRate = ({ validUrl }) => {
               ? localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
               : "1000"
           }
+          onChange={(e) => console.log(e.target.value)}
           sx={{
             color: theme.palette.text.primary,
             fontFamily: "Quicksand",
