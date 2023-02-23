@@ -26,7 +26,8 @@ const useChartControl = () => {
     data,
     setData: (data, payload = {}) => setData([...data, payload]),
     visibleData,
-    setVisibleData: (payload) => setVisibleData([...visibleData, payload]),
+    setVisibleData: (visibleData, payload = {}) =>
+      setVisibleData([...visibleData, payload]),
     refreshRate,
     setRefreshRate: (payload) => setRefreshRate(payload),
     dataRetention,

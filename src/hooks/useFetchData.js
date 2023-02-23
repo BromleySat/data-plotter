@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
+import { chartTimeWindow } from "../helpers/chartWindow/chartWindow";
 import axios from "axios";
 import moment from "moment";
 
@@ -10,6 +11,7 @@ export const useFetchData = (
   setDataLocalStorageToggle,
   data,
   setData,
+  setVisibleData,
   refreshRate,
   dataRetentionValue,
   chartTimeWindowValue
@@ -38,6 +40,12 @@ export const useFetchData = (
             res.data.time = time;
             const prevData = dataRetention(data, dataRetentionValue, time);
             setData(prevData, res.data);
+            const visibleData = chartTimeWindow(
+              data,
+              chartTimeWindowValue,
+              time
+            );
+            setVisibleData(visibleData, res.data);
             if (dataLocalStorageToggle) {
               storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
             } else {

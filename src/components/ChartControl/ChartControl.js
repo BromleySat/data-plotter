@@ -19,6 +19,7 @@ import {
   useSetDataLocalStorageToggle,
   useData,
   useSetData,
+  useSetVisibleData,
   useRefreshRate,
   useDataRetention,
   useChartTimeWindow,
@@ -30,6 +31,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
   const data = useData();
   const setData = useSetData();
+  const setVisibleData = useSetVisibleData();
   const refreshRate = useRefreshRate();
   const dataRetention = useDataRetention();
   const chartTimeWindow = useChartTimeWindow();
@@ -46,6 +48,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
     setDataLocalStorageToggle,
     data,
     setData,
+    setVisibleData,
     refreshRate,
     dataRetention,
     chartTimeWindow

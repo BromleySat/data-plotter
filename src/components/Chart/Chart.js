@@ -21,7 +21,7 @@ import {
   useRight,
   useSetLeft,
   useSetRight,
-  useData,
+  useVisibleData,
 } from "../../context/chartContext/chartControlContext";
 
 const Chart = ({ validUrl }) => {
@@ -33,7 +33,7 @@ const Chart = ({ validUrl }) => {
   let refAreaRight = useRefAreaRight();
   const setRefAreaLeft = useSetRefAreaLeft();
   const setRefAreaRight = useSetRefAreaRight();
-  const data = useData();
+  const data = useVisibleData();
 
   const zoom = () => {
     if (refAreaLeft === refAreaRight || refAreaRight === "") {
