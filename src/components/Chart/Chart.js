@@ -69,7 +69,9 @@ const Chart = ({ validUrl }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="time"
-            tickFormatter={(unixTime) => moment(unixTime).format("HH:mm:ss")}
+            tickFormatter={(milliseconds) =>
+              moment(milliseconds).format("HH:mm:ss")
+            }
             allowDataOverflow={true}
             domain={[left, right]}
             type="number"
@@ -88,9 +90,8 @@ const Chart = ({ validUrl }) => {
             domain={["dataMin", 5]}
           />
           <Tooltip
-            labelFormatter={function (value) {
-              value = moment(value).format("HH:mm:ss");
-              return `TIME: ${value}`;
+            labelFormatter={function (milliseconds) {
+              return `TIME: ${moment(milliseconds).format("HH:mm:ss")}`;
             }}
             labelStyle={{ color: "#000" }}
           />
