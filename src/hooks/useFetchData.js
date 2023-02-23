@@ -9,6 +9,7 @@ export const useFetchData = (
   data,
   setData
 ) => {
+  let isRequestInProgress = false;
   const applyLocalStorageValues = () => {
     if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
       setDataLocalStorageToggle(
@@ -22,21 +23,28 @@ export const useFetchData = (
 
   const getData = async () => {
     if (validUrl) {
-      await axios.get(validUrl).then(
-        (res) => {
-          res.data.time = new Date().getTime();
-          res.data.currentTime = new Date().getTime();
-          setData(res.data);
-          if (dataLocalStorageToggle) {
-            storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
-          } else {
-            localStorage.removeItem(`DATA FOR ${validUrl}`);
+      if (isRequestInProgress) return;
+      isRequestInProgress = true;
+      await axios
+        .get(validUrl)
+        .then(
+          (res) => {
+            res.data.time = new Date().getTime();
+            res.data.currentTime = new Date().getTime();
+            setData(res.data);
+            if (dataLocalStorageToggle) {
+              storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
+            } else {
+              localStorage.removeItem(`DATA FOR ${validUrl}`);
+            }
+          },
+          (error) => {
+            console.log(error);
           }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+        )
+        .finally(() => {
+          isRequestInProgress = false;
+        });
     }
   };
 
