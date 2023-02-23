@@ -24,7 +24,7 @@ const useChartControl = () => {
     dataLocalStorageToggle,
     setDataLocalStorageToggle: (payload) => setDataLocalStorageToggle(payload),
     data,
-    setData: (prevData, payload) => setData([...prevData, payload]),
+    setData: (data, payload = {}) => setData([...data, payload]),
     visibleData,
     setVisibleData: (payload) => setVisibleData([...visibleData, payload]),
     refreshRate,
