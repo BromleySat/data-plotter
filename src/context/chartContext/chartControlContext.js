@@ -24,10 +24,21 @@ const useChartControl = () => {
     dataLocalStorageToggle,
     setDataLocalStorageToggle: (payload) => setDataLocalStorageToggle(payload),
     data,
-    setData: (data, payload = {}) => setData([...data, payload]),
+    setData: (data, payload = null) => {
+      if (payload !== null) {
+        setData([...data, payload]);
+      } else {
+        setData([...data]);
+      }
+    },
     visibleData,
-    setVisibleData: (visibleData, payload = {}) =>
-      setVisibleData([...visibleData, payload]),
+    setVisibleData: (visibleData, payload = null) => {
+      if (payload !== null) {
+        setVisibleData([...visibleData, payload]);
+      } else {
+        setVisibleData([...visibleData]);
+      }
+    },
     refreshRate,
     setRefreshRate: (payload) => setRefreshRate(payload),
     dataRetention,

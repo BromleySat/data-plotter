@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
@@ -6,6 +6,7 @@ import axios from "axios";
 import moment from "moment";
 
 let isRequestInProgress = false;
+let executed = false;
 
 export const useFetchData = (
   validUrl,
@@ -18,31 +19,38 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
-  const applyLocalStorageValues = () => {
-    if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
-      setDataLocalStorageToggle(
-        JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
-      );
-    }
-    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
-      setData(JSON.parse(localStorage.getItem(`DATA FOR ${validUrl}`)));
-    }
-    if (localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`) !== null) {
-      setVisibleData(
-        JSON.parse(localStorage.getItem(`VISIBLE DATA FOR ${validUrl}`))
-      );
-    }
-  };
-
   const getData = async () => {
     if (validUrl) {
+      const time = Number(BigInt(moment().valueOf()));
+      if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null && !executed) {
+        executed = true;
+        const localStorageData = JSON.parse(
+          localStorage.getItem(`DATA FOR ${validUrl}`)
+        );
+        const dataRetentionVal =
+          localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
+        const chartTimeWindowVal =
+          localStorage.getItem(`CHART TIME WINDOW FOR ${validUrl}`) || 30000;
+        const dataRetentionData = dataRetention(
+          localStorageData,
+          dataRetentionVal,
+          time
+        );
+        setData(dataRetentionData);
+        const chartTimeWindowData = chartTimeWindow(
+          localStorageData,
+          chartTimeWindowVal,
+          time
+        );
+        setVisibleData(chartTimeWindowData);
+        return;
+      }
       if (isRequestInProgress) return;
       isRequestInProgress = true;
       await axios
         .get(validUrl)
         .then(
           (res) => {
-            const time = Number(BigInt(moment().valueOf()));
             res.data.time = time;
             const dataRetentionData = dataRetention(
               data,
@@ -57,7 +65,10 @@ export const useFetchData = (
             );
             setVisibleData(chartTimeWindowData, res.data);
             if (dataLocalStorageToggle) {
-              storageSetItem(`DATA FOR ${validUrl}`, JSON.stringify(data));
+              storageSetItem(
+                `DATA FOR ${validUrl}`,
+                JSON.stringify([...data, res.data])
+              );
             } else {
               localStorage.removeItem(`DATA FOR ${validUrl}`);
             }
@@ -73,7 +84,11 @@ export const useFetchData = (
   };
 
   useEffect(() => {
-    applyLocalStorageValues();
+    if (localStorage.getItem(`TOGGLE FOR ${validUrl}`) !== null) {
+      setDataLocalStorageToggle(
+        JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
+      );
+    }
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
