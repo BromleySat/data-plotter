@@ -5,6 +5,6 @@ export const dataRetention = (data, dataRetention, time) => {
     data,
     (el) => el.time <= time - dataRetention
   );
-  if (lastIndex !== -1) return _.slice(lastIndex + 1);
+  if (lastIndex !== -1) return data.slice(lastIndex + 1);
   return data;
 };
