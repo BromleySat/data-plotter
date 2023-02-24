@@ -19,7 +19,7 @@ export const useFetchData = (
   chartTimeWindowValue
 ) => {
   const getLocalStorageData = () => {
-    const time = Number(BigInt(moment().valueOf()));
+    const time = moment().valueOf();
     const localStorageDataRetentionValue =
       localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
     const localStorageChartTimeWindowValue =
@@ -51,7 +51,7 @@ export const useFetchData = (
         .get(validUrl)
         .then(
           (res) => {
-            const time = Number(BigInt(moment().valueOf()));
+            const time = moment().valueOf();
             res.data.time = time;
             const dataRetentionData = dataRetention(
               data,

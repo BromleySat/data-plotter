@@ -1,7 +1,5 @@
 export const chartTimeWindow = (data, chartTimeWindow, time) => {
-  for (let i = data.length - 1; i >= 0; i--) {
-    if (data[i].time <= time - chartTimeWindow)
-      return data.filter((el) => el.time > data[i].time);
-  }
+  const filteredData = data.filter((el) => el.time >= time - chartTimeWindow);
+  if (filteredData.length > 0) return filteredData;
   return data;
 };

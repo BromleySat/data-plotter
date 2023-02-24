@@ -1,6 +1,10 @@
+import _ from "lodash";
+
 export const dataRetention = (data, dataRetention, time) => {
-  for (let i = data.length - 1; i >= 0; i--) {
-    if (data[i].time <= time - dataRetention) return data.slice(i + 1);
-  }
+  const lastIndex = _.findLastIndex(
+    data,
+    (el) => el.time >= time - dataRetention
+  );
+  if (lastIndex !== -1) return data.slice(lastIndex + 1);
   return data;
 };
