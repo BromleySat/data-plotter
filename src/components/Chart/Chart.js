@@ -70,7 +70,7 @@ const Chart = ({ validUrl }) => {
           <XAxis
             dataKey="time"
             tickFormatter={(milliseconds) =>
-              moment(milliseconds).format("HH:mm:ss")
+              moment(milliseconds).format("HH:mm:ss.SSS")
             }
             allowDataOverflow={true}
             domain={[left, right]}
@@ -91,7 +91,7 @@ const Chart = ({ validUrl }) => {
           />
           <Tooltip
             labelFormatter={function (milliseconds) {
-              return `TIME: ${moment(milliseconds).format("HH:mm:ss")}`;
+              return `TIME: ${moment(milliseconds).format("HH:mm:ss.SSS")}`;
             }}
             labelStyle={{ color: "#000" }}
           />

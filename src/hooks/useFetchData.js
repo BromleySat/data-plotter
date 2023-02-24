@@ -29,29 +29,29 @@ export const useFetchData = (
       localStorage.getItem(`DATA FOR ${validUrl}`)
     );
 
-    const dataRetentionData = dataRetention(
+    const localStorageDataRetentionData = dataRetention(
       localStorageData,
       localStorageDataRetentionValue,
       time
     );
-    setData(dataRetentionData);
-    const chartTimeWindowData = chartTimeWindow(
+    setData(localStorageDataRetentionData);
+    const localStorageChartTimeWindowData = chartTimeWindow(
       localStorageData,
       localStorageChartTimeWindowValue,
       time
     );
-    setVisibleData(chartTimeWindowData);
+    setVisibleData(localStorageChartTimeWindowData);
   };
 
   const getData = async () => {
     if (validUrl) {
-      const time = Number(BigInt(moment().valueOf()));
       if (isRequestInProgress) return;
       isRequestInProgress = true;
       await axios
         .get(validUrl)
         .then(
           (res) => {
+            const time = Number(BigInt(moment().valueOf()));
             res.data.time = time;
             const dataRetentionData = dataRetention(
               data,

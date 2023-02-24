@@ -17,15 +17,7 @@ function getRandomIntInclusive(min: number, max: number): number {
 
 // const deviceId = makeId(23);
 
-const getDate = (): string => {
-  var today = new Date();
-  var time: string =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  return time;
-};
-
 interface Data {
-  date: string;
   temperatureC: number;
   temperatureF: number;
   voltage: number;
@@ -34,7 +26,6 @@ interface Data {
 
 export function getData(): Data {
   return {
-    date: getDate(),
     temperatureC: getRandomIntInclusive(-60, 60),
     temperatureF: getRandomIntInclusive(-75, 3),
     voltage: getRandomIntInclusive(0, 240),
