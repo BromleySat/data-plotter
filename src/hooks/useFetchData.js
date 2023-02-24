@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
@@ -6,7 +6,6 @@ import axios from "axios";
 import moment from "moment";
 
 let isRequestInProgress = false;
-let executed = false;
 
 export const useFetchData = (
   validUrl,
@@ -19,32 +18,34 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
+  const getLocalStorageData = () => {
+    const time = Number(BigInt(moment().valueOf()));
+    const localStorageDataRetentionValue =
+      localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
+    const localStorageChartTimeWindowValue =
+      localStorage.getItem(`CHART TIME WINDOW FOR ${validUrl}`) || 30000;
+
+    const localStorageData = JSON.parse(
+      localStorage.getItem(`DATA FOR ${validUrl}`)
+    );
+
+    const dataRetentionData = dataRetention(
+      localStorageData,
+      localStorageDataRetentionValue,
+      time
+    );
+    setData(dataRetentionData);
+    const chartTimeWindowData = chartTimeWindow(
+      localStorageData,
+      localStorageChartTimeWindowValue,
+      time
+    );
+    setVisibleData(chartTimeWindowData);
+  };
+
   const getData = async () => {
     if (validUrl) {
       const time = Number(BigInt(moment().valueOf()));
-      if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null && !executed) {
-        executed = true;
-        const localStorageData = JSON.parse(
-          localStorage.getItem(`DATA FOR ${validUrl}`)
-        );
-        const dataRetentionVal =
-          localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
-        const chartTimeWindowVal =
-          localStorage.getItem(`CHART TIME WINDOW FOR ${validUrl}`) || 30000;
-        const dataRetentionData = dataRetention(
-          localStorageData,
-          dataRetentionVal,
-          time
-        );
-        setData(dataRetentionData);
-        const chartTimeWindowData = chartTimeWindow(
-          localStorageData,
-          chartTimeWindowVal,
-          time
-        );
-        setVisibleData(chartTimeWindowData);
-        return;
-      }
       if (isRequestInProgress) return;
       isRequestInProgress = true;
       await axios
@@ -89,7 +90,12 @@ export const useFetchData = (
         JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
       );
     }
-    getData();
+    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
+      getLocalStorageData();
+    } else {
+      getData();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
