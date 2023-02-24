@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { storageSetItem } from "../../helpers/storageSetItem";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -6,29 +7,27 @@ import InputLabel from "@mui/material/InputLabel";
 import { useTheme } from "@material-ui/core/styles";
 import LoopSharpIcon from "@mui/icons-material/LoopSharp";
 import ControlledTooltip from "../Tooltip/Tooltip";
+import {
+  useRefreshRate,
+  useSetRefreshRate,
+} from "../../context/chartContext/chartControlContext";
 
-export const RefreshRate = ({ validUrl, onChangeInterval }) => {
+export const RefreshRate = ({ validUrl }) => {
+  const refreshRate = useRefreshRate();
+  const setRefreshRate = useSetRefreshRate();
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const [counter, setCounter] = useState(0);
   const theme = useTheme();
-  const intervalRefreshRate = useRef(null);
 
   const handleTooltip = (bool) => {
     setTooltipOpen(bool);
   };
 
-  const handleTooltipClose = () => {
-    clearInterval(intervalRefreshRate.current);
-    localStorage.setItem("refreshRateTooltip", counter);
-    if (localStorage.getItem("refreshRateTooltip") <= 4) {
-      intervalRefreshRate.current = setInterval(() => {
-        setTooltipOpen(false);
-      }, 5000);
-    } else {
-      setTooltipOpen(false);
+  useEffect(() => {
+    if (localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) !== null) {
+      setRefreshRate(localStorage.getItem(`REFRESH RATE FOR ${validUrl}`));
     }
-    setCounter((counter) => counter + 1);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ControlledTooltip
@@ -56,19 +55,17 @@ export const RefreshRate = ({ validUrl, onChangeInterval }) => {
           onOpen={() => {
             handleTooltip(false);
           }}
-          onClose={() => handleTooltipClose()}
           labelId="demo-select-small"
           data-testid={`refresh-rate-${validUrl}`}
           id="demo-select-small"
           // key={`select-${
           //   localStorage.getItem(`REFRESH RATE FOR ${validUrl}`) || "1000"
           // }`}
-          value={
-            localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
-              ? localStorage.getItem(`REFRESH RATE FOR ${validUrl}`)
-              : "1000"
-          }
-          onChange={onChangeInterval}
+          value={refreshRate}
+          onChange={(e) => {
+            storageSetItem(`REFRESH RATE FOR ${validUrl}`, e.target.value);
+            setRefreshRate(e.target.value);
+          }}
           sx={{
             color: theme.palette.text.primary,
             fontFamily: "Quicksand",

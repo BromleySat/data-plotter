@@ -1,9 +1,12 @@
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setDataLocalStorageToggle } from "../../redux/dataLocalStorageToggle/dataLocalStorageToggleSlice";
+import React, { useState } from "react";
 import ControlledTooltip from "../Tooltip/Tooltip";
+import {
+  useData,
+  useDataLocalStorageToggle,
+  useSetDataLocalStorageToggle,
+} from "../../context/chartContext/chartControlContext";
 
 const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
   width: 52,
@@ -55,14 +58,17 @@ const StyledBromleySatSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const BromleySatSwitch = ({ validUrl }) => {
-  const { data } = useSelector((state) => state.data);
-  const { dataLocalStorageToggle } = useSelector(
-    (state) => state.dataLocalStorageToggle
-  );
-  const dispatch = useDispatch();
+  const data = useData();
+  const dataLocalStorageToggle = useDataLocalStorageToggle();
+  const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
+  };
 
   const onCheckboxChange = (e) => {
-    dispatch(setDataLocalStorageToggle(e.target.checked));
+    setDataLocalStorageToggle(e.target.checked);
     localStorage.setItem(`TOGGLE FOR ${validUrl}`, e.target.checked);
 
     if (e.target.checked) {
@@ -76,13 +82,17 @@ export const BromleySatSwitch = ({ validUrl }) => {
       data-testid={`local-storage-tooltip-${validUrl}`}
       title="Local Storage"
       content="And here's some amazing content It's very engaging. Right?"
+      open={tooltipOpen}
     >
       <StyledBromleySatSwitch
         data-testid={`local-storage-${validUrl}`}
         focusVisibleClassName=".Mui-focusVisible"
         disableRipple
         checked={dataLocalStorageToggle}
-        onChange={onCheckboxChange}
+        onChange={(e) => onCheckboxChange(e)}
+        onMouseEnter={() => handleTooltip(true)}
+        onMouseLeave={() => handleTooltip(false)}
+        onClick={() => handleTooltip(false)}
       />
     </ControlledTooltip>
   );

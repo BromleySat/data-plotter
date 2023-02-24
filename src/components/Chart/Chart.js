@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import {
   LineChart,
   Legend,
@@ -12,116 +12,103 @@ import {
 import { RenderLine } from "../../helpers/chart/renderLine";
 import moment from "moment";
 import "./Chart.css";
-import { connect } from "react-redux";
 import {
-  setLeft,
-  setRight,
-  setRefAreaLeft,
-  setRefAreaRight,
-  animation,
-} from "../../redux/chart/chartSlice";
+  useRefAreaLeft,
+  useRefAreaRight,
+  useSetRefAreaLeft,
+  useSetRefAreaRight,
+  useLeft,
+  useRight,
+  useSetLeft,
+  useSetRight,
+  useVisibleData,
+} from "../../context/chartContext/chartControlContext";
 
-class Chart extends PureComponent {
-  zoom() {
-    let { refAreaLeft, refAreaRight } = this.props;
+const Chart = ({ validUrl }) => {
+  const left = useLeft();
+  const right = useRight();
+  const setLeft = useSetLeft();
+  const setRight = useSetRight();
+  let refAreaLeft = useRefAreaLeft();
+  let refAreaRight = useRefAreaRight();
+  const setRefAreaLeft = useSetRefAreaLeft();
+  const setRefAreaRight = useSetRefAreaRight();
+  const data = useVisibleData();
 
+  const zoom = () => {
     if (refAreaLeft === refAreaRight || refAreaRight === "") {
-      this.props.setRefAreaLeft("");
-      this.props.setRefAreaRight("");
+      setRefAreaLeft("");
+      setRefAreaRight("");
       return;
     }
 
-    // xAxis domain
     if (refAreaLeft > refAreaRight)
       [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-    // this.props.visibleData.slice();
-    this.props.setRefAreaLeft("");
-    this.props.setRefAreaRight("");
-    this.props.setLeft(refAreaLeft);
-    this.props.setRight(refAreaRight);
-  }
 
-  render() {
-    const { left, right, refAreaLeft, refAreaRight } = this.props;
-    const validUrl = this.props.validUrl;
-    return (
-      <div className="chart">
-        <ResponsiveContainer width="100%" height={350}>
-          <LineChart
-            data-testid={`line-chart-${validUrl}`}
-            data={this.props.data}
-            onMouseDown={(e) => {
-              if (e !== null) {
-                this.props.setRefAreaLeft(e.activeLabel);
-              }
-            }}
-            onMouseMove={(e) =>
-              refAreaLeft && this.props.setRefAreaRight(e.activeLabel)
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    setLeft(refAreaLeft);
+    setRight(refAreaRight);
+  };
+
+  return (
+    <div className="chart">
+      <ResponsiveContainer width="100%" height={350}>
+        <LineChart
+          data-testid={`line-chart-${validUrl}`}
+          data={data}
+          onMouseDown={(e) => {
+            if (e !== null) {
+              setRefAreaLeft(e.activeLabel);
             }
-            // eslint-disable-next-line react/jsx-no-bind
-            onMouseUp={this.zoom.bind(this)}
-            margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="time"
-              tickFormatter={(unixTime) => moment(unixTime).format("HH:mm:ss")}
-              allowDataOverflow={true}
-              domain={[left, right]}
-              type="number"
-            />
-            <YAxis
-              allowDataOverflow
-              type="number"
+          }}
+          onMouseMove={(e) => refAreaLeft && setRefAreaRight(e.activeLabel)}
+          onMouseUp={zoom}
+          margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="time"
+            tickFormatter={(milliseconds) =>
+              moment(milliseconds).format("HH:mm:ss.SSS")
+            }
+            allowDataOverflow={true}
+            domain={[left, right]}
+            type="number"
+          />
+          <YAxis
+            allowDataOverflow
+            type="number"
+            yAxisId="left-axis"
+            domain={["dataMin - 5", "dataMax + 5"]}
+          />
+          <YAxis
+            orientation="right"
+            allowDataOverflow
+            type="number"
+            yAxisId="right-axis"
+            domain={["dataMin", 5]}
+          />
+          <Tooltip
+            labelFormatter={function (milliseconds) {
+              return `TIME: ${moment(milliseconds).format("HH:mm:ss.SSS")}`;
+            }}
+            labelStyle={{ color: "#000" }}
+          />
+          <Legend></Legend>
+          {RenderLine(data)}
+          {refAreaLeft && refAreaRight ? (
+            <ReferenceArea
               yAxisId="left-axis"
-              domain={["dataMin - 5", "dataMax + 5"]}
+              x1={refAreaLeft}
+              x2={refAreaRight}
+              strokeOpacity={0.3}
             />
-            <YAxis
-              orientation="right"
-              allowDataOverflow
-              type="number"
-              yAxisId="right-axis"
-              domain={["dataMin", 5]}
-            />
-            <Tooltip
-              labelFormatter={function (value) {
-                value = moment(value).format("HH:mm:ss");
-                return `TIME: ${value}`;
-              }}
-              labelStyle={{ color: "#000" }}
-            />
-            <Legend></Legend>
-            {RenderLine(this.props.data)}
-            {refAreaLeft && refAreaRight ? (
-              <ReferenceArea
-                yAxisId="left-axis"
-                x1={refAreaLeft}
-                x2={refAreaRight}
-                strokeOpacity={0.3}
-              />
-            ) : null}
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  left: state.chart.left,
-  right: state.chart.right,
-  refAreaLeft: state.chart.refAreaLeft,
-  refAreaRight: state.chart.refAreaRight,
-  animation: state.chart.animation,
-  data: state.data.data,
-});
-
-const mapDispatchToProps = {
-  setLeft,
-  setRight,
-  setRefAreaLeft,
-  setRefAreaRight,
-  animation,
+          ) : null}
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chart);
+export default Chart;

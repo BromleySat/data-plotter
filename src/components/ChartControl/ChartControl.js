@@ -1,5 +1,4 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,25 +10,59 @@ import DataRetention from "../DataRetention/DataRetention";
 import { RefreshRate } from "../RefreshRate/RefreshRate";
 import { ChartTimeWindow } from "../ChartTimeWindow/ChartTimeWindow";
 import { BromleySatSwitch } from "../Switch/Switch";
-import { useFetchData } from "../../hooks/useFetchData";
 import {
-  setLeft,
-  setRight,
-  setRefAreaLeft,
-  setRefAreaRight,
-} from "../../redux/chart/chartSlice";
+  useSetLeft,
+  useSetRight,
+  useSetRefAreaLeft,
+  useSetRefAreaRight,
+  useDataLocalStorageToggle,
+  useSetDataLocalStorageToggle,
+  useData,
+  useSetData,
+  useSetVisibleData,
+  useRefreshRate,
+  useDataRetention,
+  useChartTimeWindow,
+} from "../../context/chartContext/chartControlContext";
+import { useFetchData } from "../../hooks/useFetchData";
 
 const ChartControl = ({ validUrl, deviceId }) => {
-  const dispatch = useDispatch();
+  const dataLocalStorageToggle = useDataLocalStorageToggle();
+  const setDataLocalStorageToggle = useSetDataLocalStorageToggle();
+  const data = useData();
+  const setData = useSetData();
+  const setVisibleData = useSetVisibleData();
+  const refreshRate = useRefreshRate();
+  const dataRetention = useDataRetention();
+  const chartTimeWindow = useChartTimeWindow();
+  const setRefAreaLeft = useSetRefAreaLeft();
+  const setRefAreaRight = useSetRefAreaRight();
+  const setLeft = useSetLeft();
+  const setRight = useSetRight();
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const theme = useTheme();
-  useFetchData(validUrl);
+
+  useFetchData(
+    validUrl,
+    dataLocalStorageToggle,
+    setDataLocalStorageToggle,
+    data,
+    setData,
+    setVisibleData,
+    refreshRate,
+    dataRetention,
+    chartTimeWindow
+  );
 
   const zoomOut = () => {
-    // this.props.visibleData.slice();
-    dispatch(setRefAreaLeft(""));
-    dispatch(setRefAreaRight(""));
-    dispatch(setLeft("dataMin"));
-    dispatch(setRight("dataMax"));
+    setRefAreaLeft("");
+    setRefAreaRight("");
+    setLeft("dataMin");
+    setRight("dataMax");
+  };
+
+  const handleTooltip = (bool) => {
+    setTooltipOpen(bool);
   };
 
   return (
@@ -50,13 +83,19 @@ const ChartControl = ({ validUrl, deviceId }) => {
           <ControlledTooltip
             title="Zoom Out"
             data-testid={`zoom-out-tooltip-${validUrl}`}
+            open={tooltipOpen}
           >
             <FontAwesomeIcon
               data-testid={`zoom-out-${validUrl}`}
               style={{ color: theme.palette.text.primary }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
-              onClick={() => zoomOut()}
+              onMouseEnter={() => handleTooltip(true)}
+              onMouseLeave={() => handleTooltip(false)}
+              onClick={() => {
+                handleTooltip(false);
+                zoomOut();
+              }}
             />
           </ControlledTooltip>
 

@@ -15,7 +15,6 @@ export const RenderLine = (data) => {
         column !== "deviceId" &&
         column !== "time" &&
         column !== "date" &&
-        column !== "currentTime" &&
         column !== "number"
     );
 

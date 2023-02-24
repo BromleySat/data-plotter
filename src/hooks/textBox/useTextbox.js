@@ -49,7 +49,11 @@ export const useTextbox = () => {
   };
   useEffect(() => {
     noApiConfigStored();
-    fetchValidUrls();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchValidUrls();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlList]);
 };
