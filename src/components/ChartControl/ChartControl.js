@@ -19,7 +19,6 @@ import {
   useSetDataLocalStorageToggle,
   useData,
   useSetData,
-  useVisibleData,
   useSetVisibleData,
   useRefreshRate,
   useDataRetention,
