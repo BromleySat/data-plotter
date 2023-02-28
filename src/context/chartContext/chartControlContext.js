@@ -10,7 +10,7 @@ const useChartControl = () => {
   const [visibleData, setVisibleData] = useState([]);
   const [refreshRate, setRefreshRate] = useState(5000);
   const [dataRetention, setDataRentention] = useState(1814400000);
-  const [chartTimeWindow, setChartTimeWindow] = useState(30000);
+  const [chartTimeWindow, setChartTimeWindow] = useState(25000);
 
   return {
     left,

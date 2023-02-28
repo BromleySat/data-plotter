@@ -116,7 +116,7 @@ export const ChartTimeWindow = ({ validUrl }) => {
           }}
         >
           <MenuItem
-            data-testid={`chart-time-window-30s-${validUrl}`}
+            data-testid={`chart-time-window-25s-${validUrl}`}
             style={{ fontFamily: "Quicksand" }}
             value="25000"
           >

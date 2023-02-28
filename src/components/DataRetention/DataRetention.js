@@ -114,6 +114,27 @@ const DataRetention = ({ validUrl }) => {
           }}
         >
           <MenuItem
+            data-testid={`data-retention-1hr-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="3600000"
+          >
+            1hr
+          </MenuItem>
+          <MenuItem
+            data-testid={`data-retention-6hrs-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="21600000"
+          >
+            6hrs
+          </MenuItem>
+          <MenuItem
+            data-testid={`data-retention-12hrs-${validUrl}`}
+            style={{ fontFamily: "Quicksand" }}
+            value="43200000"
+          >
+            12hrs
+          </MenuItem>
+          <MenuItem
             data-testid={`data-retention-24hrs-${validUrl}`}
             style={{ fontFamily: "Quicksand" }}
             value="86400000"
