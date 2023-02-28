@@ -70,8 +70,6 @@ export const useFetchData = (
                 `DATA FOR ${validUrl}`,
                 JSON.stringify([...data, res.data])
               );
-            } else {
-              localStorage.removeItem(`DATA FOR ${validUrl}`);
             }
           },
           (error) => {
@@ -105,5 +103,5 @@ export const useFetchData = (
     }, refreshRate);
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
 };

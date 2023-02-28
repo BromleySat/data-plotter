@@ -66,20 +66,29 @@ const ChartControl = ({ validUrl, deviceId }) => {
   };
 
   return (
-    <div style={{ marginBottom: "4em" }}>
-      <div className="flex">
+    <div className="chartControlContainer">
+      <div className="chartControlFlex mBottom">
         <DataRetention validUrl={validUrl} />
         <Typography
-          variant="h4"
-          style={{
-            color: "#00C119",
+          sx={{
+            color: "#00c119",
             fontFamily: "Quicksand",
             fontWeight: "700",
+            fontSize: "2rem",
+            textAlign: "center",
+            "@media (min-width: 40em) and (max-width: 60em)": {
+              fontSize: "1.5rem",
+            },
+            "@media (max-width: 40em)": {
+              fontSize: "1.1rem",
+            },
           }}
+          className="deviceId"
+          variant="h4"
         >
           {deviceId}
         </Typography>
-        <div className="split">
+        <div className="chartControlFlex">
           <ControlledTooltip
             title="Zoom Out"
             data-testid={`zoom-out-tooltip-${validUrl}`}
@@ -87,7 +96,9 @@ const ChartControl = ({ validUrl, deviceId }) => {
           >
             <FontAwesomeIcon
               data-testid={`zoom-out-${validUrl}`}
-              style={{ color: theme.palette.text.primary }}
+              style={{
+                color: theme.palette.text.primary,
+              }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
               onMouseEnter={() => handleTooltip(true)}
@@ -103,14 +114,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         </div>
       </div>
       <Chart validUrl={validUrl} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="chartControlFlex">
         <BromleySatSwitch validUrl={validUrl} />
         <ChartTimeWindow validUrl={validUrl} />
       </div>
