@@ -70,8 +70,6 @@ export const useFetchData = (
                 `DATA FOR ${validUrl}`,
                 JSON.stringify([...data, res.data])
               );
-            } else {
-              localStorage.removeItem(`DATA FOR ${validUrl}`);
             }
           },
           (error) => {

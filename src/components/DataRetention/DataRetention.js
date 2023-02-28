@@ -114,69 +114,6 @@ const DataRetention = ({ validUrl }) => {
           }}
         >
           <MenuItem
-            data-testid={`data-retention-5s-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="5000"
-          >
-            5s
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-10s-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="10000"
-          >
-            10s
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-30s-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="30000"
-          >
-            30s
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-5min-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="300000"
-          >
-            5min
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-15min-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="900000"
-          >
-            15min
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-30min-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="1800000"
-          >
-            30min
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-1hr-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="3600000"
-          >
-            1hr
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-6hrs-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="21600000"
-          >
-            6hrs
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-12hrs-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="43200000"
-          >
-            12hrs
-          </MenuItem>
-          <MenuItem
             data-testid={`data-retention-24hrs-${validUrl}`}
             style={{ fontFamily: "Quicksand" }}
             value="86400000"

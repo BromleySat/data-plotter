@@ -116,25 +116,11 @@ export const ChartTimeWindow = ({ validUrl }) => {
           }}
         >
           <MenuItem
-            data-testid={`chart-time-window-5s-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="5000"
-          >
-            5s
-          </MenuItem>
-          <MenuItem
-            data-testid={`chart-time-window-10s-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="10000"
-          >
-            10s
-          </MenuItem>
-          <MenuItem
             data-testid={`chart-time-window-30s-${validUrl}`}
             style={{ fontFamily: "Quicksand" }}
-            value="30000"
+            value="25000"
           >
-            30s
+            25s
           </MenuItem>
           <MenuItem
             data-testid={`chart-time-window-5m-${validUrl}`}
