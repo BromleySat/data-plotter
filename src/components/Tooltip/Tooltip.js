@@ -1,4 +1,5 @@
 import React from "react";
+import "./Tooltip.css";
 import { Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
@@ -33,7 +34,7 @@ export const ControlledTooltip = (props) => {
       open={props.open}
       title={
         <React.Fragment>
-          <h3 style={{ margin: 0 }}>{props.title}</h3>
+          <h3 className="tooltipMarginZero">{props.title}</h3>
           <br />
           {props.content}
         </React.Fragment>

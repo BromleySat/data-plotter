@@ -1,6 +1,6 @@
 .textfield-container {
   text-align: center;
-  margin-bottom: 3em;
+  margin-bottom: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,9 +8,14 @@
   gap: 1em;
 }
 
+.textboxError {
+  color: red;
+  font-family: "Quicksand";
+  font-weight: 700;
+}
+
 @media (max-width: 30em) {
   .textfield-container {
-    display: flex;
     flex-direction: column;
   }
 }

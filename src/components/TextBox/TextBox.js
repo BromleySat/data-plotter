@@ -106,14 +106,7 @@ export const TextBox = () => {
         Update
       </Button>
       {error ? (
-        <p
-          data-testid="error"
-          style={{
-            color: "red",
-            fontFamily: "Quicksand",
-            fontWeight: "700",
-          }}
-        >
+        <p data-testid="error" className="textboxError">
           Please provide valid URL list
         </p>
       ) : null}
