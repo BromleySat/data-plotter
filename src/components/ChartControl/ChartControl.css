@@ -1,59 +1,51 @@
+.mBottom {
+  margin-bottom: 3rem;
+}
+
 .zoomOut {
   cursor: pointer;
   font-size: 2rem;
 }
 
-.split {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5em;
+.chartControlContainer {
+  margin-bottom: 4rem;
 }
 
-.flex {
+.chartControlFlex {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 3em;
-  gap: 0.5em;
 }
 
-.flex > *:nth-child(2) {
-  text-align: center;
+.deviceId {
+  color: #00c119;
+  font-family: "Quicksand";
+  font-weight: 700;
   font-size: 2rem;
+  text-align: center;
+}
+
+@media (min-width: 40em) and (max-width: 60em) {
+  .deviceId {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 40em) {
-  .flex {
-    display: flex;
-    margin-bottom: 1em;
+  .mBottom {
+    margin-bottom: 1rem;
   }
 
-  .flex > *:nth-child(1) {
-    margin-right: auto;
-    font-size: 0.5rem;
-  }
-
-  .flex > *:nth-child(2) {
+  .deviceId {
     font-size: 1.1rem;
-    text-align: center;
     min-width: 125px;
   }
 
-  .flex > *:nth-child(3) {
-    margin-left: auto;
+  .fSize {
     font-size: 0.5rem;
   }
 
   .zoomOut {
     font-size: 1.75rem;
-  }
-}
-
-@media (min-width: 40em) and (max-width: 60em) {
-  .flex > *:nth-child(2) {
-    font-size: 1.5rem;
-    text-align: center;
   }
 }

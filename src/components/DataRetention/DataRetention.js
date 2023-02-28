@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./DataRetention.css";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -30,141 +31,143 @@ const DataRetention = ({ validUrl }) => {
   }, []);
 
   return (
-    <ControlledTooltip
-      dataTestId={`data-retention-tooltip-${validUrl}`}
-      title="Data Retention"
-      content="And here's some amazing content It's very engaging. Right?"
-      open={tooltipOpen}
-    >
-      <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
-        <InputLabel
-          id="demo-select-small"
-          sx={{
-            color: theme.palette.text.primary,
-            fontFamily: "Quicksand",
-            fontWeight: "700",
-          }}
-        />
-        <Select
-          onMouseEnter={() => {
-            handleTooltip(true);
-          }}
-          onMouseLeave={() => {
-            handleTooltip(false);
-          }}
-          onOpen={() => {
-            handleTooltip(false);
-          }}
-          labelId="demo-select-small"
-          data-testid={`data-retention-${validUrl}`}
-          id="demo-select-small"
-          value={dataRetention}
-          onChange={(e) => {
-            storageSetItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
-            setDataRetention(e.target.value);
-          }}
-          IconComponent={AutoDeleteSharpIcon}
-          sx={{
-            color: theme.palette.text.primary,
-            "& .MuiSvgIcon-root": {
+    <div className="dataRetentionContainer">
+      <ControlledTooltip
+        dataTestId={`data-retention-tooltip-${validUrl}`}
+        title="Data Retention"
+        content="And here's some amazing content It's very engaging. Right?"
+        open={tooltipOpen}
+      >
+        <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
+          <InputLabel
+            id="demo-select-small"
+            sx={{
               color: theme.palette.text.primary,
-              fontSize: "1.25rem",
-            },
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: theme.palette.text.primary,
-              borderWidth: "3px",
-              borderRadius: "5px",
-            },
-            "&.MuiOutlinedInput-root": {
-              "&.Mui-focused": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#00C119",
-                  borderWidth: "3px",
-                  borderRadius: "5px",
+              fontFamily: "Quicksand",
+              fontWeight: "700",
+            }}
+          />
+          <Select
+            onMouseEnter={() => {
+              handleTooltip(true);
+            }}
+            onMouseLeave={() => {
+              handleTooltip(false);
+            }}
+            onOpen={() => {
+              handleTooltip(false);
+            }}
+            labelId="demo-select-small"
+            data-testid={`data-retention-${validUrl}`}
+            id="demo-select-small"
+            value={dataRetention}
+            onChange={(e) => {
+              storageSetItem(`DATA RETENTION FOR ${validUrl}`, e.target.value);
+              setDataRetention(e.target.value);
+            }}
+            IconComponent={AutoDeleteSharpIcon}
+            sx={{
+              color: theme.palette.text.primary,
+              "& .MuiSvgIcon-root": {
+                color: theme.palette.text.primary,
+                fontSize: "1.25rem",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.text.primary,
+                borderWidth: "3px",
+                borderRadius: "5px",
+              },
+              "&.MuiOutlinedInput-root": {
+                "&.Mui-focused": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#00C119",
+                    borderWidth: "3px",
+                    borderRadius: "5px",
+                  },
                 },
               },
-            },
-            "&:hover": {
-              "&& fieldset": {
-                borderColor: theme.palette.text.primary,
-                opacity: "0.5",
+              "&:hover": {
+                "&& fieldset": {
+                  borderColor: theme.palette.text.primary,
+                  opacity: "0.5",
+                },
               },
-            },
-            ".MuiSelect-icon": {
-              transform: "none",
-            },
-            "@media (max-width: 40em)": {
-              "& .MuiSelect-select": {
-                fontSize: "0.75rem",
+              ".MuiSelect-icon": {
+                transform: "none",
               },
-              "& .MuiSvgIcon-root": {
-                fontSize: "1rem",
+              "@media (max-width: 40em)": {
+                "& .MuiSelect-select": {
+                  fontSize: "0.75rem",
+                },
+                "& .MuiSvgIcon-root": {
+                  fontSize: "1rem",
+                },
               },
-            },
-            "@media (min-width: 40em) and (max-width: 60em)": {
-              "& .MuiSelect-select": {
-                fontSize: "0.80rem",
+              "@media (min-width: 40em) and (max-width: 60em)": {
+                "& .MuiSelect-select": {
+                  fontSize: "0.80rem",
+                },
+                "& .MuiSvgIcon-root": {
+                  fontSize: "1rem",
+                },
               },
-              "& .MuiSvgIcon-root": {
-                fontSize: "1rem",
-              },
-            },
-            fontFamily: "Quicksand",
-            fontWeight: "700",
-          }}
-        >
-          <MenuItem
-            data-testid={`data-retention-1hr-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="3600000"
+              fontFamily: "Quicksand",
+              fontWeight: "700",
+            }}
           >
-            1hr
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-6hrs-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="21600000"
-          >
-            6hrs
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-12hrs-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="43200000"
-          >
-            12hrs
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-24hrs-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="86400000"
-          >
-            24hrs
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-3d-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="259200000"
-          >
-            3d
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-7d-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="604800000"
-          >
-            7d
-          </MenuItem>
-          <MenuItem
-            data-testid={`data-retention-21d-${validUrl}`}
-            style={{ fontFamily: "Quicksand" }}
-            value="1814400000"
-          >
-            21d
-          </MenuItem>
-        </Select>
-      </FormControl>
-    </ControlledTooltip>
+            <MenuItem
+              data-testid={`data-retention-1hr-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="3600000"
+            >
+              1hr
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-6hrs-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="21600000"
+            >
+              6hrs
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-12hrs-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="43200000"
+            >
+              12hrs
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-24hrs-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="86400000"
+            >
+              24hrs
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-3d-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="259200000"
+            >
+              3d
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-7d-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="604800000"
+            >
+              7d
+            </MenuItem>
+            <MenuItem
+              data-testid={`data-retention-21d-${validUrl}`}
+              style={{ fontFamily: "Quicksand" }}
+              value="1814400000"
+            >
+              21d
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </ControlledTooltip>
+    </div>
   );
 };
 

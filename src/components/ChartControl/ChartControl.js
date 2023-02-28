@@ -66,20 +66,13 @@ const ChartControl = ({ validUrl, deviceId }) => {
   };
 
   return (
-    <div style={{ marginBottom: "4em" }}>
-      <div className="flex">
+    <div className="chartControlContainer">
+      <div className="chartControlFlex mBottom">
         <DataRetention validUrl={validUrl} />
-        <Typography
-          variant="h4"
-          style={{
-            color: "#00C119",
-            fontFamily: "Quicksand",
-            fontWeight: "700",
-          }}
-        >
+        <Typography className="deviceId" variant="h4">
           {deviceId}
         </Typography>
-        <div className="split">
+        <div className="chartControlFlex fSize">
           <ControlledTooltip
             title="Zoom Out"
             data-testid={`zoom-out-tooltip-${validUrl}`}
@@ -87,7 +80,10 @@ const ChartControl = ({ validUrl, deviceId }) => {
           >
             <FontAwesomeIcon
               data-testid={`zoom-out-${validUrl}`}
-              style={{ color: theme.palette.text.primary }}
+              style={{
+                color: theme.palette.text.primary,
+                marginRight: ".5rem",
+              }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
               onMouseEnter={() => handleTooltip(true)}
@@ -103,14 +99,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         </div>
       </div>
       <Chart validUrl={validUrl} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="chartControlFlex">
         <BromleySatSwitch validUrl={validUrl} />
         <ChartTimeWindow validUrl={validUrl} />
       </div>
