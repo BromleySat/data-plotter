@@ -17,28 +17,9 @@
   justify-content: space-between;
 }
 
-.deviceId {
-  color: #00c119;
-  font-family: "Quicksand";
-  font-weight: 700;
-  font-size: 2rem;
-  text-align: center;
-}
-
-@media (min-width: 40em) and (max-width: 60em) {
-  .deviceId {
-    font-size: 1.5rem;
-  }
-}
-
 @media (max-width: 40em) {
   .mBottom {
     margin-bottom: 1rem;
-  }
-
-  .deviceId {
-    font-size: 1.1rem;
-    min-width: 125px;
   }
 
   .fSize {

@@ -69,7 +69,23 @@ const ChartControl = ({ validUrl, deviceId }) => {
     <div className="chartControlContainer">
       <div className="chartControlFlex mBottom">
         <DataRetention validUrl={validUrl} />
-        <Typography className="deviceId" variant="h4">
+        <Typography
+          sx={{
+            color: "#00c119",
+            fontFamily: "Quicksand",
+            fontWeight: "700",
+            fontSize: "2rem",
+            textAlign: "center",
+            "@media (min-width: 40em) and (max-width: 60em)": {
+              fontSize: "1.5rem",
+            },
+            "@media (max-width: 40em)": {
+              fontSize: "1.1rem",
+            },
+          }}
+          className="deviceId"
+          variant="h4"
+        >
           {deviceId}
         </Typography>
         <div className="chartControlFlex fSize">
