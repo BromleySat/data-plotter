@@ -5,6 +5,7 @@
 .zoomOut {
   cursor: pointer;
   font-size: 2rem;
+  margin-right: 0.5rem;
 }
 
 .chartControlContainer {
@@ -20,10 +21,6 @@
 @media (max-width: 40em) {
   .mBottom {
     margin-bottom: 1rem;
-  }
-
-  .fSize {
-    font-size: 0.5rem;
   }
 
   .zoomOut {

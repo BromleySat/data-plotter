@@ -88,7 +88,7 @@ const ChartControl = ({ validUrl, deviceId }) => {
         >
           {deviceId}
         </Typography>
-        <div className="chartControlFlex fSize">
+        <div className="chartControlFlex">
           <ControlledTooltip
             title="Zoom Out"
             data-testid={`zoom-out-tooltip-${validUrl}`}
@@ -98,7 +98,6 @@ const ChartControl = ({ validUrl, deviceId }) => {
               data-testid={`zoom-out-${validUrl}`}
               style={{
                 color: theme.palette.text.primary,
-                marginRight: ".5rem",
               }}
               icon={faMagnifyingGlassMinus}
               className="zoomOut"
