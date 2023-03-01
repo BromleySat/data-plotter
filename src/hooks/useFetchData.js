@@ -29,18 +29,18 @@ export const useFetchData = (
       localStorage.getItem(`DATA FOR ${validUrl}`)
     );
 
-    const localStorageDataRetentionData = dataRetention(
+    const localStorageDataRetention = dataRetention(
       localStorageData,
       localStorageDataRetentionValue,
       time
     );
-    setData(localStorageDataRetentionData);
-    const localStorageChartTimeWindowData = chartTimeWindow(
+    setData(localStorageDataRetention);
+    const localStorageChartTimeWindow = chartTimeWindow(
       localStorageData,
       localStorageChartTimeWindowValue,
       time
     );
-    setVisibleData(localStorageChartTimeWindowData);
+    setVisibleData(localStorageChartTimeWindow);
   };
 
   const getData = async () => {
@@ -104,4 +104,22 @@ export const useFetchData = (
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
+
+  useEffect(() => {
+    const time = moment().valueOf();
+    const dataRetentionData = dataRetention(data, dataRetentionValue, time);
+    setData(dataRetentionData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataRetentionValue]);
+
+  useEffect(() => {
+    const time = moment().valueOf();
+    const chartTimeWindowData = chartTimeWindow(
+      data,
+      chartTimeWindowValue,
+      time
+    );
+    setVisibleData(chartTimeWindowData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chartTimeWindowValue]);
 };
