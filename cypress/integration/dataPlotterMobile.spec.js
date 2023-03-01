@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 const sizes = ["iphone-xr", "samsung-note9"];
 
 describe("Data Plotter Testing Features On Touch Devices", () => {

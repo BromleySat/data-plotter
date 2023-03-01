@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 describe("Data Plotter Testing Features", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");

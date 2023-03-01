@@ -18,7 +18,7 @@ describe("Testing Displaying Of The Chart", () => {
     },
   ];
 
-  it("should ... ", () => {
+  it("should have the same length as the initial data", () => {
     const result = RenderLine(initialData);
     expect(result.length).toEqual(initialData.length);
   });
