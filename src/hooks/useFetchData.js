@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useSkipInitialRender from "./useSkipInitialRender";
+import { useUpdateEffect } from "./useUpdateEffect";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
@@ -19,8 +19,6 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
-  const initialRender = useSkipInitialRender();
-
   const getLocalStorageData = () => {
     const time = moment().valueOf();
     const localStorageDataRetentionValue =
@@ -106,28 +104,30 @@ export const useFetchData = (
     }, refreshRate);
     return () => clearInterval(dataInterval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
+  }, [
+    data,
+    refreshRate,
+    dataRetentionValue,
+    chartTimeWindowValue,
+    dataLocalStorageToggle,
+  ]);
 
-  useEffect(() => {
-    if (!initialRender) {
-      const time = moment().valueOf();
-      const dataRetentionData = dataRetention(data, dataRetentionValue, time);
-      setData(dataRetentionData);
-    }
+  useUpdateEffect(() => {
+    const time = moment().valueOf();
+    const dataRetentionData = dataRetention(data, dataRetentionValue, time);
+    setData(dataRetentionData);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataRetentionValue]);
 
-  useEffect(() => {
-    if (!initialRender) {
-      const time = moment().valueOf();
-      const chartTimeWindowData = chartTimeWindow(
-        data,
-        chartTimeWindowValue,
-        time
-      );
-      setVisibleData(chartTimeWindowData);
-    }
+  useUpdateEffect(() => {
+    const time = moment().valueOf();
+    const chartTimeWindowData = chartTimeWindow(
+      data,
+      chartTimeWindowValue,
+      time
+    );
+    setVisibleData(chartTimeWindowData);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartTimeWindowValue]);
