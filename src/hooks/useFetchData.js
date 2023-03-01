@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import useSkipInitialRender from "./useSkipInitialRender";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
@@ -18,7 +19,7 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
-  const initialRender = useRef(true);
+  const initialRender = useSkipInitialRender();
 
   const getLocalStorageData = () => {
     const time = moment().valueOf();
@@ -108,9 +109,7 @@ export const useFetchData = (
   }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
+    if (!initialRender) {
       const time = moment().valueOf();
       const dataRetentionData = dataRetention(data, dataRetentionValue, time);
       setData(dataRetentionData);
@@ -120,9 +119,7 @@ export const useFetchData = (
   }, [dataRetentionValue]);
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-    } else {
+    if (!initialRender) {
       const time = moment().valueOf();
       const chartTimeWindowData = chartTimeWindow(
         data,
