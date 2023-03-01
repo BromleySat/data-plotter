@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
 import { chartTimeWindow } from "../helpers/chartTimeWindow/chartTimeWindow";
@@ -18,6 +18,8 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
+  const initialRender = useRef(true);
+
   const getLocalStorageData = () => {
     const time = moment().valueOf();
     const localStorageDataRetentionValue =
@@ -106,20 +108,30 @@ export const useFetchData = (
   }, [data, refreshRate, dataRetentionValue, chartTimeWindowValue]);
 
   useEffect(() => {
-    const time = moment().valueOf();
-    const dataRetentionData = dataRetention(data, dataRetentionValue, time);
-    setData(dataRetentionData);
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      const time = moment().valueOf();
+      const dataRetentionData = dataRetention(data, dataRetentionValue, time);
+      setData(dataRetentionData);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataRetentionValue]);
 
   useEffect(() => {
-    const time = moment().valueOf();
-    const chartTimeWindowData = chartTimeWindow(
-      data,
-      chartTimeWindowValue,
-      time
-    );
-    setVisibleData(chartTimeWindowData);
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      const time = moment().valueOf();
+      const chartTimeWindowData = chartTimeWindow(
+        data,
+        chartTimeWindowValue,
+        time
+      );
+      setVisibleData(chartTimeWindowData);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartTimeWindowValue]);
 };

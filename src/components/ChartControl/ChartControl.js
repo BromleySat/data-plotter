@@ -33,8 +33,8 @@ const ChartControl = ({ validUrl, deviceId }) => {
   const setData = useSetData();
   const setVisibleData = useSetVisibleData();
   const refreshRate = useRefreshRate();
-  const dataRetention = useDataRetention();
-  const chartTimeWindow = useChartTimeWindow();
+  const dataRetentionValue = useDataRetention();
+  const chartTimeWindowValue = useChartTimeWindow();
   const setRefAreaLeft = useSetRefAreaLeft();
   const setRefAreaRight = useSetRefAreaRight();
   const setLeft = useSetLeft();
@@ -50,8 +50,8 @@ const ChartControl = ({ validUrl, deviceId }) => {
     setData,
     setVisibleData,
     refreshRate,
-    dataRetention,
-    chartTimeWindow
+    dataRetentionValue,
+    chartTimeWindowValue
   );
 
   const zoomOut = () => {
