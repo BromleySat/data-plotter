@@ -1,9 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getApiList,
-  validateInput,
-} from "../../helpers/dataPlotter/validation";
+import { getApiList, validateInput } from "../../helpers/textBox/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import { useTextbox } from "../../hooks/textBox/useTextbox";
@@ -26,7 +23,7 @@ export const TextBox = () => {
   );
   const dispatch = useDispatch();
   const theme = useTheme();
-  useTextbox();
+
   const useStyles = makeStyles({
     root: {
       "&::before": {
@@ -71,17 +68,16 @@ export const TextBox = () => {
     }
   };
 
+  useTextbox();
+
   return (
     <div className="textfield-container">
       <TextField
-        id="standard-basic"
         variant="standard"
         defaultValue={trimHttp(urlList)}
         multiline={true}
         onChange={(e) => dispatch(setTextBoxValue(e.target.value))}
-        inputProps={{
-          "data-testid": "text-area",
-        }}
+        data-testid="text-area"
         InputProps={{
           classes: {
             root: classes.root,

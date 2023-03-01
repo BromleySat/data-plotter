@@ -1,4 +1,8 @@
-import { validateInput, getApiList, isLocalIp } from "./validation.js.js";
+import {
+  validateInput,
+  getApiList,
+  isLocalIp,
+} from "../../helpers/textBox/validation";
 
 describe("Testing local IP logic", () => {
   it("a", () => {
