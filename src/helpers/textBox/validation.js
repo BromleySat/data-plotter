@@ -96,7 +96,7 @@ export function getApiList(input) {
     inputArray[i] = inputArray[i].replace(" ", "");
     if (inputArray[i].includes("http://") || inputArray[i].includes("https://"))
       continue;
-    if (inputArray[i].startsWith("localhost:3080")) {
+    if (inputArray[i].startsWith("localhost")) {
       inputArray[i] = str + inputArray[i];
       continue;
     }
