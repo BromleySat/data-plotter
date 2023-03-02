@@ -42,20 +42,20 @@ export function validateInput(input) {
   const validDomain =
     /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
 
-  const inputIntoArray = input.split(",");
+  const apiList = input.split(",");
 
-  for (let inp of inputIntoArray) {
-    if (inp.startsWith("http://")) {
-      inp = inp.replace("http://", "");
-      if (inp.includes("/")) {
+  for (let api of apiList) {
+    if (api.startsWith("http://")) {
+      api = api.replace("http://", "");
+      if (api.includes("/")) {
         return false;
       }
-    } else if (inp.startsWith("https://")) {
-      inp = inp.replace("https://", "");
-      if (inp.includes("/")) {
+    } else if (api.startsWith("https://")) {
+      api = api.replace("https://", "");
+      if (api.includes("/")) {
         return false;
       }
-    } else if (inp.includes("/")) {
+    } else if (api.includes("/")) {
       return false;
     }
   }
@@ -64,14 +64,7 @@ export function validateInput(input) {
     return false;
   }
 
-  if (input.length > 100) {
-    return false;
-  }
-  if (input.length <= 10) {
-    return false;
-  }
-
-  if (!/\s/.test(input)) {
+  if (input.length === 0) {
     return false;
   }
 
