@@ -38,38 +38,53 @@ export function isLocalIp(ip) {
 // }
 
 export function validateInput(input) {
-  const specialChars = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
-  const validDomain =
-    /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
+  const specialCharacters = (value) => {
+    const specCharacters = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/.test(value);
+    return specCharacters;
+  };
+
+  const validDomain = (value) => {
+    const valDomain =
+      /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g.test(
+        value
+      );
+    return valDomain;
+  };
 
   const apiList = input.split(",");
+  console.log(apiList);
 
   for (let api of apiList) {
+    if (specialCharacters(api)) {
+      console.log("SPECIAL CHARACTERS");
+      return false;
+    }
+    if (api.length === 0) {
+      console.log("LENGTH TOO SHORT");
+      return false;
+    }
     if (api.startsWith("http://")) {
       api = api.replace("http://", "");
       if (api.includes("/")) {
+        console.log("SLASH 0");
         return false;
       }
-    } else if (api.startsWith("https://")) {
+    }
+    if (api.startsWith("https://")) {
       api = api.replace("https://", "");
       if (api.includes("/")) {
+        console.log("SLASH 1");
         return false;
       }
-    } else if (api.includes("/")) {
+    }
+    if (api.includes("/")) {
+      console.log("SLASH 2");
       return false;
     }
-  }
-
-  if (specialChars.test(input)) {
-    return false;
-  }
-
-  if (input.length === 0) {
-    return false;
-  }
-
-  if (!validDomain.test(input)) {
-    return false;
+    if (!validDomain(api)) {
+      console.log("VALID DOMAIN");
+      return false;
+    }
   }
   // if (multipleEntries(input)) {
   //   return true;

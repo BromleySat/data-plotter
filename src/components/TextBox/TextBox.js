@@ -24,6 +24,8 @@ export const TextBox = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  useTextbox();
+
   const useStyles = makeStyles({
     root: {
       "&::before": {
@@ -68,8 +70,6 @@ export const TextBox = () => {
     }
   };
 
-  useTextbox();
-
   return (
     <div className="textfield-container">
       <TextField
@@ -91,7 +91,7 @@ export const TextBox = () => {
         type="submit"
         variant="contained"
         size="small"
-        onClick={onFormSubmit}
+        onClick={(e) => onFormSubmit(e)}
         data-testid="text-area-submit"
         style={{
           backgroundColor: "#00C119",
