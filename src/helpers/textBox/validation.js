@@ -75,10 +75,10 @@ export function validateInput(input) {
       console.log("SLASH 2");
       return false;
     }
-    if (validDomainRegex.test(api) === false) {
-      console.log("VALID DOMAIN");
-      return false;
-    }
+    // if (validDomainRegex.test(api) === false) {
+    //   console.log("VALID DOMAIN");
+    //   return false;
+    // }
   }
   // if (multipleEntries(input)) {
   //   return true;
@@ -93,14 +93,18 @@ export function getApiList(input) {
   let str2 = "https://";
   let inputArray = input.split(",");
   for (let i = 0; i < inputArray.length; i++) {
-    inputArray[i] = inputArray[i].replace(/\s+/g, "");
-    if (inputArray[i].startsWith("localhost") || /^\d/.test(inputArray[i])) {
+    inputArray[i] = inputArray[i].replace(" ", "");
+    if (inputArray[i].includes("http://") || inputArray[i].includes("https://"))
+      continue;
+    if (inputArray[i].startsWith("localhost:3080")) {
       inputArray[i] = str + inputArray[i];
-    } else if (isLocalIp(inputArray[i])) {
-      inputArray[i] = str + inputArray[i];
-    } else {
-      inputArray[i] = str2 + inputArray[i];
+      continue;
     }
+    if (isLocalIp(inputArray[i]) && !inputArray[i].includes("http")) {
+      inputArray[i] = str + inputArray[i];
+      continue;
+    }
+    if (!inputArray[i].includes("https")) inputArray[i] = str2 + inputArray[i];
   }
 
   return inputArray;
