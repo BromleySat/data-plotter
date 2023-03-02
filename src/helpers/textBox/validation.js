@@ -38,15 +38,18 @@ export function isLocalIp(ip) {
 // }
 
 export function validateInput(input) {
-  const specialCharacters = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
-  const validDomain =
+  const specialCharactersRegex = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
+  const validDomainRegex =
     /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
 
   const apiList = input.split(",");
   console.log(apiList);
 
   for (let api of apiList) {
-    if (specialCharacters.test(api)) {
+    if (/\s/.test(api)) {
+      api = api.replace(" ", "");
+    }
+    if (specialCharactersRegex.test(api)) {
       console.log("SPECIAL CHARACTERS");
       return false;
     }
@@ -72,7 +75,7 @@ export function validateInput(input) {
       console.log("SLASH 2");
       return false;
     }
-    if (validDomain.test(api) === false) {
+    if (validDomainRegex.test(api) === false) {
       console.log("VALID DOMAIN");
       return false;
     }
