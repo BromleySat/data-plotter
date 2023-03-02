@@ -5,47 +5,49 @@ import {
 } from "../../helpers/textBox/validation";
 
 describe("Testing local IP logic", () => {
-  it("a", () => {
+  it("should return true for IP address: 10.0.0.0", () => {
     const input = "10.0.0.0";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("b", () => {
+  it("should return true for IP address: 172.16.0.0", () => {
     const input = "172.16.0.0";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("should return true for IP address: 192.168.0.0", () => {
     const input = "192.168.0.0";
+    expect(isLocalIp(input)).toBe(true);
+  });
+
+  it("should return true for IP address: 10.255.255.255", () => {
+    const input = "10.255.255.255";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("should return true for IP address: 172.31.255.255", () => {
+    const input = "172.31.255.255";
+    expect(isLocalIp(input)).toBe(true);
+  });
+  it("should return true for IP address: 192.168.255.255", () => {
+    const input = "192.168.255.255";
     expect(isLocalIp(input)).toBe(true);
   });
   it("should recognise a known local IP", () => {
     const input = "192.168.1.95";
     expect(isLocalIp(input)).toBe(true);
   });
-  it("...", () => {
+  it("should return false for IP address: 172.15.255.255", () => {
     const input = "172.15.255.255";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("...", () => {
+  it("should return false for IP address: 192.167.255.255", () => {
     const input = "192.167.255.255";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("...", () => {
-    const input = "10.255.255.255";
-    expect(isLocalIp(input)).toBe(true);
-  });
-  it("...", () => {
-    const input = "172.31.255.255";
-    expect(isLocalIp(input)).toBe(true);
-  });
-  it("...", () => {
-    const input = "192.168.255.255";
-    expect(isLocalIp(input)).toBe(true);
-  });
-  it("should reconginse public IP as public 146.199.86.133", () => {
+
+  it("should reconginse public IP 146.199.86.133 as public", () => {
     const input = "146.199.86.133";
     expect(isLocalIp(input)).toBe(false);
   });
-  it("should reconginse public IP as public 2.98.79.218", () => {
+  it("should reconginse public IP 2.98.79.218 as public", () => {
     const input = "2.98.79.218";
     expect(isLocalIp(input)).toBe(false);
   });

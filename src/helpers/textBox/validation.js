@@ -15,13 +15,8 @@ export function isLocalIp(ip) {
   if (regForClassC.test(ip)) {
     return true;
   }
-  if (!regForClassB.test(ip)) {
-    return false;
-  }
-  if (!regForClassC.test(ip)) {
-    return false;
-  }
-  return true;
+
+  return false;
 }
 
 // function isCIDR(ip) {
