@@ -14,6 +14,6 @@ jobs:
           node-version: 14.x
           cache: "yarn"
       - run: yarn install
-      # - run: yarn test
-      # - run: yarn int-test
+      - run: yarn test
+      - run: yarn int-test
       - run: yarn build
