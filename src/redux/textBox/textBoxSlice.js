@@ -8,8 +8,8 @@ export const textBoxSlice = createSlice({
     ],
     textBoxValue:
       localStorage.getItem("urlList") !== null
-        ? JSON.parse(localStorage.getItem("urlList")).join(", ")
-        : ["https://api.bromleysat.space"].join(", "),
+        ? JSON.parse(localStorage.getItem("urlList")).join(",")
+        : ["https://api.bromleysat.space"].join(","),
     error: false,
     validUrls: [],
     devicesId: [],
