@@ -74,10 +74,12 @@ export const TextBox = () => {
     <div className="textfield-container">
       <TextField
         variant="standard"
-        defaultValue={trimHttp(urlList)}
+        defaultValue={trimHttp(urlList).join(", ")}
         multiline={true}
         onChange={(e) => dispatch(setTextBoxValue(e.target.value))}
-        data-testid="text-area"
+        inputProps={{
+          "data-testid": "text-area",
+        }}
         InputProps={{
           classes: {
             root: classes.root,

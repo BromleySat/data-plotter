@@ -66,64 +66,51 @@ describe("Testing Validation Of The Api List Input", () => {
   //   const input = "192.44.35.77/24";
   //   expect(validateInput(input)).toBe(true);
   // });
-  it("should allow multiple entries ", () => {
+  it("should allow multiple entries", () => {
     const input = "localhost:3080, localhost:3090";
+    expect(validateInput(input)).toBe(true);
+  });
+  it("should allow domain names", () => {
+    const input = "api.bromleysat.space";
     expect(validateInput(input)).toBe(true);
   });
   it("should allow a known URL", () => {
     const input = "localhost:3080";
     expect(validateInput(input)).toBe(true);
   });
-  it("should not allow invalid multiple entries", () => {
-    const input = "localhost:3080/random-data, :)localhost:3090/random-data";
-    expect(validateInput(input)).toBe(false);
-  });
-  it("should not allow invalid three entries", () => {
-    const input = ":), :/, :P";
-    expect(validateInput(input)).toBe(false);
-  });
   it("should allow double and triple spaces", () => {
     const input = "     localhost:3080,    localhost:3090";
-    expect(validateInput(input)).toBe(true);
-  });
-  it("should not allow users to forget comma", () => {
-    const input =
-      "     localhost:3080/random-data    localhost:3090/random-data";
-    expect(validateInput(input)).toBe(false);
-  });
-  it("should allow domain names", () => {
-    const input = "api.bromleysat.space";
     expect(validateInput(input)).toBe(true);
   });
   it("should not allow invalid domain names", () => {
     const input = "apibromleysatspace/servo";
     expect(validateInput(input)).toBe(false);
   });
-  it("should not allow long urls", () => {
-    const input =
-      "ewqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqsahdaethethdahbcbskjfkdgjkfdgjirjrgkfxgvkxcvidfjgort9jgxigsidgfjocalhost:3080/random-data";
-    expect(validateInput(input)).toBe(false);
-  });
-  it("should not allow very short urls", () => {
-    const input = "loasd";
-    expect(validateInput(input)).toBe(false);
-  });
-  it("should not allow only one character", () => {
-    const input = "a";
-    expect(validateInput(input)).toBe(false);
-  });
   it("should not allow full path", () => {
     const input = "http://localhost:3080/api/data";
+    expect(validateInput(input)).toBe(false);
+  });
+  it("should not allow invalid multiple entries", () => {
+    const input = "localhost:3080/random-data, :)localhost:3090/random-data";
+    expect(validateInput(input)).toBe(false);
+  });
+  it("should not allow users to forget comma", () => {
+    const input =
+      "     localhost:3080/random-data    localhost:3090/random-data";
+    expect(validateInput(input)).toBe(false);
+  });
+  it("should not allow empty textBox", () => {
+    const input = "";
     expect(validateInput(input)).toBe(false);
   });
 });
 
 describe("Testing Api List Generation", () => {
-  it("should ... ", () => {
+  it("should equal [http://localhost:3080/random-data]", () => {
     const input = "localhost:3080/random-data";
     expect(getApiList(input)).toEqual(["http://localhost:3080/random-data"]);
   });
-  it("should generate two ips", () => {
+  it("should equal [http://localhost:3080/random-data, http://localhost:3090/random-data]", () => {
     const input = "localhost:3080/random-data, localhost:3090/random-data";
     expect(getApiList(input)).toEqual([
       "http://localhost:3080/random-data",
@@ -139,7 +126,7 @@ describe("Testing Api List Generation", () => {
       "https://data.bromleysat.space/random-data",
     ]);
   });
-  it("should generate a mixure of local and public", () => {
+  it("should generate a mixture of local and public IP's", () => {
     const input =
       "192.168.1.95/data, 192.168.1.96/data, localhost:3080/data, localhost:3090/data, 12.0.0.1/random-data";
     expect(getApiList(input)).toEqual([

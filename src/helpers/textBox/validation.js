@@ -47,7 +47,7 @@ export function validateInput(input) {
 
   for (let api of apiList) {
     api = api.trim();
-    if (api.length === 0) {
+    if (api.length <= 5) {
       console.log("LENGTH TOO SHORT");
       return false;
     }
