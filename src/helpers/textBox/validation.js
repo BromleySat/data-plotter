@@ -39,11 +39,10 @@ export function isLocalIp(ip) {
 
 export function validateInput(input) {
   const specialCharactersRegex = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
-  const validDomainRegex =
-    /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
+  // const validDomainRegex =
+  //   /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
 
   const apiList = input.split(",");
-  console.log(apiList);
 
   for (let api of apiList) {
     api = api.trim();

@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/await-async-utils */
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe("Data Plotter Testing Features", () => {
   beforeEach(() => {
