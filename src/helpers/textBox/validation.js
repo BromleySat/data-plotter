@@ -46,15 +46,17 @@ export function validateInput(input) {
   console.log(apiList);
 
   for (let api of apiList) {
+    api = api.trim();
+    if (api.length === 0) {
+      console.log("LENGTH TOO SHORT");
+      return false;
+    }
     if (/\s/.test(api)) {
-      api = api.replace(" ", "");
+      console.log("WHITE SPACE");
+      return false;
     }
     if (specialCharactersRegex.test(api)) {
       console.log("SPECIAL CHARACTERS");
-      return false;
-    }
-    if (api.length === 0) {
-      console.log("LENGTH TOO SHORT");
       return false;
     }
     if (api.startsWith("http://")) {
