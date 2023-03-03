@@ -19,13 +19,13 @@ describe("Testing of displaying the chart", () => {
   ];
 
   it("should have the same length as the initial data", () => {
-    const result = RenderLine(initialData);
-    expect(result.length).toEqual(initialData.length);
+    const view = RenderLine(initialData);
+    expect(view.length).toEqual(initialData.length);
   });
 
   it("should exclude time column", () => {
-    const result = RenderLine(initialData);
-    const time = result.find((item) => item.props.dataKey === "time");
+    const view = RenderLine(initialData);
+    const time = view.find((item) => item.props.dataKey === "time");
     expect(time).toBeUndefined();
   });
 });

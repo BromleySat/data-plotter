@@ -26,6 +26,8 @@ export const TextBox = () => {
 
   useTextbox();
 
+  console.log(textBoxValue);
+
   const useStyles = makeStyles({
     root: {
       "&::before": {

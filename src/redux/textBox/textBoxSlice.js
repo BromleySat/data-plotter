@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { trimHttp } from "../../helpers/trimHttp";
 
 export const textBoxSlice = createSlice({
   name: "textbox",
@@ -9,8 +8,8 @@ export const textBoxSlice = createSlice({
     ],
     textBoxValue:
       localStorage.getItem("urlList") !== null
-        ? JSON.parse(localStorage.getItem("urlList"))
-        : ["https://api.bromleysat.space"],
+        ? JSON.parse(localStorage.getItem("urlList")).join(", ")
+        : ["https://api.bromleysat.space"].join(", "),
     error: false,
     validUrls: [],
     devicesId: [],
