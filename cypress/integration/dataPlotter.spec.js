@@ -1,3 +1,4 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
 describe("Data Plotter Testing Features", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
@@ -61,7 +62,7 @@ describe("Data Plotter Testing Features", () => {
       '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
     ).realClick();
     cy.get(
-      '[data-testid="data-retention-5s-https://api.bromleysat.space/api/data"]'
+      '[data-testid="data-retention-12hrs-https://api.bromleysat.space/api/data"]'
     ).realClick();
     cy.get(".MuiContainer-root").realClick();
   });

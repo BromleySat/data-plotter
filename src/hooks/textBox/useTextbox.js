@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isLocalIp, getApiList } from "../../helpers/dataPlotter/validation";
+import { isLocalIp, getApiList } from "../../helpers/textBox/validation";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import { setUrlList } from "../../redux/textBox/textBoxSlice";
 import { transformUrl } from "../../helpers/transformUrl";
@@ -42,7 +42,7 @@ export const useTextbox = () => {
           }
         },
         (error) => {
-          console.log("Error " + url);
+          console.log("Error: " + url);
         }
       );
     }

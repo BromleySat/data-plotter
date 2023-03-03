@@ -1,9 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getApiList,
-  validateInput,
-} from "../../helpers/dataPlotter/validation";
+import { getApiList, validateInput } from "../../helpers/textBox/validation";
 import { trimHttp } from "../../helpers/trimHttp";
 import { storageSetItem } from "../../helpers/storageSetItem";
 import { useTextbox } from "../../hooks/textBox/useTextbox";
@@ -26,7 +23,9 @@ export const TextBox = () => {
   );
   const dispatch = useDispatch();
   const theme = useTheme();
+
   useTextbox();
+
   const useStyles = makeStyles({
     root: {
       "&::before": {
@@ -74,9 +73,8 @@ export const TextBox = () => {
   return (
     <div className="textfield-container">
       <TextField
-        id="standard-basic"
         variant="standard"
-        defaultValue={trimHttp(urlList)}
+        defaultValue={trimHttp(urlList).join(", ")}
         multiline={true}
         onChange={(e) => dispatch(setTextBoxValue(e.target.value))}
         inputProps={{
@@ -95,7 +93,7 @@ export const TextBox = () => {
         type="submit"
         variant="contained"
         size="small"
-        onClick={onFormSubmit}
+        onClick={(e) => onFormSubmit(e)}
         data-testid="text-area-submit"
         style={{
           backgroundColor: "#00C119",

@@ -1,6 +1,6 @@
 import { RenderLine } from "../../helpers/chart/renderLine";
 
-describe("Testing Displaying Of The Chart", () => {
+describe("Testing of displaying the chart", () => {
   const initialData = [
     {
       deviceId: "5db0576beed54eb3aa4722c5bef18db5",
@@ -18,7 +18,7 @@ describe("Testing Displaying Of The Chart", () => {
     },
   ];
 
-  it("should ... ", () => {
+  it("should have the same length as the initial data", () => {
     const result = RenderLine(initialData);
     expect(result.length).toEqual(initialData.length);
   });

@@ -15,13 +15,8 @@ export function isLocalIp(ip) {
   if (regForClassC.test(ip)) {
     return true;
   }
-  if (!regForClassB.test(ip)) {
-    return false;
-  }
-  if (!regForClassC.test(ip)) {
-    return false;
-  }
-  return true;
+
+  return false;
 }
 
 // function isCIDR(ip) {
@@ -43,70 +38,49 @@ export function isLocalIp(ip) {
 // }
 
 export function validateInput(input) {
-  const localhostRegex = /(localhost|[\w-]+(?:\.[\w-]+)+)(:\d+)?(\/\S*)/;
-  const httpRegex = /^https?:\/\/\w+(\.\w+)*(:[0-9]+)?(\/.*)?$/;
-  const specialChars = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
-  const validDomain =
+  const specialCharactersRegex = /[`!@#$%^&*()_+=[\]{};'"\\|<>?~]/;
+  const validDomainRegex =
     /^((http|https|localhost):\/\/)?([a-zA-Z0-9_][-_a-zA-Z0-9]{0,62}\.)+([a-zA-Z0-9/]+([a-zA-Z0-9]){1,10})$/g;
 
-  const inputIntoArray = input.split(",");
+  const apiList = input.split(",");
+  console.log(apiList);
 
-  for (let inp of inputIntoArray) {
-    if (inp.startsWith("http://")) {
-      inp = inp.replace("http://", "");
-      if (inp.includes("/")) {
-        console.log("slash 1");
-        return false;
-      }
-    } else if (inp.startsWith("https://")) {
-      inp = inp.replace("https://", "");
-      if (inp.includes("/")) {
-        console.log("slash 1");
-        return false;
-      }
-    } else if (inp.includes("/")) {
-      console.log("slash 2");
+  for (let api of apiList) {
+    api = api.trim();
+    if (api.length <= 5) {
+      console.log("LENGTH TOO SHORT");
       return false;
     }
-  }
-
-  if (specialChars.test(input)) {
-    console.log("special chars");
-    return false;
-  }
-
-  if (input.length > 100) {
-    console.log("length");
-    return false;
-  }
-  if (input.length <= 10) {
-    console.log("short");
-    return false;
-  }
-
-  if (validDomain.test(input)) {
-    return true;
-  }
-
-  if (localhostRegex.test(input) && !/\s/.test(input)) {
-    return true;
-  }
-
-  if (httpRegex.test(input)) {
-    return true;
-  }
-
-  if (/\s/.test(input)) {
-    return true;
-  }
-
-  if (input.startsWith("localhost") || input.startsWith("http://localhost")) {
-    return true;
-  }
-
-  if (!validDomain.test(input)) {
-    console.log("valid domain");
-    return false;
+    if (/\s/.test(api)) {
+      console.log("WHITE SPACE");
+      return false;
+    }
+    if (specialCharactersRegex.test(api)) {
+      console.log("SPECIAL CHARACTERS");
+      return false;
+    }
+    if (api.startsWith("http://")) {
+      api = api.replace("http://", "");
+      if (api.includes("/")) {
+        console.log("SLASH 0");
+        return false;
+      }
+    }
+    if (api.startsWith("https://")) {
+      api = api.replace("https://", "");
+      if (api.includes("/")) {
+        console.log("SLASH 1");
+        return false;
+      }
+    }
+    if (api.includes("/")) {
+      console.log("SLASH 2");
+      return false;
+    }
+    // if (validDomainRegex.test(api) === false) {
+    //   console.log("VALID DOMAIN");
+    //   return false;
+    // }
   }
   // if (multipleEntries(input)) {
   //   return true;
@@ -121,14 +95,21 @@ export function getApiList(input) {
   let str2 = "https://";
   let inputArray = input.split(",");
   for (let i = 0; i < inputArray.length; i++) {
-    inputArray[i] = inputArray[i].replace(/\s+/g, "");
-    if (inputArray[i].startsWith("localhost") || /^\d/.test(inputArray[i])) {
+    inputArray[i] = inputArray[i].trim();
+    if (
+      inputArray[i].startsWith("http://") ||
+      inputArray[i].startsWith("https://")
+    )
+      continue;
+    if (inputArray[i].startsWith("localhost")) {
       inputArray[i] = str + inputArray[i];
-    } else if (isLocalIp(inputArray[i])) {
-      inputArray[i] = str + inputArray[i];
-    } else {
-      inputArray[i] = str2 + inputArray[i];
+      continue;
     }
+    if (isLocalIp(inputArray[i])) {
+      inputArray[i] = str + inputArray[i];
+      continue;
+    }
+    inputArray[i] = str2 + inputArray[i];
   }
 
   return inputArray;
