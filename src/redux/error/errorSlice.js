@@ -11,7 +11,7 @@ export const errorSlice = createSlice({
       state.errors = [...state.errors, action.payload];
     },
     removeError: (state, action) => {
-      state.val = [...state.errors].splice(action.payload, 1);
+      state.errors = [...state.errors].splice(action.payload, 1);
     },
   },
 });
