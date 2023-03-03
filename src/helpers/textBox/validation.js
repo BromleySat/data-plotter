@@ -94,7 +94,10 @@ export function getApiList(input) {
   let inputArray = input.split(",");
   for (let i = 0; i < inputArray.length; i++) {
     inputArray[i] = inputArray[i].replace(" ", "");
-    if (inputArray[i].includes("http://") || inputArray[i].includes("https://"))
+    if (
+      inputArray[i].startsWith("http://") ||
+      inputArray[i].startsWith("https://")
+    )
       continue;
     if (inputArray[i].startsWith("localhost")) {
       inputArray[i] = str + inputArray[i];
