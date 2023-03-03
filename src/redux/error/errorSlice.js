@@ -7,10 +7,11 @@ export const errorSlice = createSlice({
   },
   reducers: {
     setErrors: (state, action) => {
+      if (state.errors.includes(action.payload)) return;
       state.errors = [...state.errors, action.payload];
     },
     removeError: (state, action) => {
-      state.val = [...state.errors].slice(action.payload);
+      state.val = [...state.errors].splice(action.payload, 1);
     },
   },
 });
