@@ -8,9 +8,9 @@ const useChartControl = () => {
   const [dataLocalStorageToggle, setDataLocalStorageToggle] = useState(false);
   const [data, setData] = useState([]);
   const [visibleData, setVisibleData] = useState([]);
-  const [refreshRate, setRefreshRate] = useState(5000);
+  const [refreshRate, setRefreshRate] = useState(1000);
   const [dataRetention, setDataRentention] = useState(1814400000);
-  const [chartTimeWindow, setChartTimeWindow] = useState(25000);
+  const [chartTimeWindow, setChartTimeWindow] = useState(300000);
 
   return {
     left,

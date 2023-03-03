@@ -78,7 +78,7 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
         '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
       ).realTouch();
       cy.get(
-        '[data-testid="data-retention-5s-https://api.bromleysat.space/api/data"]'
+        '[data-testid="data-retention-12hrs-https://api.bromleysat.space/api/data"]'
       ).realTouch();
       cy.get(".MuiContainer-root").realTouch();
       cy.get(
@@ -102,7 +102,7 @@ describe("Data Plotter Testing Features On Touch Devices", () => {
         '[data-testid="data-retention-https://api.bromleysat.space/api/data"] > #demo-select-small'
       ).realTouch();
       cy.get(
-        '[data-testid="data-retention-5s-https://api.bromleysat.space/api/data"]'
+        '[data-testid="data-retention-12hrs-https://api.bromleysat.space/api/data"]'
       ).realTouch();
       cy.get(".MuiContainer-root").realTouch();
     });

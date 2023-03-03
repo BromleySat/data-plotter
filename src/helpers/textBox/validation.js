@@ -95,7 +95,7 @@ export function getApiList(input) {
   let str2 = "https://";
   let inputArray = input.split(",");
   for (let i = 0; i < inputArray.length; i++) {
-    inputArray[i] = inputArray[i].replace(" ", "");
+    inputArray[i] = inputArray[i].trim();
     if (
       inputArray[i].startsWith("http://") ||
       inputArray[i].startsWith("https://")
