@@ -100,11 +100,11 @@ export function getApiList(input) {
       inputArray[i] = str + inputArray[i];
       continue;
     }
-    if (isLocalIp(inputArray[i]) && !inputArray[i].includes("http")) {
+    if (isLocalIp(inputArray[i])) {
       inputArray[i] = str + inputArray[i];
       continue;
     }
-    if (!inputArray[i].includes("https")) inputArray[i] = str2 + inputArray[i];
+    inputArray[i] = str2 + inputArray[i];
   }
 
   return inputArray;
