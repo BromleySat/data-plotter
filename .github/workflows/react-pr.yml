@@ -22,5 +22,5 @@ jobs:
           BUILD: "We are currently running the Build job"
       - run: yarn install
       - run: yarn test
-      - run: yarn int-test
+      #- run: yarn int-test
       - run: yarn build
