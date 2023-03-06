@@ -59,7 +59,6 @@ export const useFetchData = (
               localStorage.getItem(`DATA FOR ${validUrl}`) !== null &&
               !localStorageApplied
             ) {
-              console.log("dasasd");
               setLocalStorageApplied(true);
               getLocalStorageData(res, time);
             } else {
