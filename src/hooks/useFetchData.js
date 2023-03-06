@@ -51,7 +51,11 @@ export const useFetchData = (
       if (isRequestInProgress) return;
       isRequestInProgress = true;
       await axios
-        .get(validUrl)
+        .get(validUrl, {
+          headers: {
+            "x-api-key": process.env.REACT_APP_API_KEY,
+          },
+        })
         .then(
           (res) => {
             const time = moment().valueOf();

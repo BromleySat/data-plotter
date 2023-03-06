@@ -29,18 +29,24 @@ export const useTextbox = () => {
     for (const url of urlList) {
       let transformedUrl = transformUrl(url, "/api/config");
 
-      await axios.get(transformedUrl).then(
-        (res) => {
-          if (res.data.deviceId) {
-            dispatch(setDevicesId(res.data.deviceId));
-            dispatch(setValidUrls(transformUrl(url, "/api/data")));
-            dispatch(removeError(url));
+      await axios
+        .get(transformedUrl, {
+          headers: {
+            "x-api-key": process.env.REACT_APP_API_KEY,
+          },
+        })
+        .then(
+          (res) => {
+            if (res.data.deviceId) {
+              dispatch(setDevicesId(res.data.deviceId));
+              dispatch(setValidUrls(transformUrl(url, "/api/data")));
+              dispatch(removeError(url));
+            }
+          },
+          (error) => {
+            dispatch(setErrors(url));
           }
-        },
-        (error) => {
-          dispatch(setErrors(url));
-        }
-      );
+        );
     }
   };
   useEffect(() => {
