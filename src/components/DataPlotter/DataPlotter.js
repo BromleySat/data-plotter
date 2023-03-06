@@ -21,15 +21,18 @@ export const DataPlotter = () => {
           </ChartControlProvider>
         );
       })}
-      {errors.length > 0 &&
-        errors.map((err) => {
-          return (
-            <p
-              key={err}
-              className="dataPlotterErrors"
-            >{`Couldn't render the chart for the given URL: ${err}.`}</p>
-          );
-        })}
+      {errors.length > 0 && (
+        <div className="dataPlotterErrors">
+          {errors.map((err) => {
+            return (
+              <p
+                key={err}
+                className="dataPlotterError"
+              >{`Couldn't render the chart for the given URL: ${err}.`}</p>
+            );
+          })}
+        </div>
+      )}
     </Container>
   );
 };

@@ -1,6 +1,12 @@
 .dataPlotterErrors {
+  margin-bottom: 2rem;
+}
+
+.dataPlotterError {
   text-align: center;
   font-family: "Quicksand";
   font-weight: 700;
   color: red;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
 }

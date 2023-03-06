@@ -36,7 +36,7 @@ export const ChartTimeWindow = ({ validUrl }) => {
       dataTestId={`chart-time-window-tooltip-${validUrl}`}
       open={tooltipOpen}
       title="Visible Data"
-      content="Choose the data that is displayed on the chart based on the selected value."
+      content="Display the data on the chart based on the selected value."
     >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">
         <InputLabel
