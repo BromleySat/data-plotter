@@ -15,9 +15,12 @@ export const errorsSlice = createSlice({
       const index = state.errors.indexOf(action.payload);
       state.errors = [...state.errors].splice(index, 1);
     },
+    clearErrors: (state) => {
+      state.errors = [];
+    },
   },
 });
 
-export const { setErrors, removeError } = errorsSlice.actions;
+export const { setErrors, removeError, clearErrors } = errorsSlice.actions;
 
 export default errorsSlice.reducer;

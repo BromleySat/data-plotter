@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import darkThemeReducer from "./darkTheme/darkThemeSlice";
 import textBoxReducer from "./textBox/textBoxSlice";
-import errorsReducer from "./error/errorSlice";
+import errorsReducer from "./errors/errorsSlice";
 
 const darkModeMiddleware = (store) => (next) => (action) => {
   const result = next(action);

@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export function isLocalIp(ip) {
   const regForClassA =
     /(10)(\.([2]([0-5][0-5]|[01234][6-9])|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}/g;
@@ -44,8 +46,13 @@ export function validateInput(input) {
 
   const apiList = input.split(",");
 
-  for (let api of apiList) {
-    api = api.trim();
+  const mappedApiList = apiList.map((api) => api.trim());
+
+  if (_.uniq(mappedApiList).length !== mappedApiList.length) {
+    return false;
+  }
+
+  for (let api of mappedApiList) {
     if (api.length <= 5) {
       console.log("LENGTH TOO SHORT");
       return false;
