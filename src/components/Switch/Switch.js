@@ -81,7 +81,7 @@ export const BromleySatSwitch = ({ validUrl }) => {
     <ControlledTooltip
       data-testid={`local-storage-tooltip-${validUrl}`}
       title="Local Storage"
-      content="And here's some amazing content It's very engaging. Right?"
+      content="Store your data in the local storage."
       open={tooltipOpen}
     >
       <StyledBromleySatSwitch

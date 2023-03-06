@@ -34,8 +34,7 @@ export const ControlledTooltip = (props) => {
       open={props.open}
       title={
         <React.Fragment>
-          <h3 className="tooltipMarginZero">{props.title}</h3>
-          <br />
+          <h3 className="tooltipTitle">{props.title}</h3>
           {props.content}
         </React.Fragment>
       }
