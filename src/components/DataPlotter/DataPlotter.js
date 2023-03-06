@@ -1,4 +1,5 @@
 import React from "react";
+import "./DataPlotter.css";
 import { useSelector } from "react-redux";
 import ChartControl from "../ChartControl/ChartControl";
 import { TextBox } from "../TextBox/TextBox";
@@ -7,6 +8,7 @@ import { ChartControlProvider } from "../../context/chartContext/chartControlCon
 
 export const DataPlotter = () => {
   const { validUrls, devicesId } = useSelector((state) => state.textBox);
+  const { errors } = useSelector((state) => state.errors);
 
   return (
     <Container>
@@ -19,6 +21,18 @@ export const DataPlotter = () => {
           </ChartControlProvider>
         );
       })}
+      {errors.length > 0 && (
+        <div className="dataPlotterErrors">
+          {errors.map((err) => {
+            return (
+              <p
+                key={err}
+                className="dataPlotterError"
+              >{`Couldn't render the chart for the given URL: ${err}.`}</p>
+            );
+          })}
+        </div>
+      )}
     </Container>
   );
 };

@@ -32,8 +32,8 @@ const DataRetention = ({ validUrl }) => {
   return (
     <ControlledTooltip
       dataTestId={`data-retention-tooltip-${validUrl}`}
-      title="Data Retention"
-      content="And here's some amazing content It's very engaging. Right?"
+      title="Remove Data"
+      content="Choose how often your data should be deleted, keep only the data that is younger than the selected value."
       open={tooltipOpen}
     >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">

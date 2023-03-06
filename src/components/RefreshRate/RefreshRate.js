@@ -33,7 +33,7 @@ export const RefreshRate = ({ validUrl }) => {
     <ControlledTooltip
       dataTestId={`refresh-rate-tooltip-${validUrl}`}
       title="Refresh Rate"
-      content="And here's some amazing content It's very engaging. Right?"
+      content="Choose how often you want to fetch the data based on the selected value."
       open={tooltipOpen}
     >
       <FormControl sx={{ minWidth: 65 }} size="small" variant="outlined">

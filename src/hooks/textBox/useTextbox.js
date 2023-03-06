@@ -5,10 +5,11 @@ import { storageSetItem } from "../../helpers/storageSetItem";
 import { setUrlList } from "../../redux/textBox/textBoxSlice";
 import { transformUrl } from "../../helpers/transformUrl";
 import { setDevicesId, setValidUrls } from "../../redux/textBox/textBoxSlice";
+import { setErrors, removeError } from "../../redux/errors/errorsSlice";
 import axios from "axios";
 
 export const useTextbox = () => {
-  const { urlList, validUrls } = useSelector((state) => state.textBox);
+  const { urlList } = useSelector((state) => state.textBox);
   const dispatch = useDispatch();
   const localIp = isLocalIp(window.location.host);
   const noApiConfigStored = () => {
@@ -25,26 +26,27 @@ export const useTextbox = () => {
     if (!urlList) {
       return;
     }
-    if (validUrls.length === urlList.length) {
-      return;
-    }
     for (const url of urlList) {
-      if (validUrls.indexOf(transformUrl(url, "/api/data")) !== -1) {
-        continue;
-      }
       let transformedUrl = transformUrl(url, "/api/config");
 
-      await axios.get(transformedUrl).then(
-        (res) => {
-          if (res.data.deviceId) {
-            dispatch(setDevicesId(res.data.deviceId));
-            dispatch(setValidUrls(transformUrl(url, "/api/data")));
+      await axios
+        .get(transformedUrl, {
+          headers: {
+            "x-api-key": process.env.REACT_APP_API_KEY,
+          },
+        })
+        .then(
+          (res) => {
+            if (res.data.deviceId) {
+              dispatch(setDevicesId(res.data.deviceId));
+              dispatch(setValidUrls(transformUrl(url, "/api/data")));
+              dispatch(removeError(url));
+            }
+          },
+          (error) => {
+            dispatch(setErrors(url));
           }
-        },
-        (error) => {
-          console.log("Error: " + url);
-        }
-      );
+        );
     }
   };
   useEffect(() => {

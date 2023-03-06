@@ -16,6 +16,7 @@ import {
   resetValidUrls,
   resetDevicesId,
 } from "../../redux/textBox/textBoxSlice";
+import { clearErrors } from "../../redux/errors/errorsSlice";
 
 export const TextBox = () => {
   const { urlList, textBoxValue, error } = useSelector(
@@ -58,6 +59,7 @@ export const TextBox = () => {
   const onFormSubmit = (e) => {
     e.preventDefault();
     dispatch(setError(false));
+    dispatch(clearErrors());
     const validate = validateInput(textBoxValue);
     if (validate) {
       dispatch(setError(false));

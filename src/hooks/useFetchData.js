@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateEffect } from "./useUpdateEffect";
 import { storageSetItem } from "../helpers/storageSetItem";
 import { dataRetention } from "../helpers/dataRetention/dataRetention";
@@ -19,12 +19,14 @@ export const useFetchData = (
   dataRetentionValue,
   chartTimeWindowValue
 ) => {
-  const getLocalStorageData = () => {
-    const time = moment().valueOf();
+  const [localStorageApplied, setLocalStorageApplied] = useState(false);
+
+  const getLocalStorageData = (res, time) => {
+    res.data.time = time;
     const localStorageDataRetentionValue =
       localStorage.getItem(`DATA RETENTION FOR ${validUrl}`) || 1814400000;
     const localStorageChartTimeWindowValue =
-      localStorage.getItem(`CHART TIME WINDOW FOR ${validUrl}`) || 30000;
+      localStorage.getItem(`CHART TIME WINDOW FOR ${validUrl}`) || 300000;
 
     const localStorageData = JSON.parse(
       localStorage.getItem(`DATA FOR ${validUrl}`)
@@ -35,13 +37,13 @@ export const useFetchData = (
       localStorageDataRetentionValue,
       time
     );
-    setData(localStorageDataRetention);
+    setData(localStorageDataRetention, res.data);
     const localStorageChartTimeWindow = chartTimeWindow(
       localStorageData,
       localStorageChartTimeWindowValue,
       time
     );
-    setVisibleData(localStorageChartTimeWindow);
+    setVisibleData(localStorageChartTimeWindow, res.data);
   };
 
   const getData = async () => {
@@ -49,23 +51,35 @@ export const useFetchData = (
       if (isRequestInProgress) return;
       isRequestInProgress = true;
       await axios
-        .get(validUrl)
+        .get(validUrl, {
+          headers: {
+            "x-api-key": process.env.REACT_APP_API_KEY,
+          },
+        })
         .then(
           (res) => {
             const time = moment().valueOf();
-            res.data.time = time;
-            const dataRetentionData = dataRetention(
-              data,
-              dataRetentionValue,
-              time
-            );
-            setData(dataRetentionData, res.data);
-            const chartTimeWindowData = chartTimeWindow(
-              data,
-              chartTimeWindowValue,
-              time
-            );
-            setVisibleData(chartTimeWindowData, res.data);
+            if (
+              localStorage.getItem(`DATA FOR ${validUrl}`) !== null &&
+              !localStorageApplied
+            ) {
+              setLocalStorageApplied(true);
+              getLocalStorageData(res, time);
+            } else {
+              res.data.time = time;
+              const dataRetentionData = dataRetention(
+                data,
+                dataRetentionValue,
+                time
+              );
+              setData(dataRetentionData, res.data);
+              const chartTimeWindowData = chartTimeWindow(
+                data,
+                chartTimeWindowValue,
+                time
+              );
+              setVisibleData(chartTimeWindowData, res.data);
+            }
             if (dataLocalStorageToggle) {
               storageSetItem(
                 `DATA FOR ${validUrl}`,
@@ -89,12 +103,7 @@ export const useFetchData = (
         JSON.parse(localStorage.getItem(`TOGGLE FOR ${validUrl}`))
       );
     }
-    if (localStorage.getItem(`DATA FOR ${validUrl}`) !== null) {
-      getLocalStorageData();
-    } else {
-      getData();
-    }
-
+    getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
