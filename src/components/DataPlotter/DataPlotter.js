@@ -24,7 +24,10 @@ export const DataPlotter = () => {
       {errors.length > 0 &&
         errors.map((err) => {
           return (
-            <p className="dataPlotterErrors">{`Couldn't render the chart for the given URL: ${err}.`}</p>
+            <p
+              key={err}
+              className="dataPlotterErrors"
+            >{`Couldn't render the chart for the given URL: ${err}.`}</p>
           );
         })}
     </Container>
