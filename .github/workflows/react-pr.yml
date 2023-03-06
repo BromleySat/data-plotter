@@ -7,6 +7,7 @@ jobs:
   build:
     env:
       REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY_DEV }}
+      TEST: "TEST1"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,6 +16,10 @@ jobs:
         with:
           node-version: 14.x
           cache: "yarn"
+      - name: Print name
+        run: echo "Hello $TEST. $BUILD. My API_KEY is $REACT_APP_API_KEY"
+        env:
+          BUILD: "We are currently running the Build job"
       - run: yarn install
       - run: yarn test
       - run: yarn int-test
