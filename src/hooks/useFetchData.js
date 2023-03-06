@@ -75,12 +75,12 @@ export const useFetchData = (
                 time
               );
               setVisibleData(chartTimeWindowData, res.data);
-              if (dataLocalStorageToggle) {
-                storageSetItem(
-                  `DATA FOR ${validUrl}`,
-                  JSON.stringify([...data, res.data])
-                );
-              }
+            }
+            if (dataLocalStorageToggle) {
+              storageSetItem(
+                `DATA FOR ${validUrl}`,
+                JSON.stringify([...data, res.data])
+              );
             }
           },
           (error) => {
